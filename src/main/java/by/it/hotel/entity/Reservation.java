@@ -1,0 +1,164 @@
+package by.it.hotel.entity;
+
+import java.io.Serializable;
+import java.time.LocalDate;
+
+public class Reservation implements Serializable {
+
+    private static final long serialVersionUID = -2553146891301276442L;
+    private int id;
+    private int apartId;
+    private int apartTypeId;
+    private int user;
+    private int invoice;
+    private LocalDate inDate;
+    private LocalDate outDate;
+    private String apartType;
+    private String state;
+    private double subtotalPrice;
+    private double totalPrice;
+    private double taxes;
+
+    public double getSubtotalPrice() {
+        return subtotalPrice;
+    }
+
+    public void setSubtotalPrice(double subtotalPrice) {
+        this.subtotalPrice = subtotalPrice;
+    }
+
+    public double getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(double totalPrice) {
+        this.totalPrice = totalPrice;
+    }
+
+    public double getTaxes() {
+        return taxes;
+    }
+
+    public void setTaxes(double taxes) {
+        this.taxes = taxes;
+    }
+
+    public Reservation() {
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getApartId() {
+        return apartId;
+    }
+
+    public void setApartId(int apartId) {
+        this.apartId = apartId;
+    }
+
+    public int getUser() {
+        return user;
+    }
+
+    public void setUser(int user) {
+        this.user = user;
+    }
+
+    public int getInvoice() {
+        return invoice;
+    }
+
+    public void setInvoice(int invoice) {
+        this.invoice = invoice;
+    }
+
+    public LocalDate getInDate() {
+        return inDate;
+    }
+
+    public void setInDate(LocalDate inDate) {
+        this.inDate = inDate;
+    }
+
+    public LocalDate getOutDate() {
+        return outDate;
+    }
+
+    public void setOutDate(LocalDate outDate) {
+        this.outDate = outDate;
+    }
+
+    public int getApartTypeId() {
+        return apartTypeId;
+    }
+
+    public void setApartTypeId(int apartTypeId) {
+        this.apartTypeId = apartTypeId;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    public String getApartType() {
+        return apartType;
+    }
+
+    public void setApartType(String apartType) {
+        this.apartType = apartType;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Reservation that = (Reservation) o;
+
+        if (id != that.id) return false;
+        if (apartId != that.apartId) return false;
+        if (user != that.user) return false;
+        if (invoice != that.invoice) return false;
+        if (!inDate.equals(that.inDate)) return false;
+        if (!outDate.equals(that.outDate)) return false;
+        if (apartTypeId != that.apartTypeId) return false;
+        return state.equals(that.state);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id;
+        result = 31 * result + apartId;
+        result = 31 * result + user;
+        result = 31 * result + invoice;
+        result = 31 * result + inDate.hashCode();
+        result = 31 * result + outDate.hashCode();
+        result = 31 * result + apartTypeId;
+        result = 31 * result + state.hashCode();
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return "Reservation{" +
+                "id=" + id +
+                ", apartId=" + apartId +
+                ", user=" + user +
+                ", invoice=" + invoice +
+                ", inDate=" + inDate +
+                ", outDate=" + outDate +
+                ", apartType='" + apartTypeId + '\'' +
+                ", state='" + state + '\'' +
+                '}';
+    }
+}
