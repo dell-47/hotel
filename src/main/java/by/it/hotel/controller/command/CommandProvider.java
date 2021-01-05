@@ -9,9 +9,9 @@ public class CommandProvider {
     private Map<String, Command> commands = new HashMap<>();
 
     public CommandProvider() {
-        commands.put("viewAvailable", new ViewAvailableApartsCommand());
-        commands.put("registration", new RegistrationCommand());
-        commands.put("login", new AuthorizationCommand());
+        commands.put("viewAvailable", new SearchAvailableApartsCommand());
+        commands.put("registration", new CreateUserCommand());
+        commands.put("login", new AuthCommand());
         commands.put("checkout", new CheckoutCommand());
         commands.put("book", new BookingCommand());
         commands.put("profile", new ProfileCommand());

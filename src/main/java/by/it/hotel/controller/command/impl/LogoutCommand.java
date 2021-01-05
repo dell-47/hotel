@@ -10,7 +10,7 @@ import java.io.IOException;
 public class LogoutCommand implements Command {
 
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
         request.getSession().invalidate();
         response.sendRedirect(CommandConstants.INDEX_PAGE);
     }

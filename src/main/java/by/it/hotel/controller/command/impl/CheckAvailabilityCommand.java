@@ -5,6 +5,7 @@ import by.it.hotel.entity.Apart;
 import by.it.hotel.service.HotelService;
 import by.it.hotel.service.ServiceException;
 import by.it.hotel.service.ServiceProvider;
+import by.it.hotel.service.validation.ValidationException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -15,8 +16,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
-
-import static by.it.hotel.controller.command.impl.CommandConstants.*;
 
 
 public class CheckAvailabilityCommand implements Command {
@@ -30,12 +29,12 @@ public class CheckAvailabilityCommand implements Command {
         int id = Integer.parseInt(request.getParameter("id"));
         LocalDate inDate = LocalDate.parse(request.getParameter("inDate"));
         LocalDate outDate = LocalDate.parse(request.getParameter("outDate"));
-        String page = GO_TO_ADMIN_PAGE;
+        String page = CommandConstants.GO_TO_ADMIN_PAGE;
         try {
-            availableAparts = hotelService.availableAparts(id, inDate, outDate);
+            availableAparts = hotelService.searchAparts(id, inDate, outDate);
         } catch (ServiceException e) {
             logger.error(e);
-            page = ERROR_PAGE;
+            page = CommandConstants.ERROR_PAGE;
         }
 
         request.setAttribute("availableAparts", availableAparts);

@@ -3,7 +3,6 @@ package by.it.hotel.dao.impl;
 import by.it.hotel.dao.DaoException;
 import by.it.hotel.dao.UserDao;
 import by.it.hotel.dao.pool.ConnectionPool;
-import by.it.hotel.entity.Apart;
 import by.it.hotel.entity.User;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -17,14 +16,14 @@ import java.util.List;
 
 public class UserDaoImpl implements UserDao {
     private static final Logger logger = LogManager.getLogger(UserDaoImpl.class);
-
     private final ConnectionPool pool = ConnectionPool.getInstance();
+
     private static final String CREATE_USER_QUERY = "INSERT INTO users (login, password, first_name, last_name, email) VALUES (?,?,?,?,?)";
-    private static final String USER_QUERY = "SELECT * FROM users WHERE login = ? and password = ?";
-    private static final String USER_PERMISSIONS_QUERY = "SELECT pattern FROM roles r LEFT JOIN permissions p ON r.id = p.role WHERE r.id = ?";
+    private static final String RETRIEVE_USER_QUERY = "SELECT * FROM users WHERE login = ? and password = ?";
+    private static final String RETRIEVE_ROLE_PERMISSIONS_QUERY = "SELECT pattern FROM roles r LEFT JOIN permissions p ON r.id = p.role WHERE r.id = ?";
 
     @Override
-    public boolean registration(User user) throws DaoException {
+    public boolean createUser(User user) throws DaoException {
         Connection con = null;
         PreparedStatement ps = null;
 
@@ -49,14 +48,14 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public User authorization(String login, String password) throws DaoException {
+    public User retrieveUser(String login, String password) throws DaoException {
         Connection con = null;
         PreparedStatement ps = null;
         User user = null;
         ResultSet rs = null;
         try {
             con = pool.takeConnection();
-            ps = con.prepareStatement(USER_QUERY);
+            ps = con.prepareStatement(RETRIEVE_USER_QUERY);
             ps.setString(1, login);
             ps.setString(2, password);
             rs = ps.executeQuery();
@@ -79,14 +78,14 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public List<String> rolePermissions(int roleId) throws DaoException {
+    public List<String> retrieveRolePermissions(int roleId) throws DaoException {
         Connection con = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
         List<String> userPermissions = new ArrayList<>();
         try {
             con = pool.takeConnection();
-            ps = con.prepareStatement(USER_PERMISSIONS_QUERY);
+            ps = con.prepareStatement(RETRIEVE_ROLE_PERMISSIONS_QUERY);
             ps.setInt(1, roleId);
             rs = ps.executeQuery();
             while (rs.next()) {

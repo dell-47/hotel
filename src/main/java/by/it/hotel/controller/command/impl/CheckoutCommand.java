@@ -18,6 +18,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.time.LocalDate;
 
+
 public class CheckoutCommand implements Command {
     private static final Logger logger = LogManager.getLogger(CheckoutCommand.class);
 
@@ -29,7 +30,7 @@ public class CheckoutCommand implements Command {
         int apartTypeId = Integer.parseInt(request.getParameter("id"));
 
         try {
-            apartType = hotelService.typeById(apartTypeId);
+            apartType = hotelService.retrieveApartType(apartTypeId);
         } catch (ServiceException e) {
             logger.error("Checkout error", e);
         }

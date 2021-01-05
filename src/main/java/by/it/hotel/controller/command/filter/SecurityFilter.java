@@ -51,7 +51,7 @@ public class SecurityFilter implements Filter {
         UserService userService = serviceProvider.getUserService();
 
         try {
-            permissions = userService.rolePermissions(role);
+            permissions = userService.retrieveRolePermissions(role);
         } catch (ServiceException e) {
             logger.error(e);
         }

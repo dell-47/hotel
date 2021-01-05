@@ -1,7 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-
-
 <html>
 <head>
 
@@ -19,6 +17,13 @@
         <input type="submit" name="ok" value="Check availability">
     </form>
 </div>
+
+<c:if test="${not empty datesValidationError}">
+    <div align="center" class="alert alert-danger pt-2" role="alert">
+            ${datesValidationError}
+    </div>
+</c:if>
+
 <div class="row pb-2">
     <div class="col-lg-2"></div>
     <div class="col-lg-8"><h3>Apartment types</h3></div>
@@ -47,7 +52,6 @@
     </div>
 </c:forEach>
 
-
 <div class="d-flex justify-content-center p-4">
     <form method="post" action="/availableApartments">
         <input type="hidden" name="command" value="viewAvailable">
@@ -56,7 +60,6 @@
         <input type="submit" name="ok" value="Check availability">
     </form>
 </div>
-
 
 </body>
 </html>

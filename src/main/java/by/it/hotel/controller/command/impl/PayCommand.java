@@ -13,8 +13,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+
 public class PayCommand implements Command {
-    private static final Logger logger = LogManager.getLogger(ConfirmReservationCommand.class);
+    private static final Logger logger = LogManager.getLogger(PayCommand.class);
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

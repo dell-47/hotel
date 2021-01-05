@@ -6,11 +6,7 @@
     <meta charset="utf-8">
 </head>
 <body>
-
 <c:redirect url="/main?command=goToMainPage"/>
-
-<%--<jsp:forward page="/WEB-INF/views/main.jsp"/>--%>
-
 </body>
 
 </html>

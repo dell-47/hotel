@@ -8,6 +8,7 @@ public final class CommandConstants {
     public static final String LOGIN_PAGE = "/WEB-INF/views/login.jsp";
     public static final String APPROVED_PAGE = "/WEB-INF/views/approved.jsp";
     public static final String MAIN_PAGE = "/WEB-INF/views/main.jsp";
+    public static final String GO_TO_MAIN_PAGE = "/main?command=goToMainPage";
     public static final String ADMIN_PAGE = "/WEB-INF/views/admin.jsp";
     public static final String GO_TO_ADMIN_PAGE = "/hotel/admin?command=admin";
     public static final String CHECKOUT_PAGE = "/WEB-INF/views/checkout.jsp";
@@ -17,6 +18,8 @@ public final class CommandConstants {
     public static final String GO_TO_PROFILE_PAGE = "/profile?command=profile";
     public static final String AVAILABLE_APARTS_PAGE = "/WEB-INF/views/availableAparts.jsp";
     public static final String LOGIN_ERROR_MESSAGE = "Invalid login or password. Try again.";
+    public static final String DATES_VALIDATION_ERROR_MESSAGE = "Invalid dates entered. Try again with correct dates.";
     public static final String LOGIN = "login";
     public static final String PASSWORD = "password";
+    public static final String STATE_PROCESSING = "processing";
 }

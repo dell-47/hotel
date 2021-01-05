@@ -9,6 +9,8 @@ import by.it.hotel.entity.Invoice;
 import by.it.hotel.entity.Reservation;
 import by.it.hotel.service.HotelService;
 import by.it.hotel.service.ServiceException;
+import by.it.hotel.service.validation.DatesValidator;
+import by.it.hotel.service.validation.ValidationException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -32,10 +34,16 @@ public class HotelServiceImpl implements HotelService {
     }
 
     @Override
-    public List<ApartType> findAparts(LocalDate inDate, LocalDate outDate) throws ServiceException {
+    public List<ApartType> searchApartTypes(LocalDate inDate, LocalDate outDate) throws ServiceException {
+
+        if (!DatesValidator.isCorrectDates(inDate, outDate)) {
+            logger.info("Dates validation error");
+            throw new ValidationException();
+        }
+
         List<ApartType> typeList;
         try {
-            typeList = hotelDao.findAparts(inDate, outDate);
+            typeList = hotelDao.searchApartTypes(inDate, outDate);
         } catch (DaoException e) {
             logger.error(e);
             throw new ServiceException(e);
@@ -44,10 +52,10 @@ public class HotelServiceImpl implements HotelService {
     }
 
     @Override
-    public List<ApartType> allAparts() throws ServiceException {
+    public List<ApartType> retrieveAllApartTypes() throws ServiceException {
         List<ApartType> typeList;
         try {
-            typeList = hotelDao.allAparts();
+            typeList = hotelDao.retrieveAllApartTypes();
         } catch (DaoException e) {
             logger.error(e);
             throw new ServiceException(e);
@@ -56,10 +64,10 @@ public class HotelServiceImpl implements HotelService {
     }
 
     @Override
-    public ApartType typeById(int id) throws ServiceException {
+    public ApartType retrieveApartType(int id) throws ServiceException {
         ApartType apartType;
         try {
-            apartType = hotelDao.typeById(id);
+            apartType = hotelDao.retrieveApartType(id);
         } catch (DaoException e) {
             logger.error(e);
             throw new ServiceException(e);
@@ -68,10 +76,10 @@ public class HotelServiceImpl implements HotelService {
     }
 
     @Override
-    public List<Reservation> reservationsById(int id) throws ServiceException {
+    public List<Reservation> searchReservations(int id) throws ServiceException {
         List<Reservation> list;
         try {
-            list = hotelDao.reservationsById(id);
+            list = hotelDao.searchReservations(id);
         } catch (DaoException e) {
             logger.error(e);
             throw new ServiceException(e);
@@ -80,10 +88,10 @@ public class HotelServiceImpl implements HotelService {
     }
 
     @Override
-    public List<Reservation> reservationsByState() throws ServiceException {
+    public List<Reservation> searchReservations() throws ServiceException {
         List<Reservation> list;
         try {
-            list = hotelDao.reservationsByState();
+            list = hotelDao.searchReservations();
         } catch (DaoException e) {
             logger.error(e);
             throw new ServiceException(e);
@@ -92,10 +100,16 @@ public class HotelServiceImpl implements HotelService {
     }
 
     @Override
-    public List<Apart> availableAparts(int id, LocalDate inDate, LocalDate outDate) throws ServiceException {
+    public List<Apart> searchAparts(int id, LocalDate inDate, LocalDate outDate) throws ServiceException {
+
+        if (!DatesValidator.isCorrectDates(inDate, outDate)) {
+            logger.info("Dates validation error");
+            throw new ValidationException();
+        }
+
         List<Apart> list;
         try {
-            list = hotelDao.availableAparts(id, inDate, outDate);
+            list = hotelDao.searchAparts(id, inDate, outDate);
         } catch (DaoException e) {
             logger.error(e);
             throw new ServiceException(e);
@@ -124,10 +138,10 @@ public class HotelServiceImpl implements HotelService {
     }
 
     @Override
-    public Invoice takeInvoice(int reservationId) throws ServiceException {
+    public Invoice retrieveInvoice(int reservationId) throws ServiceException {
         Invoice invoice;
         try {
-            invoice = hotelDao.takeInvoice(reservationId);
+            invoice = hotelDao.retrieveInvoice(reservationId);
         } catch (DaoException e) {
             logger.error(e);
             throw new ServiceException(e);

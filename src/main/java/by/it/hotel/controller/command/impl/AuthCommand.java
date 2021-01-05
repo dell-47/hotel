@@ -16,8 +16,8 @@ import java.io.IOException;
 import static by.it.hotel.controller.command.impl.CommandConstants.*;
 
 
-public class AuthorizationCommand implements Command {
-    private static final Logger logger = LogManager.getLogger(AuthorizationCommand.class);
+public class AuthCommand implements Command {
+    private static final Logger logger = LogManager.getLogger(AuthCommand.class);
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -30,7 +30,7 @@ public class AuthorizationCommand implements Command {
         String page = INDEX_PAGE;
 
         try {
-            user = userService.authorization(login, password);
+            user = userService.retrieveUser(login, password);
         } catch (ServiceException e) {
             logger.error(e);
         }

@@ -22,6 +22,14 @@ public class ApartType implements Serializable {
         this.id = id;
     }
 
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
     public String getDescription() {
         return description;
     }
@@ -36,14 +44,6 @@ public class ApartType implements Serializable {
 
     public void setImage(String image) {
         this.image = image;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
     }
 
     public double getPrice() {
@@ -61,15 +61,21 @@ public class ApartType implements Serializable {
 
         ApartType apartType = (ApartType) o;
 
+        if (id != apartType.id) return false;
         if (Double.compare(apartType.price, price) != 0) return false;
-        return type.equals(apartType.type);
+        if (!type.equals(apartType.type)) return false;
+        if (!description.equals(apartType.description)) return false;
+        return image.equals(apartType.image);
     }
 
     @Override
     public int hashCode() {
         int result;
         long temp;
-        result = type.hashCode();
+        result = id;
+        result = 31 * result + type.hashCode();
+        result = 31 * result + description.hashCode();
+        result = 31 * result + image.hashCode();
         temp = Double.doubleToLongBits(price);
         result = 31 * result + (int) (temp ^ (temp >>> 32));
         return result;
@@ -78,7 +84,10 @@ public class ApartType implements Serializable {
     @Override
     public String toString() {
         return "ApartType{" +
-                "type='" + type + '\'' +
+                "id=" + id +
+                ", type='" + type + '\'' +
+                ", description='" + description + '\'' +
+                ", image='" + image + '\'' +
                 ", price=" + price +
                 '}';
     }

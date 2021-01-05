@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import static by.it.hotel.controller.command.impl.CommandConstants.*;
 
+
 public class BookingCommand implements Command {
     private static final Logger logger = LogManager.getLogger(BookingCommand.class);
 
@@ -41,7 +42,7 @@ public class BookingCommand implements Command {
         reservation.setSubtotalPrice(checkOutData.getSubtotalPrice());
         reservation.setTaxes(checkOutData.getTaxes());
         reservation.setTotalPrice(checkOutData.getTotalPrice());
-        reservation.setState("processing"); // TODO
+        reservation.setState(STATE_PROCESSING); // TODO
 
         try {
             hotelService.createReservation(reservation);

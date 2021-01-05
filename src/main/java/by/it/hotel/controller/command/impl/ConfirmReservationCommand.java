@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+
 public class ConfirmReservationCommand implements Command {
     private static final Logger logger = LogManager.getLogger(ConfirmReservationCommand.class);
 

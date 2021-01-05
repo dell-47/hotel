@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
+
 public class ProfileCommand implements Command {
     private static final Logger logger = LogManager.getLogger(ProfileCommand.class);
 
@@ -28,7 +29,7 @@ public class ProfileCommand implements Command {
         String page = CommandConstants.PROFILE_PAGE;
 
         try {
-            reservationList = hotelService.reservationsById(user.getId());
+            reservationList = hotelService.searchReservations(user.getId());
         } catch (ServiceException e) {
             logger.error(e);
             page = CommandConstants.ERROR_PAGE;

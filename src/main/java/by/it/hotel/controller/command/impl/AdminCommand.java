@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
-import static by.it.hotel.controller.command.impl.CommandConstants.*;
+
 
 public class AdminCommand implements Command {
     private static final Logger logger = LogManager.getLogger(AdminCommand.class);
@@ -24,13 +24,13 @@ public class AdminCommand implements Command {
         ServiceProvider serviceProvider = ServiceProvider.getInstance();
         HotelService hotelService = serviceProvider.getHotelService();
         List<Reservation> reservationList = null;
-        String page = ADMIN_PAGE;
+        String page = CommandConstants.ADMIN_PAGE;
 
         try {
-            reservationList = hotelService.reservationsByState();
+            reservationList = hotelService.searchReservations();
         } catch (ServiceException e) {
             logger.error(e);
-            page = ERROR_PAGE;
+            page = CommandConstants.ERROR_PAGE;
         }
 
         request.setAttribute("adminList", reservationList);

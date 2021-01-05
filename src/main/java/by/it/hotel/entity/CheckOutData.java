@@ -1,6 +1,9 @@
 package by.it.hotel.entity;
 
-public class CheckOutData {
+import java.io.Serializable;
+
+public class CheckOutData implements Serializable {
+    private static final long serialVersionUID = 3761428628383917818L;
     private double subtotalPrice;
     private double taxes;
     private double totalPrice;

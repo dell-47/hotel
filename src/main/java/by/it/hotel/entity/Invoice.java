@@ -1,6 +1,10 @@
 package by.it.hotel.entity;
 
-public class Invoice {
+import java.io.Serializable;
+
+public class Invoice implements Serializable {
+
+    private static final long serialVersionUID = 2114407498873122086L;
     private int id;
     private int reservationId;
     private String state;

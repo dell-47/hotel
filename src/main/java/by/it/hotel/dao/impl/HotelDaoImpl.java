@@ -22,17 +22,18 @@ public class HotelDaoImpl implements HotelDao {
     private static final String STATE_PAID = "paid";
     private static final String STATE_CONFIRMED = "confirmed";
     private static final String STATE_WAITING_FOR_PAYMENT = "waiting for payment";
-    private static final String ALL_APARTMENTS_QUERY = "SELECT * FROM aparts_types";
-    private static final String APARTMENT_BY_ID_QUERY = "SELECT * FROM aparts_types WHERE id=?";
-    private static final String RESERVATIONS_BY_ID_QUERY = "SELECT * FROM reservations WHERE user_id=?";
-    private static final String RESERVATIONS_BY_STATE_QUERY = "SELECT * FROM reservations r LEFT JOIN aparts_types t ON r.apart_type = t.id WHERE state = 'processing'";
+    private static final String RETRIEVE_ALL_APART_TYPES_QUERY = "SELECT * FROM aparts_types";
+    private static final String RETRIEVE_APART_TYPE_QUERY = "SELECT * FROM aparts_types WHERE id=?";
+    private static final String SEARCH_RESERVATIONS_BY_ID_QUERY = "SELECT * FROM reservations WHERE user_id=?";
+    private static final String SEARCH_RESERVATIONS_QUERY = "SELECT * FROM reservations r LEFT JOIN aparts_types t ON r.apart_type = t.id WHERE state = 'processing'";
     private static final String CREATE_RESERVATION_QUERY = "INSERT INTO reservations (apart_type, in_date, out_date, user_id, state, subtotal_price, taxes, total_price) VALUES (?,?,?,?,?,?,?,?)";
     private static final String UPDATE_RESERVATION_QUERY = "UPDATE reservations SET apart_id = ?, state = ? WHERE id=?";
-    private static final String TAKE_INVOICE_QUERY = "SELECT * FROM invoices WHERE reservation_id = ?";
+    private static final String RETRIEVE_INVOICE_QUERY = "SELECT * FROM invoices WHERE reservation_id = ?";
     private static final String CREATE_INVOICE_QUERY = "INSERT INTO invoices (amount, state, reservation_id) VALUES (?,?,?)";
     private static final String UPDATE_INVOICE_QUERY = "UPDATE invoices i LEFT JOIN reservations r ON i.reservation_id = r.id SET i.state = ?, r.state = ? WHERE i.id = ?";
-    private static final String FIND_APARTS_QUERY = "SELECT * FROM aparts_types t LEFT JOIN aparts a ON t.id = a.type WHERE a.id NOT IN (SELECT apart_id FROM reservations r WHERE r.state != 'processing' AND (((r.in_date >= ?) AND (r.in_date < ?)) OR ((r.out_date > ?) AND (r.out_date <= ?)))) GROUP BY t.type ORDER BY t.id ";
-    private static final String AVAILABLE_APARTMENTS_QUERY = "SELECT * FROM aparts WHERE type = ? and id not in (SELECT distinct apart_id from reservations r WHERE r.state != 'processing' AND (((r.in_date >= ?) and (r.in_date < ?)) or ((r.out_date > ?) and (r.out_date <= ?))))";
+    private static final String SEARCH_APART_TYPES_QUERY = "SELECT * FROM aparts_types t LEFT JOIN aparts a ON t.id = a.type WHERE a.id NOT IN (SELECT apart_id FROM reservations r WHERE r.state != 'processing' AND (((r.in_date >= ?) AND (r.in_date < ?)) OR ((r.out_date > ?) AND (r.out_date <= ?)))) GROUP BY t.type ORDER BY t.id ";
+    private static final String SEARCH_APARTS_QUERY = "SELECT * FROM aparts WHERE type = ? and id not in (SELECT distinct apart_id from reservations r WHERE r.state != 'processing' AND (((r.in_date >= ?) and (r.in_date < ?)) or ((r.out_date > ?) and (r.out_date <= ?))))";
+
     @Override
     public void createReservation(Reservation reservation) throws DaoException {
         Connection con = null;
@@ -60,14 +61,14 @@ public class HotelDaoImpl implements HotelDao {
     }
 
     @Override
-    public List<ApartType> findAparts(LocalDate inDate, LocalDate outDate) throws DaoException {
+    public List<ApartType> searchApartTypes(LocalDate inDate, LocalDate outDate) throws DaoException {
         Connection con = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
         List<ApartType> list = new ArrayList<>();
         try {
             con = pool.takeConnection();
-            ps = con.prepareStatement(FIND_APARTS_QUERY);
+            ps = con.prepareStatement(SEARCH_APART_TYPES_QUERY);
 
             ps.setDate(1, java.sql.Date.valueOf(inDate));
             ps.setDate(2, java.sql.Date.valueOf(outDate));
@@ -93,7 +94,7 @@ public class HotelDaoImpl implements HotelDao {
     }
 
     @Override
-    public List<ApartType> allAparts() throws DaoException {
+    public List<ApartType> retrieveAllApartTypes() throws DaoException {
         Connection con = null;
         Statement st = null;
         ResultSet rs = null;
@@ -101,7 +102,7 @@ public class HotelDaoImpl implements HotelDao {
         try {
             con = pool.takeConnection();
             st = con.createStatement();
-            rs = st.executeQuery(ALL_APARTMENTS_QUERY);
+            rs = st.executeQuery(RETRIEVE_ALL_APART_TYPES_QUERY);
             while (rs.next()) {
                 ApartType type = new ApartType();
                 type.setId(rs.getInt("id"));
@@ -122,7 +123,7 @@ public class HotelDaoImpl implements HotelDao {
 
 
     @Override
-    public ApartType typeById(int id) throws DaoException {
+    public ApartType retrieveApartType(int id) throws DaoException {
 
         Connection con = null;
         PreparedStatement ps = null;
@@ -131,7 +132,7 @@ public class HotelDaoImpl implements HotelDao {
 
         try {
             con = pool.takeConnection();
-            ps = con.prepareStatement(APARTMENT_BY_ID_QUERY);
+            ps = con.prepareStatement(RETRIEVE_APART_TYPE_QUERY);
             ps.setInt(1, id);
             rs = ps.executeQuery();
             if (rs.next()) {
@@ -152,14 +153,14 @@ public class HotelDaoImpl implements HotelDao {
     }
 
     @Override
-    public List<Reservation> reservationsById(int id) throws DaoException {
+    public List<Reservation> searchReservations(int id) throws DaoException {
         Connection con = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
         List<Reservation> list = new ArrayList<>();
         try {
             con = pool.takeConnection();
-            ps = con.prepareStatement(RESERVATIONS_BY_ID_QUERY);
+            ps = con.prepareStatement(SEARCH_RESERVATIONS_BY_ID_QUERY);
             ps.setInt(1, id);
             rs = ps.executeQuery();
             while (rs.next()) {
@@ -183,7 +184,7 @@ public class HotelDaoImpl implements HotelDao {
     }
 
     @Override
-    public List<Reservation> reservationsByState() throws DaoException {
+    public List<Reservation> searchReservations() throws DaoException {
         Connection con = null;
         Statement st = null;
         ResultSet rs = null;
@@ -191,7 +192,7 @@ public class HotelDaoImpl implements HotelDao {
         try {
             con = pool.takeConnection();
             st = con.createStatement();
-            rs = st.executeQuery(RESERVATIONS_BY_STATE_QUERY);
+            rs = st.executeQuery(SEARCH_RESERVATIONS_QUERY);
 
             while (rs.next()) {
                 Reservation reservation = new Reservation();
@@ -215,14 +216,14 @@ public class HotelDaoImpl implements HotelDao {
     }
 
     @Override
-    public List<Apart> availableAparts(int id, LocalDate inDate, LocalDate outDate) throws DaoException {
+    public List<Apart> searchAparts(int id, LocalDate inDate, LocalDate outDate) throws DaoException {
         Connection con = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
         List<Apart> list = new ArrayList<>();
         try {
             con = pool.takeConnection();
-            ps = con.prepareStatement(AVAILABLE_APARTMENTS_QUERY);
+            ps = con.prepareStatement(SEARCH_APARTS_QUERY);
             ps.setInt(1, id);
             ps.setDate(2, java.sql.Date.valueOf(inDate));
             ps.setDate(3, java.sql.Date.valueOf(outDate));
@@ -285,7 +286,7 @@ public class HotelDaoImpl implements HotelDao {
     }
 
     @Override
-    public Invoice takeInvoice(int reservationId) throws DaoException {
+    public Invoice retrieveInvoice(int reservationId) throws DaoException {
         Connection con = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -293,7 +294,7 @@ public class HotelDaoImpl implements HotelDao {
 
         try {
             con = pool.takeConnection();
-            ps = con.prepareStatement(TAKE_INVOICE_QUERY);
+            ps = con.prepareStatement(RETRIEVE_INVOICE_QUERY);
             ps.setInt(1, reservationId);
             rs = ps.executeQuery();
             if (rs.next()) {

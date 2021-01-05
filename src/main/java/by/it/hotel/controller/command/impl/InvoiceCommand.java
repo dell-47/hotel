@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+
 public class InvoiceCommand implements Command {
     private static final Logger logger = LogManager.getLogger(InvoiceCommand.class);
 
@@ -26,7 +27,7 @@ public class InvoiceCommand implements Command {
         String page = CommandConstants.INVOICE_PAGE;
 
         try {
-            invoice = hotelService.takeInvoice(reservationId);
+            invoice = hotelService.retrieveInvoice(reservationId);
         } catch (ServiceException e) {
             logger.error(e);
             page = CommandConstants.ERROR_PAGE;

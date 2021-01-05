@@ -14,10 +14,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
+
 
 public class GoToMainPageCommand implements Command {
     private static final Logger logger = LogManager.getLogger(GoToMainPageCommand.class);
@@ -30,9 +32,10 @@ public class GoToMainPageCommand implements Command {
         String page = CommandConstants.MAIN_PAGE;
 
         System.out.println(LocalDate.now() + " " + LocalTime.now().truncatedTo(ChronoUnit.SECONDS).format(DateTimeFormatter.ISO_LOCAL_TIME));
+        System.out.println(LocalDateTime.now().withNano(0));
 
         try {
-            apartList = hotelService.allAparts();
+            apartList = hotelService.retrieveAllApartTypes();
         } catch (ServiceException e) {
             logger.error(" error", e);
             page = CommandConstants.ERROR_PAGE;
