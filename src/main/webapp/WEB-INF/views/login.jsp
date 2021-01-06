@@ -29,7 +29,7 @@
                     <div class="form-group">
                         <button type="submit" class="btn btn-primary btn-block">Login</button>
                     </div>
-                    <p class="text-center text-danger"><c:out value="${requestScope.error}"/></p>
+                    <p class="text-center text-danger"><c:out value="${loginError}"/></p>
                 </form>
             </div>
             <p class="text-center"><a href="/signUp?command=goToSignUpPage">Sign up</a></p>

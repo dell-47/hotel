@@ -36,7 +36,7 @@ public class AuthCommand implements Command {
         }
 
         if (user == null) {
-            request.setAttribute("error", LOGIN_ERROR_MESSAGE);
+            request.setAttribute("loginError", LOGIN_ERROR_MESSAGE);
             page = LOGIN_PAGE;
         } else {
             request.getSession().setAttribute("user", user);

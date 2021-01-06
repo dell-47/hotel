@@ -34,7 +34,7 @@ public class SecurityFilter implements Filter {
         user = (User) request.getSession().getAttribute("user");
         String path = request.getServletPath();
 
-        if (path.equals("/approved.jsp") || path.equals("/main") || path.equals("/index.jsp") || path.equals("/login") || path.equals("/logout")) {
+        if (path.equals("/signUp") || path.equals("/main") || path.equals("/index.jsp") || path.equals("/login") || path.equals("/logout")) {
             filterChain.doFilter(request, response);
             return;
         }
