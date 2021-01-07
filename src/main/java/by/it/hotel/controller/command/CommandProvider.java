@@ -21,6 +21,7 @@ public class CommandProvider {
         commands.put("invoice", new InvoiceCommand());
         commands.put("pay", new PayCommand());
         commands.put("logout", new LogoutCommand());
+        commands.put("signUp", new CreateUserCommand());
         commands.put("goToLoginPage", new GoToLoginPageCommand());
         commands.put("goToSignUpPage", new GoToSignUpPageCommand());
         commands.put("goToMainPage", new GoToMainPageCommand());
