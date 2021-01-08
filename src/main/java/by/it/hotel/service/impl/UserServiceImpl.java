@@ -42,10 +42,22 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<String> retrieveRolePermissions(int roleId) throws ServiceException {
+    public List<String> retrievePermissions(int roleId) throws ServiceException {
         List<String> userPermissions;
         try {
-            userPermissions = userDao.retrieveRolePermissions(roleId);
+            userPermissions = userDao.retrievePermissions(roleId);
+        } catch (DaoException e) {
+            logger.error(e);
+            throw new ServiceException(e);
+        }
+        return userPermissions;
+    }
+
+    @Override
+    public List<String> retrievePermissions() throws ServiceException {
+        List<String> userPermissions;
+        try {
+            userPermissions = userDao.retrievePermissions();
         } catch (DaoException e) {
             logger.error(e);
             throw new ServiceException(e);

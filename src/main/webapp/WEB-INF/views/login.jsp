@@ -20,7 +20,7 @@
                     <input type="hidden" name="command" value="login">
                     <h2 class="text-center">Login</h2>
                     <div class="form-group">
-                        <input type="text" name="login" class="form-control" placeholder="Username" required="required">
+                        <input type="text" name="username" class="form-control" placeholder="Username" required="required">
                     </div>
                     <div class="form-group">
                         <input type="password" name="password" class="form-control" placeholder="Password"

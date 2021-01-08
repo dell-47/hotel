@@ -12,15 +12,77 @@
 <div class="col-sm-3 offset-sm-4">
     <form method="post" action="/pay">
         <input type="hidden" name="command" value="pay">
-        <input type="hidden" name="invoiceId" value="${invoice.id}">
+        <input type="hidden" name="reservationId" value="${invoice.id}">
 
         <div class="card">
             <div class="card-header">
                 ${user.firstName} ${user.lastName}
             </div>
             <div class="card-body">
-                <h6 class="card-text">Total price</h6>
-                <p class="card-text">${invoice.amount}</p>
+
+
+                <div class="row my-2">
+                    <div class="col-sm-6">
+                        <p class="card-text">Apartment:</p>
+                    </div>
+                    <div class="col">
+                        <p class="card-text">${invoice.apartType}</p>
+                    </div>
+                </div>
+                <div class="row my-2">
+                    <div class="col-sm-6">
+                        <p class="card-text">Check-in date:</p>
+                    </div>
+                    <div class="col">
+                        <p class="card-text">${invoice.inDate}</p>
+                    </div>
+                </div>
+                <div class="row my-2">
+                    <div class="col-sm-6">
+                        <p class="card-text">Check-out date:</p>
+                    </div>
+                    <div class="col">
+                        <p class="card-text">${invoice.outDate}</p>
+                    </div>
+                </div>
+
+
+
+                <div class="row my-2">
+                    <div class="col-sm-6">
+                        <p class="card-text">Apartment cost:</p>
+                    </div>
+                    <div class="col-sm-2">
+                        <p class="card-text">${invoice.cost}</p>
+                    </div>
+                </div>
+                <div class="row my-2">
+                    <div class="col-sm-6">
+                        <p class="card-text">Subtotal:</p>
+                    </div>
+                    <div class="col-sm-2 justify-content-end">
+                        <p class="card-text">${invoice.subtotalPrice}</p>
+                    </div>
+                </div>
+                <div class="row my-2">
+                    <div class="col-sm-6">
+                        <p class="card-text">Estimated taxes:</p>
+                    </div>
+                    <div class="col-sm-2">
+                        <p class="card-text">${invoice.taxes}</p>
+                    </div>
+                </div>
+                <div class="row my-2">
+                    <div class="col-sm-6">
+                        <p class="card-text"><b>Total price</b></p>
+                    </div>
+                    <div class="col-sm-2 justify-content-end">
+                        <p class="card-text"><b>${invoice.totalPrice}</b></p>
+                    </div>
+                </div>
+
+
+
             </div>
         </div>
         <br>

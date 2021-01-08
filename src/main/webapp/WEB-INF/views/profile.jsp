@@ -8,44 +8,52 @@
 </head>
 <body>
 <jsp:include page="navbar.jsp"/>
-<div class="row pb-3">
-    <div class="col-sm-3"></div>
-    <div class="col-sm-6"><h4>Your bookings</h4></div>
-</div>
-<c:forEach items="${requestScope.reservationList}" var="reserv">
-    <div class="row">
-        <div class="col-sm-3"></div>
-        <div class="col-sm-6">
-            <div class="card mb-3">
-                <div class="row no-gutters">
-
-                    <div class="col-md-2">
-                        <img src="https://i.postimg.cc/Y03qy5b3/royal.jpg" class="card-img" alt="hotel"/>
-                    </div>
-
-                    <div class="col-md-8">
-                        <div class="card-body">
-                            <h6 class="card-title"><c:out value="${reserv.inDate} - ${reserv.outDate}"/></h6>
-                            <p class="card-text"> State: <c:out value=" ${reserv.state}"/></p>
-                        </div>
-                    </div>
-
-                    <div class="col-md-2 text-center">
-                        <div class="card-body">
-                            <p class="card-text">$ <c:out value="${reserv.totalPrice}"/></p>
-
-                            <c:if test="${reserv.state eq 'confirmed'}">
-                                <a href="/invoice?command=invoice&reservationId=${reserv.id}" class="card-link">Pay the bill</a>
-                            </c:if>
-
-                        </div>
-                    </div>
-
-                </div>
-            </div>
+<c:choose>
+    <c:when test="${not empty reservationList}">
+        <div class="row pb-3">
+            <div class="col-sm-3"></div>
+            <div class="col-sm-6"><h4>Your bookings</h4></div>
         </div>
-        <div class="col-sm-3"></div>
-    </div>
-</c:forEach>
+        <c:forEach items="${requestScope.reservationList}" var="reserv">
+            <div class="row">
+                <div class="col-sm-3"></div>
+                <div class="col-sm-6">
+                    <div class="card mb-3">
+                        <div class="row no-gutters">
+
+                            <div class="col-md-2">
+                                <img src="https://i.postimg.cc/Y03qy5b3/royal.jpg" class="card-img" alt="hotel"/>
+                            </div>
+
+                            <div class="col-md-8">
+                                <div class="card-body">
+                                    <h6 class="card-title"><c:out value="${reserv.inDate} - ${reserv.outDate}"/></h6>
+                                    <p class="card-text"> State: <c:out value=" ${reserv.state}"/></p>
+                                </div>
+                            </div>
+
+                            <div class="col-md-2 text-center">
+                                <div class="card-body">
+                                    <p class="card-text">$ <c:out value="${reserv.totalPrice}"/></p>
+
+                                    <c:if test="${reserv.state eq 'confirmed'}">
+                                        <a href="/invoice?command=invoice&reservationId=${reserv.id}" class="card-link">Pay
+                                            the bill</a>
+                                    </c:if>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-3"></div>
+            </div>
+        </c:forEach>
+    </c:when>
+    <c:otherwise>
+        <h2 align="center">You haven't bookings yet</h2>
+    </c:otherwise>
+</c:choose>
 </body>
 </html>

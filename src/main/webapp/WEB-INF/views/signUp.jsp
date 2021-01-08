@@ -16,7 +16,7 @@
         <div class="col-lg-3">
             <div class="login-form bg-light p-4 mb-3 border">
                 <form id="signUpForm" action="/signUp" method="post">
-                    <input type="hidden" name="command" value="login">
+                    <input type="hidden" name="command" value="signUp">
                     <h2 class="text-center pb-3">Sign up</h2>
                     <div class="form-group">
                         <div class="row">

@@ -14,10 +14,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 
@@ -31,9 +27,6 @@ public class GoToMainPageCommand implements Command {
         List<ApartType> apartList = null;
         String page = CommandConstants.MAIN_PAGE;
 
-        System.out.println(LocalDate.now() + " " + LocalTime.now().truncatedTo(ChronoUnit.SECONDS).format(DateTimeFormatter.ISO_LOCAL_TIME));
-        System.out.println(LocalDateTime.now().withNano(0));
-
         try {
             apartList = hotelService.retrieveAllApartTypes();
         } catch (ServiceException e) {
@@ -41,6 +34,8 @@ public class GoToMainPageCommand implements Command {
             page = CommandConstants.ERROR_PAGE;
         }
 
+        request.setAttribute("todayDate", LocalDate.now());
+        request.setAttribute("tomorrowDate", LocalDate.now().plusDays(1));
         request.setAttribute("apartList", apartList);
         RequestDispatcher requestDispatcher = request.getRequestDispatcher(page);
         requestDispatcher.forward(request, response);

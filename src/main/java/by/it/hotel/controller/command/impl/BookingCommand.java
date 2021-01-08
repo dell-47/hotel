@@ -8,13 +8,13 @@ import by.it.hotel.service.ServiceProvider;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.time.LocalDate;
+
 import static by.it.hotel.controller.command.impl.CommandConstants.*;
 
 
@@ -26,7 +26,7 @@ public class BookingCommand implements Command {
         ServiceProvider serviceProvider = ServiceProvider.getInstance();
         HotelService hotelService = serviceProvider.getHotelService();
 
-        String page = APPROVED_PAGE;
+        String page = SUCCESSFUL_ACTION_PAGE;
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
         ApartType apartType = (ApartType) session.getAttribute("apart");
@@ -42,7 +42,7 @@ public class BookingCommand implements Command {
         reservation.setSubtotalPrice(checkOutData.getSubtotalPrice());
         reservation.setTaxes(checkOutData.getTaxes());
         reservation.setTotalPrice(checkOutData.getTotalPrice());
-        reservation.setState(STATE_PROCESSING); // TODO
+        reservation.setState(STATE_PROCESSING);
 
         try {
             hotelService.createReservation(reservation);
@@ -51,7 +51,7 @@ public class BookingCommand implements Command {
             page = ERROR_PAGE;
         }
 
-        RequestDispatcher requestDispatcher = request.getRequestDispatcher(page);
-        requestDispatcher.forward(request, response);
+        request.getSession().setAttribute("action", ACTION_BOOKING);
+        response.sendRedirect(page);
     }
 }

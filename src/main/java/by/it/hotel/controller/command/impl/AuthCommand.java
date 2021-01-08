@@ -22,7 +22,7 @@ public class AuthCommand implements Command {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        String login = request.getParameter(LOGIN);
+        String login = request.getParameter(USERNAME);
         String password = request.getParameter(PASSWORD);
         ServiceProvider serviceProvider = ServiceProvider.getInstance();
         UserService userService = serviceProvider.getUserService();

@@ -19,38 +19,33 @@
             <div class="col-sm-6"><h4>New bookings</h4></div>
         </div>
         <c:forEach items="${requestScope.adminList}" var="reserv">
-            <div class="row">
+            <div class="row py-2">
                 <div class="col-lg-3"></div>
                 <div class="col-lg-6">
-                    <div class="card p-3">
+                    <div class="card">
                         <div class="card-header">
-                            Time TODO
+                            ${reserv.time.toString().replace("T", " ")}
                         </div>
-                        <div class="row no-gutters">
+                        <div class="row">
 
                             <form method="post" action="/admin">
                                 <input type="hidden" name="command" value="confirm">
                                 <input type="hidden" name="reservationId" value="${reserv.id}">
                                 <input type="hidden" name="price" value="${reserv.totalPrice}">
 
-                                <div class="form-group row align-items-center h-100">
+                                <div class="form-group row align-items-center h-100 ml-3">
 
-                                    <div class="col-md-3 ">
-
+                                    <div class="col-md-3 mt-3">
                                         <h6 class="card-title"><c:out value=" ${reserv.apartType}"/></h6>
                                         <p class="card-text"><c:out value="${reserv.inDate} - ${reserv.outDate}"/></p>
-
                                     </div>
 
-                                    <div class="col-sm-3 ">
-                                            <%--                        <div class="card-body">--%>
+                                    <div class="col-md-2">
                                         <a href="/admin?command=check&id=${reserv.apartTypeId}&inDate=${reserv.inDate}&outDate=${reserv.outDate}"
-                                           class="card-link">Check
-                                            availability</a>
-                                            <%--                        </div>--%>
+                                           class="card-link">Check availability</a>
                                     </div>
 
-                                    <div class="col-sm-4 ">
+                                    <div class="col-md-4">
 
                                         <c:if test="${not empty availableAparts}">
                                             <div class="card-body">

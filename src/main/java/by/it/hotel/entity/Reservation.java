@@ -2,6 +2,7 @@ package by.it.hotel.entity;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class Reservation implements Serializable {
 
@@ -13,11 +14,20 @@ public class Reservation implements Serializable {
     private int invoice;
     private LocalDate inDate;
     private LocalDate outDate;
+    private LocalDateTime time;
     private String apartType;
     private String state;
     private double subtotalPrice;
     private double totalPrice;
     private double taxes;
+
+    public LocalDateTime getTime() {
+        return time;
+    }
+
+    public void setTime(LocalDateTime time) {
+        this.time = time;
+    }
 
     public Reservation() {
     }

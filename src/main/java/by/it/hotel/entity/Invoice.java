@@ -1,14 +1,19 @@
 package by.it.hotel.entity;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 
 public class Invoice implements Serializable {
-
     private static final long serialVersionUID = 2114407498873122086L;
+
     private int id;
-    private int reservationId;
-    private String state;
-    private double amount;
+    private LocalDate inDate;
+    private LocalDate outDate;
+    private String apartType;
+    private double cost;
+    private double subtotalPrice;
+    private double taxes;
+    private double totalPrice;
 
     public Invoice(){}
 
@@ -20,62 +25,59 @@ public class Invoice implements Serializable {
         this.id = id;
     }
 
-    public int getReservationId() {
-        return reservationId;
+    public LocalDate getInDate() {
+        return inDate;
     }
 
-    public void setReservationId(int reservationId) {
-        this.reservationId = reservationId;
+    public void setInDate(LocalDate inDate) {
+        this.inDate = inDate;
     }
 
-    public String getState() {
-        return state;
+    public LocalDate getOutDate() {
+        return outDate;
     }
 
-    public void setState(String state) {
-        this.state = state;
+    public void setOutDate(LocalDate outDate) {
+        this.outDate = outDate;
     }
 
-    public double getAmount() {
-        return amount;
+    public String getApartType() {
+        return apartType;
     }
 
-    public void setAmount(double amount) {
-        this.amount = amount;
+    public void setApartType(String apartType) {
+        this.apartType = apartType;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Invoice invoice = (Invoice) o;
-
-        if (id != invoice.id) return false;
-        if (reservationId != invoice.reservationId) return false;
-        if (Double.compare(invoice.amount, amount) != 0) return false;
-        return state.equals(invoice.state);
+    public double getCost() {
+        return cost;
     }
 
-    @Override
-    public int hashCode() {
-        int result;
-        long temp;
-        result = id;
-        result = 31 * result + reservationId;
-        result = 31 * result + state.hashCode();
-        temp = Double.doubleToLongBits(amount);
-        result = 31 * result + (int) (temp ^ (temp >>> 32));
-        return result;
+    public void setCost(double cost) {
+        this.cost = cost;
     }
 
-    @Override
-    public String toString() {
-        return "Invoice{" +
-                "id=" + id +
-                ", reservationId=" + reservationId +
-                ", state='" + state + '\'' +
-                ", amount=" + amount +
-                '}';
+    public double getSubtotalPrice() {
+        return subtotalPrice;
+    }
+
+    public void setSubtotalPrice(double subtotalPrice) {
+        this.subtotalPrice = subtotalPrice;
+    }
+
+    public double getTaxes() {
+        return taxes;
+    }
+
+    public void setTaxes(double taxes) {
+        this.taxes = taxes;
+    }
+
+    public double getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(double totalPrice) {
+        this.totalPrice = totalPrice;
     }
 }

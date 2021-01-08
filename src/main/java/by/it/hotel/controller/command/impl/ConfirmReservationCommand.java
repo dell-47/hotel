@@ -7,7 +7,6 @@ import by.it.hotel.service.ServiceProvider;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -25,17 +24,16 @@ public class ConfirmReservationCommand implements Command {
         int reservationId = Integer.parseInt(request.getParameter("reservationId"));
         int apartId = Integer.parseInt(request.getParameter("apartId"));
         double price = Double.parseDouble(request.getParameter("price"));
-        String page = CommandConstants.ADMIN_PAGE;
+        String page = CommandConstants.GO_TO_ADMIN_PAGE;
 
         try {
-            hotelService.createInvoice(reservationId, price);
+  //          hotelService.createInvoice(reservationId, price);
             hotelService.updateReservation(reservationId, apartId);
         } catch (ServiceException e) {
             logger.error(e);
             page = CommandConstants.ERROR_PAGE;
         }
 
-        RequestDispatcher requestDispatcher = request.getRequestDispatcher(page);
-        requestDispatcher.forward(request, response);
+        response.sendRedirect(page);
     }
 }

@@ -8,7 +8,7 @@ public class User implements Serializable {
     private int role;
     private String firstName;
     private String lastName;
-    private String login;
+    private String username;
     private String password;
     private String email;
 
@@ -40,11 +40,11 @@ public class User implements Serializable {
     }
 
     public String getLogin() {
-        return login;
+        return username;
     }
 
     public void setLogin(String login) {
-        this.login = login;
+        this.username = login;
     }
 
     public String getPassword() {

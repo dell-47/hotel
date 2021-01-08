@@ -7,5 +7,6 @@ import java.util.List;
 public interface UserService {
     User retrieveUser(String login, String password) throws ServiceException;
     boolean createUser(User user) throws ServiceException;
-    List<String> retrieveRolePermissions(int roleId) throws ServiceException;
+    List<String> retrievePermissions() throws ServiceException;
+    List<String> retrievePermissions(int roleId) throws ServiceException;
 }

@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <html>
 <head>
 
@@ -12,8 +13,8 @@
 <div align="center">
     <form method="post" action="/availableApartments">
         <input type="hidden" name="command" value="viewAvailable">
-        <input type="date" name="inDate" value="2020-12-24">
-        <input type="date" name="outDate" value="2020-12-25">
+        <input type="date" name="inDate" value="${todayDate}">
+        <input type="date" name="outDate" value="${tomorrowDate}">
         <input type="submit" name="ok" value="Check availability">
     </form>
 </div>
@@ -55,8 +56,8 @@
 <div class="d-flex justify-content-center p-4">
     <form method="post" action="/availableApartments">
         <input type="hidden" name="command" value="viewAvailable">
-        <input type="date" name="inDate" value="2020-12-24">
-        <input type="date" name="outDate" value="2020-12-25">
+        <input type="date" name="inDate" value="${todayDate}">
+        <input type="date" name="outDate" value="${tomorrowDate}">
         <input type="submit" name="ok" value="Check availability">
     </form>
 </div>

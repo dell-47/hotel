@@ -8,6 +8,7 @@ public interface UserDao {
 
     User retrieveUser(String login, String password) throws DaoException;
     boolean createUser(User user) throws DaoException;
-    List<String> retrieveRolePermissions(int roleId) throws DaoException;
+    List<String> retrievePermissions() throws DaoException;
+    List<String> retrievePermissions(int roleId) throws DaoException;
 
 }
