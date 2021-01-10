@@ -41,13 +41,13 @@
                                     </div>
 
                                     <div class="col-md-2">
-                                        <a href="/admin?command=check&id=${reserv.apartTypeId}&inDate=${reserv.inDate}&outDate=${reserv.outDate}"
+                                        <a href="/admin?command=check&apartTypeId=${reserv.apartTypeId}&reservationId=${reserv.id}&inDate=${reserv.inDate}&outDate=${reserv.outDate}"
                                            class="card-link">Check availability</a>
                                     </div>
 
                                     <div class="col-md-4">
 
-                                        <c:if test="${not empty availableAparts}">
+                                        <c:if test="${not empty availableAparts && reserv.id == reservationId}">
                                             <div class="card-body">
                                                 <div class="card-title">Choose number of apartment</div>
                                                 <select name="apartId" class="selectpicker" data-width="100%"
@@ -64,7 +64,7 @@
                                     </div>
 
                                     <div class="col-md-2  text-center">
-                                        <c:if test="${not empty availableAparts}">
+                                        <c:if test="${not empty availableAparts && reserv.id == reservationId}">
                                             <div class="card-body">
 
                                                 <button type="submit" class="btn btn-primary">Confirm</button>

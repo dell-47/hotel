@@ -26,18 +26,20 @@ public class CheckAvailabilityCommand implements Command {
         ServiceProvider serviceProvider = ServiceProvider.getInstance();
         HotelService hotelService = serviceProvider.getHotelService();
         List<Apart> availableAparts = null;
-        int id = Integer.parseInt(request.getParameter("id"));
+        int apartTypeId = Integer.parseInt(request.getParameter("apartTypeId"));
+        int reservationId = Integer.parseInt(request.getParameter("reservationId"));
         LocalDate inDate = LocalDate.parse(request.getParameter("inDate"));
         LocalDate outDate = LocalDate.parse(request.getParameter("outDate"));
         String page = CommandConstants.GO_TO_ADMIN_PAGE;
         try {
-            availableAparts = hotelService.searchAparts(id, inDate, outDate);
+            availableAparts = hotelService.searchAparts(apartTypeId, inDate, outDate);
         } catch (ServiceException e) {
             logger.error(e);
             page = CommandConstants.ERROR_PAGE;
         }
 
         request.setAttribute("availableAparts", availableAparts);
+        request.setAttribute("reservationId", reservationId);
         RequestDispatcher requestDispatcher = request.getRequestDispatcher(page);
         requestDispatcher.forward(request, response);
     }
