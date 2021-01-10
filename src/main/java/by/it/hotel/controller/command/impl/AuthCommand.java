@@ -7,6 +7,7 @@ import by.it.hotel.service.ServiceProvider;
 import by.it.hotel.service.UserService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.mindrot.jbcrypt.BCrypt;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -30,12 +31,12 @@ public class AuthCommand implements Command {
         String page = INDEX_PAGE;
 
         try {
-            user = userService.retrieveUser(login, password);
+            user = userService.retrieveUser(login);
         } catch (ServiceException e) {
             logger.error(e);
         }
 
-        if (user == null) {
+        if (user == null || !BCrypt.checkpw(password, user.getPassword())) {
             request.setAttribute("loginError", LOGIN_ERROR_MESSAGE);
             page = LOGIN_PAGE;
         } else {

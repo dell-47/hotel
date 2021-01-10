@@ -16,7 +16,7 @@ public class UserDaoImpl implements UserDao {
     private final ConnectionPool pool = ConnectionPool.getInstance();
 
     private static final String CREATE_USER_QUERY = "INSERT INTO users (login, password, first_name, last_name, email, role) VALUES (?,?,?,?,?,?)";
-    private static final String RETRIEVE_USER_QUERY = "SELECT * FROM users WHERE login = ? and password = ?";
+    private static final String RETRIEVE_USER_QUERY = "SELECT * FROM users WHERE login = ?";
     private static final String RETRIEVE_ROLE_PERMISSIONS_QUERY = "SELECT pattern FROM roles r LEFT JOIN permissions p ON r.id = p.role WHERE r.id = ?";
     private static final String RETRIEVE_ALL_PERMISSIONS_QUERY = "SELECT pattern FROM permissions";
 
@@ -47,7 +47,7 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public User retrieveUser(String login, String password) throws DaoException {
+    public User retrieveUser(String login) throws DaoException {
         Connection con = null;
         PreparedStatement ps = null;
         User user = null;
@@ -56,7 +56,6 @@ public class UserDaoImpl implements UserDao {
             con = pool.takeConnection();
             ps = con.prepareStatement(RETRIEVE_USER_QUERY);
             ps.setString(1, login);
-            ps.setString(2, password);
             rs = ps.executeQuery();
             if (rs.next()) {
                 user = new User();
@@ -65,6 +64,7 @@ public class UserDaoImpl implements UserDao {
                 user.setLastName(rs.getString("last_name"));
                 user.setEmail(rs.getString("email"));
                 user.setRole(rs.getInt("role"));
+                user.setPassword(rs.getString("password"));
             }
 
         } catch (SQLException e) {

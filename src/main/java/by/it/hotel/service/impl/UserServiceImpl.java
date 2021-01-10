@@ -18,10 +18,10 @@ public class UserServiceImpl implements UserService {
     private final UserDao userDao = daoProvider.getUserDao();
 
     @Override
-    public User retrieveUser(String login, String password) throws ServiceException {
-        User user = null;
+    public User retrieveUser(String login) throws ServiceException {
+        User user;
         try {
-            user = userDao.retrieveUser(login, password);
+            user = userDao.retrieveUser(login);
         } catch (DaoException e) {
             logger.error(e);
             throw new ServiceException(e);
@@ -31,7 +31,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean createUser(User user) throws ServiceException {
-        boolean registration = false;
+        boolean registration;
         try {
             registration = userDao.createUser(user);
         } catch (DaoException e) {

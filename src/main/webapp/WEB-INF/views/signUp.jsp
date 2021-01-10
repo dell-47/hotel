@@ -47,7 +47,7 @@
                     <div class="form-group pt-3">
                         <button type="submit" class="btn btn-primary btn-block">Sign up</button>
                     </div>
-<%--                    <p class="text-center text-danger"><c:out value="${signUpError}"/></p>--%>
+                    <p class="text-center text-danger"><c:out value="${usernameError}"/></p>
                 </form>
             </div>
         </div>
