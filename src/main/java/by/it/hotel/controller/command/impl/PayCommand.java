@@ -1,6 +1,7 @@
 package by.it.hotel.controller.command.impl;
 
 import by.it.hotel.controller.command.Command;
+import by.it.hotel.controller.command.utils.EmailUtil;
 import by.it.hotel.service.HotelService;
 import by.it.hotel.service.ServiceException;
 import by.it.hotel.service.ServiceProvider;
@@ -31,6 +32,8 @@ public class PayCommand implements Command {
             logger.error(e);
             page = CommandConstants.ERROR_PAGE;
         }
+
+        EmailUtil.send();
 
         RequestDispatcher requestDispatcher = request.getRequestDispatcher(page);
         requestDispatcher.forward(request, response);

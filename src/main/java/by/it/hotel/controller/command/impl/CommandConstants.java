@@ -21,7 +21,7 @@ public final class CommandConstants {
     public static final String GO_TO_PROFILE_PAGE = "/profile?command=profile";
     public static final String AVAILABLE_APARTS_PAGE = "/WEB-INF/views/availableAparts.jsp";
     public static final String LOGIN_ERROR_MESSAGE = "Invalid login or password. Try again.";
-    public static final String USERNAME_ERROR_MESSAGE = "This username isn't allowed. Try again.";
+    public static final String USERNAME_ERROR_MESSAGE = "Entered username isn't allowed. Try again.";
     public static final String DATES_VALIDATION_ERROR_MESSAGE = "Invalid dates entered. Try again with correct dates.";
     public static final String STATE_PROCESSING = "processing";
     public static final String USERNAME = "username";
