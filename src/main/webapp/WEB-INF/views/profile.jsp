@@ -37,8 +37,7 @@
                                     <p class="card-text">$ <c:out value="${reserv.totalPrice}"/></p>
 
                                     <c:if test="${reserv.state eq 'confirmed'}">
-                                        <a href="/invoice?command=invoice&reservationId=${reserv.id}" class="card-link">Pay
-                                            the bill</a>
+                                        <a href="/invoice?command=invoice&reservationId=${reserv.id}" class="card-link">Invoice</a>
                                     </c:if>
 
                                 </div>

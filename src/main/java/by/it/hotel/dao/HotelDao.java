@@ -11,9 +11,8 @@ import java.util.List;
 
 public interface HotelDao {
     void createReservation(Reservation reservation) throws DaoException;
-    void createInvoice(int reservationId, double price) throws DaoException;
+    void updateReservation(int reservationId) throws DaoException;
     void updateReservation(int reservationId, int apartId) throws DaoException;
-    void updateInvoice(int invoiceId) throws DaoException;
     ApartType retrieveApartType(int id) throws DaoException;
     Invoice retrieveInvoice(int reservationId) throws DaoException;
     List<Apart> searchAparts(int id, LocalDate inDate, LocalDate outDate) throws DaoException;

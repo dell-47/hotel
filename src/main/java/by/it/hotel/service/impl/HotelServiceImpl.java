@@ -118,16 +118,6 @@ public class HotelServiceImpl implements HotelService {
     }
 
     @Override
-    public void createInvoice(int reservationId, double price) throws ServiceException {
-        try {
-            hotelDao.createInvoice(reservationId, price);
-        } catch (DaoException e) {
-            logger.error(e);
-            throw new ServiceException(e);
-        }
-    }
-
-    @Override
     public void updateReservation(int reservationId, int apartId) throws ServiceException {
         try {
             hotelDao.updateReservation(reservationId, apartId);
@@ -150,9 +140,9 @@ public class HotelServiceImpl implements HotelService {
     }
 
     @Override
-    public void updateInvoice(int invoiceId) throws ServiceException {
+    public void updateReservation(int reservationId) throws ServiceException {
         try {
-            hotelDao.updateInvoice(invoiceId);
+            hotelDao.updateReservation(reservationId);
         } catch (DaoException e) {
             logger.error(e);
             throw new ServiceException(e);

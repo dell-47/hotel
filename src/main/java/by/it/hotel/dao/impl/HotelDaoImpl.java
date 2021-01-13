@@ -13,7 +13,6 @@ import org.apache.logging.log4j.Logger;
 import java.sql.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,16 +23,14 @@ public class HotelDaoImpl implements HotelDao {
     private static final String STATE_PAID = "paid";
     private static final String STATE_CONFIRMED = "confirmed";
     private static final String STATE_PROCESSING = "processing";
-    private static final String STATE_WAITING_FOR_PAYMENT = "waiting for payment";
     private static final String RETRIEVE_ALL_APART_TYPES_QUERY = "SELECT * FROM aparts_types";
     private static final String RETRIEVE_APART_TYPE_QUERY = "SELECT * FROM aparts_types WHERE id=?";
     private static final String SEARCH_RESERVATIONS_BY_ID_QUERY = "SELECT * FROM reservations WHERE user_id=?";
     private static final String SEARCH_RESERVATIONS_QUERY = "SELECT * FROM reservations r LEFT JOIN aparts_types t ON r.apart_type = t.id WHERE state = ?";
     private static final String CREATE_RESERVATION_QUERY = "INSERT INTO reservations (apart_type, in_date, out_date, user_id, state, subtotal_price, taxes, total_price, time) VALUES (?,?,?,?,?,?,?,?,?)";
     private static final String UPDATE_RESERVATION_QUERY = "UPDATE reservations SET apart_id = ?, state = ? WHERE id=?";
+    private static final String UPDATE_RESERVATION_STATE_QUERY = "UPDATE reservations SET state = ? WHERE id=?";
     private static final String RETRIEVE_INVOICE_QUERY = "SELECT * FROM reservations r LEFT JOIN aparts_types t ON r.apart_type = t.id WHERE r.id = ?";
-    private static final String CREATE_INVOICE_QUERY = "INSERT INTO invoices (amount, state, reservation_id) VALUES (?,?,?)";
-    private static final String UPDATE_INVOICE_QUERY = "UPDATE invoices i LEFT JOIN reservations r ON i.reservation_id = r.id SET i.state = ?, r.state = ? WHERE i.id = ?";
     private static final String SEARCH_APART_TYPES_QUERY = "SELECT * FROM aparts_types t LEFT JOIN aparts a ON t.id = a.type WHERE a.id NOT IN (SELECT apart_id FROM reservations r WHERE r.state != ? AND (((r.in_date >= ?) AND (r.in_date < ?)) OR ((r.out_date > ?) AND (r.out_date <= ?)))) GROUP BY t.type ORDER BY t.id ";
     private static final String SEARCH_APARTS_QUERY = "SELECT * FROM aparts WHERE type = ? and id not in (SELECT distinct apart_id from reservations r WHERE r.state != ? AND (((r.in_date >= ?) and (r.in_date < ?)) or ((r.out_date > ?) and (r.out_date <= ?))))";
 
@@ -255,27 +252,6 @@ public class HotelDaoImpl implements HotelDao {
     }
 
     @Override
-    public void createInvoice(int reservationId, double price) throws DaoException {
-        Connection con = null;
-        PreparedStatement ps = null;
-        try {
-            con = pool.takeConnection();
-            ps = con.prepareStatement(CREATE_INVOICE_QUERY);
-
-            ps.setDouble(1, price);
-            ps.setString(2, STATE_WAITING_FOR_PAYMENT);
-            ps.setInt(3, reservationId);
-
-            ps.executeUpdate();
-        } catch (SQLException e) {
-            logger.error(e);
-            throw new DaoException(e);
-        } finally {
-            pool.closeConnection(con, ps);
-        }
-    }
-
-    @Override
     public void updateReservation(int reservationId, int apartId) throws DaoException {
         Connection con = null;
         PreparedStatement ps = null;
@@ -312,10 +288,10 @@ public class HotelDaoImpl implements HotelDao {
                 invoice.setInDate(rs.getDate("in_date").toLocalDate());
                 invoice.setOutDate(rs.getDate("out_date").toLocalDate());
                 invoice.setApartType(rs.getString("type"));
-                invoice.setCost(rs.getDouble("price"));
-                invoice.setSubtotalPrice(rs.getDouble("subtotal_price"));
-                invoice.setTaxes(rs.getDouble("taxes"));
-                invoice.setTotalPrice(rs.getDouble("total_price"));
+                invoice.setCost(rs.getBigDecimal("price"));
+                invoice.setSubtotalPrice(rs.getBigDecimal("subtotal_price"));
+                invoice.setTaxes(rs.getBigDecimal("taxes"));
+                invoice.setTotalPrice(rs.getBigDecimal("total_price"));
             }
         } catch (SQLException e) {
             logger.error(e);
@@ -327,15 +303,14 @@ public class HotelDaoImpl implements HotelDao {
     }
 
     @Override
-    public void updateInvoice(int invoiceId) throws DaoException {
+    public void updateReservation(int reservationId) throws DaoException {
         Connection con = null;
         PreparedStatement ps = null;
         try {
             con = pool.takeConnection();
-            ps = con.prepareStatement(UPDATE_INVOICE_QUERY);
+            ps = con.prepareStatement(UPDATE_RESERVATION_STATE_QUERY);
             ps.setString(1, STATE_PAID);
-            ps.setString(2, STATE_PAID);
-            ps.setInt(3, invoiceId);
+            ps.setInt(2, reservationId);
             ps.executeUpdate();
         } catch (SQLException e) {
             logger.error(e);

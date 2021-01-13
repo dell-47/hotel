@@ -23,11 +23,9 @@ public class ConfirmReservationCommand implements Command {
         HotelService hotelService = serviceProvider.getHotelService();
         int reservationId = Integer.parseInt(request.getParameter("reservationId"));
         int apartId = Integer.parseInt(request.getParameter("apartId"));
-        double price = Double.parseDouble(request.getParameter("price"));
         String page = CommandConstants.GO_TO_ADMIN_PAGE;
 
         try {
-  //          hotelService.createInvoice(reservationId, price);
             hotelService.updateReservation(reservationId, apartId);
         } catch (ServiceException e) {
             logger.error(e);

@@ -33,7 +33,7 @@ public class InvoiceCommand implements Command {
             page = CommandConstants.ERROR_PAGE;
         }
 
-        request.setAttribute("invoice", invoice);
+        request.getSession().setAttribute("invoice", invoice);
         RequestDispatcher requestDispatcher = request.getRequestDispatcher(page);
         requestDispatcher.forward(request, response);
     }

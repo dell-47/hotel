@@ -40,11 +40,11 @@ public class AuthCommand implements Command {
             request.setAttribute("loginError", LOGIN_ERROR_MESSAGE);
             page = LOGIN_PAGE;
         } else {
+            user.setPassword(BLANK_STRING);
             request.getSession().setAttribute("user", user);
         }
 
         RequestDispatcher requestDispatcher = request.getRequestDispatcher(page);
         requestDispatcher.forward(request, response);
-
     }
 }

@@ -29,6 +29,7 @@ public final class CommandConstants {
     public static final String FIRST_NAME = "firstName";
     public static final String LAST_NAME = "lastName";
     public static final String EMAIL = "email";
+    public static final String BLANK_STRING = "";
     public static final int ROLE_USER = 2;
 
 }

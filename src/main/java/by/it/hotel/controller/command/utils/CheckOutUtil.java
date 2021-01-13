@@ -6,7 +6,7 @@ import java.time.LocalDate;
 import java.time.Period;
 
 public class CheckOutUtil {
-    private static final double TAX_RATE = 1;
+    private static final double TAX_RATE = 1.00;
 
     public static CheckOutData getCheckOutData(LocalDate inDate, LocalDate outDate, double cost) {
         Period period = Period.between(inDate, outDate);

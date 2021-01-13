@@ -1,6 +1,7 @@
 package by.it.hotel.entity;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 public class Invoice implements Serializable {
@@ -10,10 +11,10 @@ public class Invoice implements Serializable {
     private LocalDate inDate;
     private LocalDate outDate;
     private String apartType;
-    private double cost;
-    private double subtotalPrice;
-    private double taxes;
-    private double totalPrice;
+    private BigDecimal cost;
+    private BigDecimal subtotalPrice;
+    private BigDecimal taxes;
+    private BigDecimal totalPrice;
 
     public Invoice(){}
 
@@ -49,35 +50,35 @@ public class Invoice implements Serializable {
         this.apartType = apartType;
     }
 
-    public double getCost() {
+    public BigDecimal getCost() {
         return cost;
     }
 
-    public void setCost(double cost) {
+    public void setCost(BigDecimal cost) {
         this.cost = cost;
     }
 
-    public double getSubtotalPrice() {
+    public BigDecimal getSubtotalPrice() {
         return subtotalPrice;
     }
 
-    public void setSubtotalPrice(double subtotalPrice) {
+    public void setSubtotalPrice(BigDecimal subtotalPrice) {
         this.subtotalPrice = subtotalPrice;
     }
 
-    public double getTaxes() {
+    public BigDecimal getTaxes() {
         return taxes;
     }
 
-    public void setTaxes(double taxes) {
+    public void setTaxes(BigDecimal taxes) {
         this.taxes = taxes;
     }
 
-    public double getTotalPrice() {
+    public BigDecimal getTotalPrice() {
         return totalPrice;
     }
 
-    public void setTotalPrice(double totalPrice) {
+    public void setTotalPrice(BigDecimal totalPrice) {
         this.totalPrice = totalPrice;
     }
 }

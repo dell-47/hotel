@@ -34,7 +34,6 @@ public class CreateUserCommand implements Command {
         user.setPassword(BCrypt.hashpw(request.getParameter(PASSWORD), BCrypt.gensalt()));
         user.setRole(ROLE_USER);
 
-
         try {
             if (userService.retrieveUser(username) == null) {
                 userService.createUser(user);
