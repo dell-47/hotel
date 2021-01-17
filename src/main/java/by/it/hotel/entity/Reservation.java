@@ -1,6 +1,7 @@
 package by.it.hotel.entity;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -17,9 +18,9 @@ public class Reservation implements Serializable {
     private LocalDateTime time;
     private String apartType;
     private String state;
-    private double subtotalPrice;
-    private double totalPrice;
-    private double taxes;
+    private BigDecimal subtotalPrice;
+    private BigDecimal totalPrice;
+    private BigDecimal taxes;
 
     public LocalDateTime getTime() {
         return time;
@@ -104,27 +105,27 @@ public class Reservation implements Serializable {
         this.state = state;
     }
 
-    public double getSubtotalPrice() {
+    public BigDecimal getSubtotalPrice() {
         return subtotalPrice;
     }
 
-    public void setSubtotalPrice(double subtotalPrice) {
+    public void setSubtotalPrice(BigDecimal subtotalPrice) {
         this.subtotalPrice = subtotalPrice;
     }
 
-    public double getTotalPrice() {
+    public BigDecimal getTotalPrice() {
         return totalPrice;
     }
 
-    public void setTotalPrice(double totalPrice) {
+    public void setTotalPrice(BigDecimal totalPrice) {
         this.totalPrice = totalPrice;
     }
 
-    public double getTaxes() {
+    public BigDecimal getTaxes() {
         return taxes;
     }
 
-    public void setTaxes(double taxes) {
+    public void setTaxes(BigDecimal taxes) {
         this.taxes = taxes;
     }
 
@@ -140,52 +141,31 @@ public class Reservation implements Serializable {
         if (apartTypeId != that.apartTypeId) return false;
         if (user != that.user) return false;
         if (invoice != that.invoice) return false;
-        if (Double.compare(that.subtotalPrice, subtotalPrice) != 0) return false;
-        if (Double.compare(that.totalPrice, totalPrice) != 0) return false;
-        if (Double.compare(that.taxes, taxes) != 0) return false;
         if (!inDate.equals(that.inDate)) return false;
         if (!outDate.equals(that.outDate)) return false;
-        if (apartType != null ? !apartType.equals(that.apartType) : that.apartType != null) return false;
-        return state != null ? state.equals(that.state) : that.state == null;
+        if (!time.equals(that.time)) return false;
+        if (!apartType.equals(that.apartType)) return false;
+        if (state != null ? !state.equals(that.state) : that.state != null) return false;
+        if (!subtotalPrice.equals(that.subtotalPrice)) return false;
+        if (!totalPrice.equals(that.totalPrice)) return false;
+        return taxes.equals(that.taxes);
     }
 
     @Override
     public int hashCode() {
-        int result;
-        long temp;
-        result = id;
+        int result = id;
         result = 31 * result + apartId;
         result = 31 * result + apartTypeId;
         result = 31 * result + user;
         result = 31 * result + invoice;
         result = 31 * result + inDate.hashCode();
         result = 31 * result + outDate.hashCode();
-        result = 31 * result + (apartType != null ? apartType.hashCode() : 0);
+        result = 31 * result + time.hashCode();
+        result = 31 * result + apartType.hashCode();
         result = 31 * result + (state != null ? state.hashCode() : 0);
-        temp = Double.doubleToLongBits(subtotalPrice);
-        result = 31 * result + (int) (temp ^ (temp >>> 32));
-        temp = Double.doubleToLongBits(totalPrice);
-        result = 31 * result + (int) (temp ^ (temp >>> 32));
-        temp = Double.doubleToLongBits(taxes);
-        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        result = 31 * result + subtotalPrice.hashCode();
+        result = 31 * result + totalPrice.hashCode();
+        result = 31 * result + taxes.hashCode();
         return result;
-    }
-
-    @Override
-    public String toString() {
-        return "Reservation{" +
-                "id=" + id +
-                ", apartId=" + apartId +
-                ", apartTypeId=" + apartTypeId +
-                ", user=" + user +
-                ", invoice=" + invoice +
-                ", inDate=" + inDate +
-                ", outDate=" + outDate +
-                ", apartType='" + apartType + '\'' +
-                ", state='" + state + '\'' +
-                ", subtotalPrice=" + subtotalPrice +
-                ", totalPrice=" + totalPrice +
-                ", taxes=" + taxes +
-                '}';
     }
 }

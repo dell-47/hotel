@@ -8,7 +8,6 @@ import by.it.hotel.service.ServiceProvider;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -22,11 +21,11 @@ public class BookingCommand implements Command {
     private static final Logger logger = LogManager.getLogger(BookingCommand.class);
 
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
         ServiceProvider serviceProvider = ServiceProvider.getInstance();
         HotelService hotelService = serviceProvider.getHotelService();
 
-        String page = SUCCESSFUL_ACTION_PAGE;
+        String page = GO_TO_SUCCESSFUL_ACTION_PAGE;
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
         ApartType apartType = (ApartType) session.getAttribute("apart");

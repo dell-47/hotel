@@ -48,7 +48,5 @@ public class CreateUserCommand implements Command {
             logger.error(e);
             response.sendRedirect(ERROR_PAGE);
         }
-
-
     }
 }

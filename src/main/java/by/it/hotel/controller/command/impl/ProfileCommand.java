@@ -1,6 +1,7 @@
 package by.it.hotel.controller.command.impl;
 
 import by.it.hotel.controller.command.Command;
+import by.it.hotel.controller.command.SaveRequest;
 import by.it.hotel.entity.Reservation;
 import by.it.hotel.entity.User;
 import by.it.hotel.service.HotelService;
@@ -17,11 +18,12 @@ import java.io.IOException;
 import java.util.List;
 
 
-public class ProfileCommand implements Command {
+public class ProfileCommand implements Command, SaveRequest {
     private static final Logger logger = LogManager.getLogger(ProfileCommand.class);
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        saveRequest(request);
         ServiceProvider serviceProvider = ServiceProvider.getInstance();
         HotelService hotelService = serviceProvider.getHotelService();
         List<Reservation> reservationList = null;

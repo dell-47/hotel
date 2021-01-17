@@ -1,6 +1,7 @@
 package by.it.hotel.controller.command.impl;
 
 import by.it.hotel.controller.command.Command;
+import by.it.hotel.controller.command.SaveRequest;
 import by.it.hotel.controller.command.utils.CheckOutUtil;
 import by.it.hotel.entity.ApartType;
 import by.it.hotel.entity.CheckOutData;
@@ -19,11 +20,12 @@ import java.io.IOException;
 import java.time.LocalDate;
 
 
-public class CheckoutCommand implements Command {
+public class CheckoutCommand implements Command, SaveRequest {
     private static final Logger logger = LogManager.getLogger(CheckoutCommand.class);
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        saveRequest(request);
         ServiceProvider serviceProvider = ServiceProvider.getInstance();
         HotelService hotelService = serviceProvider.getHotelService();
         ApartType apartType = null;

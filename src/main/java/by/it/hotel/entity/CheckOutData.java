@@ -1,36 +1,46 @@
 package by.it.hotel.entity;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 public class CheckOutData implements Serializable {
     private static final long serialVersionUID = 3761428628383917818L;
-    private double subtotalPrice;
-    private double taxes;
-    private double totalPrice;
+    private BigDecimal cost;
+    private BigDecimal subtotalPrice;
+    private BigDecimal taxes;
+    private BigDecimal totalPrice;
 
     public CheckOutData(){}
 
-    public double getSubtotalPrice() {
+    public BigDecimal getCost() {
+        return cost;
+    }
+
+    public void setCost(BigDecimal cost) {
+        this.cost = cost;
+    }
+
+    public BigDecimal getSubtotalPrice() {
         return subtotalPrice;
     }
 
-    public void setSubtotalPrice(double subtotalPrice) {
+    public void setSubtotalPrice(BigDecimal subtotalPrice) {
         this.subtotalPrice = subtotalPrice;
     }
 
-    public double getTaxes() {
+    public BigDecimal getTaxes() {
         return taxes;
     }
 
-    public void setTaxes(double taxes) {
+    public void setTaxes(BigDecimal taxes) {
         this.taxes = taxes;
     }
 
-    public double getTotalPrice() {
+    public BigDecimal getTotalPrice() {
         return totalPrice;
     }
 
-    public void setTotalPrice(double totalPrice) {
+    public void setTotalPrice(BigDecimal totalPrice) {
         this.totalPrice = totalPrice;
     }
 }

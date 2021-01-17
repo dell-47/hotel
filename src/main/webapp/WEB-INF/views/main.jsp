@@ -6,6 +6,10 @@
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
           integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+    <fmt:setLocale value="${sessionScope.locale}"/>
+    <fmt:setBundle basename="locale" var="loc"/>
+    <fmt:message bundle="${loc}" key="check" var="check"/>
+    <fmt:message bundle="${loc}" key="types" var="types"/>
 </head>
 <body>
 <jsp:include page="navbar.jsp"/>
@@ -15,19 +19,19 @@
         <input type="hidden" name="command" value="viewAvailable">
         <input type="date" name="inDate" value="${todayDate}">
         <input type="date" name="outDate" value="${tomorrowDate}">
-        <input type="submit" name="ok" value="Check availability">
+        <input type="submit" name="ok" value="${check}">
     </form>
 </div>
 
 <c:if test="${not empty datesValidationError}">
     <div align="center" class="alert alert-danger pt-2" role="alert">
-            ${datesValidationError}
+            <fmt:message key="${datesValidationError}" bundle="${loc}"/>
     </div>
 </c:if>
 
 <div class="row pb-2">
     <div class="col-lg-2"></div>
-    <div class="col-lg-8"><h3>Apartment types</h3></div>
+    <div class="col-lg-8"><h3>${types}</h3></div>
 </div>
 <c:forEach items="${requestScope.apartList}" var="aparts">
     <div class="row">
@@ -36,7 +40,6 @@
             <div class="card mb-3">
                 <div class="row no-gutters">
                     <div class="col-md-4 p-3">
-                            <%--                        <img src="/resources/img/${aparts.image}" class="card-img" alt="hotel"/>--%>
                         <a target='_blank'><img src='${aparts.image}' border='0' alt='image'/></a>
                     </div>
                     <div class="col-md-8 pl-5">
@@ -58,7 +61,7 @@
         <input type="hidden" name="command" value="viewAvailable">
         <input type="date" name="inDate" value="${todayDate}">
         <input type="date" name="outDate" value="${tomorrowDate}">
-        <input type="submit" name="ok" value="Check availability">
+        <input type="submit" name="ok" value="${check}">
     </form>
 </div>
 

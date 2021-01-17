@@ -1,11 +1,11 @@
 package by.it.hotel.controller.command.impl;
 
 import by.it.hotel.controller.command.Command;
+import by.it.hotel.controller.command.SaveRequest;
 import by.it.hotel.entity.Apart;
 import by.it.hotel.service.HotelService;
 import by.it.hotel.service.ServiceException;
 import by.it.hotel.service.ServiceProvider;
-import by.it.hotel.service.validation.ValidationException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -18,11 +18,12 @@ import java.time.LocalDate;
 import java.util.List;
 
 
-public class CheckAvailabilityCommand implements Command {
+public class CheckAvailabilityCommand implements Command, SaveRequest {
     private static final Logger logger = LogManager.getLogger(CheckAvailabilityCommand.class);
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        saveRequest(request);
         ServiceProvider serviceProvider = ServiceProvider.getInstance();
         HotelService hotelService = serviceProvider.getHotelService();
         List<Apart> availableAparts = null;

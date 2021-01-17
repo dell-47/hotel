@@ -47,9 +47,9 @@ public class HotelDaoImpl implements HotelDao {
             ps.setDate(3, java.sql.Date.valueOf(reservation.getOutDate()));
             ps.setInt(4, reservation.getUser());
             ps.setString(5, reservation.getState());
-            ps.setDouble(6, reservation.getSubtotalPrice());
-            ps.setDouble(7, reservation.getTaxes());
-            ps.setDouble(8, reservation.getTotalPrice());
+            ps.setBigDecimal(6, reservation.getSubtotalPrice());
+            ps.setBigDecimal(7, reservation.getTaxes());
+            ps.setBigDecimal(8, reservation.getTotalPrice());
             ps.setTimestamp(9, java.sql.Timestamp.valueOf(LocalDateTime.now().withNano(0)));
 
             ps.executeUpdate();
@@ -172,9 +172,9 @@ public class HotelDaoImpl implements HotelDao {
                 reservation.setInDate(rs.getDate("in_date").toLocalDate());
                 reservation.setOutDate(rs.getDate("out_date").toLocalDate());
                 reservation.setState(rs.getString("state"));
-                reservation.setSubtotalPrice(rs.getDouble("subtotal_price"));
-                reservation.setTaxes(rs.getDouble("taxes"));
-                reservation.setTotalPrice(rs.getDouble("total_price"));
+                reservation.setSubtotalPrice(rs.getBigDecimal("subtotal_price"));
+                reservation.setTaxes(rs.getBigDecimal("taxes"));
+                reservation.setTotalPrice(rs.getBigDecimal("total_price"));
                 list.add(reservation);
             }
         } catch (SQLException e) {
@@ -205,9 +205,9 @@ public class HotelDaoImpl implements HotelDao {
                 reservation.setOutDate(rs.getDate("out_date").toLocalDate());
                 reservation.setApartTypeId(rs.getInt("apart_type"));
                 reservation.setApartType(rs.getString("type"));
-                reservation.setSubtotalPrice(rs.getDouble("subtotal_price"));
-                reservation.setTaxes(rs.getDouble("taxes"));
-                reservation.setTotalPrice(rs.getDouble("total_price"));
+                reservation.setSubtotalPrice(rs.getBigDecimal("subtotal_price"));
+                reservation.setTaxes(rs.getBigDecimal("taxes"));
+                reservation.setTotalPrice(rs.getBigDecimal("total_price"));
                 reservation.setTime(rs.getTimestamp("time").toLocalDateTime());
                 list.add(reservation);
             }

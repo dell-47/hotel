@@ -25,6 +25,8 @@ public class CommandProvider {
         commands.put("goToLoginPage", new GoToLoginPageCommand());
         commands.put("goToSignUpPage", new GoToSignUpPageCommand());
         commands.put("goToMainPage", new GoToMainPageCommand());
+        commands.put("successfulAction", new GoToSuccessfulActionPageCommand());
+        commands.put("changeLocale", new ChangeLocaleCommand());
     }
 
 
