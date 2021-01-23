@@ -13,22 +13,20 @@
 </head>
 <body>
 <jsp:include page="navbar.jsp"/>
-
 <div align="center">
     <form method="post" action="/availableApartments">
         <input type="hidden" name="command" value="viewAvailable">
+        <input type="hidden" name="page" value="main">
         <input type="date" name="inDate" value="${todayDate}">
         <input type="date" name="outDate" value="${tomorrowDate}">
         <input type="submit" name="ok" value="${check}">
     </form>
 </div>
-
 <c:if test="${not empty datesValidationError}">
     <div align="center" class="alert alert-danger pt-2" role="alert">
             <fmt:message key="${datesValidationError}" bundle="${loc}"/>
     </div>
 </c:if>
-
 <div class="row pb-2">
     <div class="col-lg-2"></div>
     <div class="col-lg-8"><h3>${types}</h3></div>

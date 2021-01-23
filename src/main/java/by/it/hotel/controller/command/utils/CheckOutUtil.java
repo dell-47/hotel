@@ -11,13 +11,14 @@ public class CheckOutUtil {
 
     public static CheckOutData getCheckOutData(LocalDate inDate, LocalDate outDate, double apartCost) {
         Period period = Period.between(inDate, outDate);
-        int days = period.getDays();
+        int nights = period.getDays();
         BigDecimal cost = BigDecimal.valueOf(apartCost).setScale(2);
-        BigDecimal subtotalPrice = BigDecimal.valueOf(apartCost * days).setScale(2);
-        BigDecimal taxes = BigDecimal.valueOf(TAX_RATE * days).setScale(2);
+        BigDecimal subtotalPrice = BigDecimal.valueOf(apartCost * nights).setScale(2);
+        BigDecimal taxes = BigDecimal.valueOf(TAX_RATE * nights).setScale(2);
         BigDecimal totalPrice = subtotalPrice.add(taxes).setScale(2);
 
         CheckOutData checkOutData = new CheckOutData();
+        checkOutData.setNights(nights);
         checkOutData.setCost(cost);
         checkOutData.setSubtotalPrice(subtotalPrice);
         checkOutData.setTaxes(taxes);

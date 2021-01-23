@@ -1,12 +1,17 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <html>
 <head>
-    <title>Title</title>
+    <fmt:setLocale value="${sessionScope.locale}"/>
+    <fmt:setBundle basename="locale" var="loc"/>
+    <fmt:message bundle="${loc}" key="error" var="error"/>
+    <fmt:message bundle="${loc}" key="error_message" var="error_message"/>
+    <title>${error}</title>
 </head>
 <body>
 <jsp:include page="/WEB-INF/views/navbar.jsp"/>
 <div align="center" class="alert alert-danger pt-2" role="alert">
-    Oops, something went wrong!
+    ${error_message}
 </div>
 </body>
 </html>

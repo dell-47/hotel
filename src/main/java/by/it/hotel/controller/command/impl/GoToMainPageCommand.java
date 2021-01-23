@@ -13,6 +13,7 @@ import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
@@ -29,16 +30,22 @@ public class GoToMainPageCommand implements Command, SaveRequest {
         HotelService hotelService = serviceProvider.getHotelService();
         List<ApartType> apartList = null;
         String page = CommandConstants.MAIN_PAGE;
+        HttpSession session = request.getSession();
+        String locale = (String) session.getAttribute("locale");
+        if (locale == null) {
+            locale = Locale.getDefault().getLanguage();
+        }
 
         try {
-            apartList = hotelService.retrieveAllApartTypes();
+            apartList = hotelService.retrieveAllApartTypes(locale);
         } catch (ServiceException e) {
             logger.error(" error", e);
             page = CommandConstants.ERROR_PAGE;
         }
 
-        request.setAttribute("todayDate", LocalDate.now());
-        request.setAttribute("tomorrowDate", LocalDate.now().plusDays(1));
+//        DateTimeFormatter dtf = DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT).withLocale(new Locale(locale));
+        session.setAttribute("todayDate", LocalDate.now());
+        session.setAttribute("tomorrowDate", LocalDate.now().plusDays(1));
         request.setAttribute("apartList", apartList);
         RequestDispatcher requestDispatcher = request.getRequestDispatcher(page);
         requestDispatcher.forward(request, response);

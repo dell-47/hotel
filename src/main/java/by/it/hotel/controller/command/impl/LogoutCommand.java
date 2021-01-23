@@ -11,7 +11,7 @@ public class LogoutCommand implements Command {
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        request.getSession().invalidate();
+        request.getSession().removeAttribute("user");
         response.sendRedirect(CommandConstants.INDEX_PAGE);
     }
 }

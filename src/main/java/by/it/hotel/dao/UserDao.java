@@ -7,8 +7,8 @@ import java.util.List;
 public interface UserDao {
 
     User retrieveUser(String login) throws DaoException;
-    boolean createUser(User user) throws DaoException;
+    void createUser(User user) throws DaoException;
+    void updateUser(User user) throws DaoException;
     List<String> retrievePermissions() throws DaoException;
     List<String> retrievePermissions(int roleId) throws DaoException;
-
 }

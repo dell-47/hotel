@@ -14,6 +14,7 @@
     <fmt:message bundle="${loc}" key="signUp" var="signUp"/>
     <fmt:message bundle="${loc}" key="adminPage" var="adminPage"/>
     <fmt:message bundle="${loc}" key="profile" var="profile"/>
+    <fmt:message bundle="${loc}" key="bookings" var="bookings"/>
     <fmt:message bundle="${loc}" key="logout" var="logout"/>
 </head>
 <body>
@@ -66,6 +67,7 @@
                                             </c:when>
                                             <c:otherwise>
                                                 <a class="dropdown-item" href="/profile?command=profile">${profile}</a>
+                                                <a class="dropdown-item" href="/bookings?command=bookings">${bookings}</a>
                                             </c:otherwise>
                                         </c:choose>
                                         <a class="dropdown-item" href="/logout?command=logout">${logout}</a>

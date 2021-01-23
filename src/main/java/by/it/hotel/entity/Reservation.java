@@ -9,6 +9,7 @@ public class Reservation implements Serializable {
 
     private static final long serialVersionUID = -2553146891301276442L;
     private int id;
+    private int num;
     private int apartId;
     private int apartTypeId;
     private int user;
@@ -127,6 +128,14 @@ public class Reservation implements Serializable {
 
     public void setTaxes(BigDecimal taxes) {
         this.taxes = taxes;
+    }
+
+    public int getNum() {
+        return num;
+    }
+
+    public void setNum(int num) {
+        this.num = num;
     }
 
     @Override

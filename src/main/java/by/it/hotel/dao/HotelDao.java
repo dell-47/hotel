@@ -11,13 +11,13 @@ import java.util.List;
 
 public interface HotelDao {
     void createReservation(Reservation reservation) throws DaoException;
-    void updateReservation(int reservationId) throws DaoException;
+    void updateReservation(int reservationId, String cause) throws DaoException;
     void updateReservation(int reservationId, int apartId) throws DaoException;
     ApartType retrieveApartType(int id) throws DaoException;
     Invoice retrieveInvoice(int reservationId) throws DaoException;
     List<Apart> searchAparts(int id, LocalDate inDate, LocalDate outDate) throws DaoException;
-    List<ApartType> searchApartTypes(LocalDate inDate, LocalDate outDate) throws DaoException;
-    List<ApartType> retrieveAllApartTypes() throws DaoException;
+    List<ApartType> searchApartTypes(LocalDate inDate, LocalDate outDate, String locale) throws DaoException;
+    List<ApartType> retrieveAllApartTypes(String locale) throws DaoException;
     List<Reservation> searchReservations() throws DaoException;
     List<Reservation> searchReservations(int id) throws DaoException;
 }

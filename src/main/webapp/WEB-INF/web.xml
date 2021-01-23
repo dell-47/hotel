@@ -4,7 +4,6 @@
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
          version="4.0">
 
-
     <servlet>
         <servlet-name>Controller</servlet-name>
         <servlet-class>by.it.hotel.controller.HotelController</servlet-class>
@@ -12,9 +11,7 @@
     <servlet-mapping>
         <servlet-name>Controller</servlet-name>
         <url-pattern>/</url-pattern>
-
     </servlet-mapping>
-
 
     <filter>
         <filter-name>SecurityFilter</filter-name>
@@ -24,6 +21,5 @@
         <filter-name>SecurityFilter</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
-
 
 </web-app>

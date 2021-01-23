@@ -34,7 +34,7 @@ public class HotelServiceImpl implements HotelService {
     }
 
     @Override
-    public List<ApartType> searchApartTypes(LocalDate inDate, LocalDate outDate) throws ServiceException {
+    public List<ApartType> searchApartTypes(LocalDate inDate, LocalDate outDate, String locale) throws ServiceException {
 
         if (!DatesValidator.isCorrectDates(inDate, outDate)) {
             logger.info("Dates validation error");
@@ -43,7 +43,7 @@ public class HotelServiceImpl implements HotelService {
 
         List<ApartType> typeList;
         try {
-            typeList = hotelDao.searchApartTypes(inDate, outDate);
+            typeList = hotelDao.searchApartTypes(inDate, outDate, locale);
         } catch (DaoException e) {
             logger.error(e);
             throw new ServiceException(e);
@@ -52,10 +52,10 @@ public class HotelServiceImpl implements HotelService {
     }
 
     @Override
-    public List<ApartType> retrieveAllApartTypes() throws ServiceException {
+    public List<ApartType> retrieveAllApartTypes(String locale) throws ServiceException {
         List<ApartType> typeList;
         try {
-            typeList = hotelDao.retrieveAllApartTypes();
+            typeList = hotelDao.retrieveAllApartTypes(locale);
         } catch (DaoException e) {
             logger.error(e);
             throw new ServiceException(e);
@@ -140,9 +140,9 @@ public class HotelServiceImpl implements HotelService {
     }
 
     @Override
-    public void updateReservation(int reservationId) throws ServiceException {
+    public void updateReservation(int reservationId, String cause) throws ServiceException {
         try {
-            hotelDao.updateReservation(reservationId);
+            hotelDao.updateReservation(reservationId, cause);
         } catch (DaoException e) {
             logger.error(e);
             throw new ServiceException(e);

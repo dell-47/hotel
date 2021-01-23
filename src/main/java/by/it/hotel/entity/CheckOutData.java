@@ -5,12 +5,22 @@ import java.math.BigDecimal;
 
 public class CheckOutData implements Serializable {
     private static final long serialVersionUID = 3761428628383917818L;
+
+    private int nights;
     private BigDecimal cost;
     private BigDecimal subtotalPrice;
     private BigDecimal taxes;
     private BigDecimal totalPrice;
 
     public CheckOutData(){}
+
+    public int getNights() {
+        return nights;
+    }
+
+    public void setNights(int nights) {
+        this.nights = nights;
+    }
 
     public BigDecimal getCost() {
         return cost;

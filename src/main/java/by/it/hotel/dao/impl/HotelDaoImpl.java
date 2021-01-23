@@ -20,9 +20,10 @@ public class HotelDaoImpl implements HotelDao {
     private static final Logger logger = LogManager.getLogger(HotelDaoImpl.class);
     private final ConnectionPool pool = ConnectionPool.getInstance();
 
-    private static final String STATE_PAID = "paid";
-    private static final String STATE_CONFIRMED = "confirmed";
-    private static final String STATE_PROCESSING = "processing";
+    private static final String STATE_CANCELED = "state_canceled";
+    private static final String STATE_CONFIRMED = "state_confirmed";
+    private static final String STATE_PROCESSING = "state_processing";
+    private static final String STATE_DECLINED = "state_declined";
     private static final String RETRIEVE_ALL_APART_TYPES_QUERY = "SELECT * FROM aparts_types";
     private static final String RETRIEVE_APART_TYPE_QUERY = "SELECT * FROM aparts_types WHERE id=?";
     private static final String SEARCH_RESERVATIONS_BY_ID_QUERY = "SELECT * FROM reservations WHERE user_id=?";
@@ -31,8 +32,8 @@ public class HotelDaoImpl implements HotelDao {
     private static final String UPDATE_RESERVATION_QUERY = "UPDATE reservations SET apart_id = ?, state = ? WHERE id=?";
     private static final String UPDATE_RESERVATION_STATE_QUERY = "UPDATE reservations SET state = ? WHERE id=?";
     private static final String RETRIEVE_INVOICE_QUERY = "SELECT * FROM reservations r LEFT JOIN aparts_types t ON r.apart_type = t.id WHERE r.id = ?";
-    private static final String SEARCH_APART_TYPES_QUERY = "SELECT * FROM aparts_types t LEFT JOIN aparts a ON t.id = a.type WHERE a.id NOT IN (SELECT apart_id FROM reservations r WHERE r.state != ? AND (((r.in_date >= ?) AND (r.in_date < ?)) OR ((r.out_date > ?) AND (r.out_date <= ?)))) GROUP BY t.type ORDER BY t.id ";
-    private static final String SEARCH_APARTS_QUERY = "SELECT * FROM aparts WHERE type = ? and id not in (SELECT distinct apart_id from reservations r WHERE r.state != ? AND (((r.in_date >= ?) and (r.in_date < ?)) or ((r.out_date > ?) and (r.out_date <= ?))))";
+    private static final String SEARCH_APART_TYPES_QUERY = "SELECT * FROM aparts_types t LEFT JOIN aparts a ON t.id = a.type WHERE a.id NOT IN (SELECT apart_id FROM reservations r WHERE r.state != ? AND r.state != ? AND r.state != ? AND (((r.in_date >= ?) AND (r.in_date < ?)) OR ((r.out_date > ?) AND (r.out_date <= ?)))) GROUP BY t.type ORDER BY t.id ";
+    private static final String SEARCH_APARTS_QUERY = "SELECT * FROM aparts WHERE type = ? and id not in (SELECT distinct apart_id from reservations r WHERE r.state != ? AND r.state != ? AND r.state != ? AND (((r.in_date >= ?) and (r.in_date < ?)) or ((r.out_date > ?) and (r.out_date <= ?))))";
 
     @Override
     public void createReservation(Reservation reservation) throws DaoException {
@@ -62,7 +63,7 @@ public class HotelDaoImpl implements HotelDao {
     }
 
     @Override
-    public List<ApartType> searchApartTypes(LocalDate inDate, LocalDate outDate) throws DaoException {
+    public List<ApartType> searchApartTypes(LocalDate inDate, LocalDate outDate, String locale) throws DaoException {
         Connection con = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -72,18 +73,19 @@ public class HotelDaoImpl implements HotelDao {
             ps = con.prepareStatement(SEARCH_APART_TYPES_QUERY);
 
             ps.setString(1, STATE_PROCESSING);
-            ps.setDate(2, java.sql.Date.valueOf(inDate));
-            ps.setDate(3, java.sql.Date.valueOf(outDate));
+            ps.setString(2, STATE_CANCELED);
+            ps.setString(3, STATE_DECLINED);
             ps.setDate(4, java.sql.Date.valueOf(inDate));
             ps.setDate(5, java.sql.Date.valueOf(outDate));
-
+            ps.setDate(6, java.sql.Date.valueOf(inDate));
+            ps.setDate(7, java.sql.Date.valueOf(outDate));
             rs = ps.executeQuery();
             while (rs.next()) {
                 ApartType type = new ApartType();
                 type.setId(rs.getInt("id"));
                 type.setPrice(rs.getDouble("price"));
                 type.setType(rs.getString("type"));
-                type.setDescription(rs.getString("description"));
+                type.setDescription(rs.getString("description_" + locale));
                 type.setImage(rs.getString("image"));
                 list.add(type);
             }
@@ -97,7 +99,7 @@ public class HotelDaoImpl implements HotelDao {
     }
 
     @Override
-    public List<ApartType> retrieveAllApartTypes() throws DaoException {
+    public List<ApartType> retrieveAllApartTypes(String locale) throws DaoException {
         Connection con = null;
         Statement st = null;
         ResultSet rs = null;
@@ -111,7 +113,7 @@ public class HotelDaoImpl implements HotelDao {
                 type.setId(rs.getInt("id"));
                 type.setType(rs.getString("type"));
                 type.setPrice(rs.getDouble("price"));
-                type.setDescription(rs.getString("description"));
+                type.setDescription(rs.getString("description_" + locale));
                 type.setImage(rs.getString("image"));
                 list.add(type);
             }
@@ -143,7 +145,7 @@ public class HotelDaoImpl implements HotelDao {
                 apartType.setId(rs.getInt("id"));
                 apartType.setType(rs.getString("type"));
                 apartType.setPrice(rs.getDouble("price"));
-                apartType.setDescription(rs.getString("description"));
+              //  apartType.setDescription(rs.getString("description"));
                 apartType.setImage(rs.getString("image"));
             }
         } catch (SQLException e) {
@@ -161,6 +163,7 @@ public class HotelDaoImpl implements HotelDao {
         PreparedStatement ps = null;
         ResultSet rs = null;
         List<Reservation> list = new ArrayList<>();
+        int num = 1;
         try {
             con = pool.takeConnection();
             ps = con.prepareStatement(SEARCH_RESERVATIONS_BY_ID_QUERY);
@@ -169,6 +172,7 @@ public class HotelDaoImpl implements HotelDao {
             while (rs.next()) {
                 Reservation reservation = new Reservation();
                 reservation.setId(rs.getInt("id"));
+                reservation.setNum(num++);
                 reservation.setInDate(rs.getDate("in_date").toLocalDate());
                 reservation.setOutDate(rs.getDate("out_date").toLocalDate());
                 reservation.setState(rs.getString("state"));
@@ -231,10 +235,12 @@ public class HotelDaoImpl implements HotelDao {
             ps = con.prepareStatement(SEARCH_APARTS_QUERY);
             ps.setInt(1, id);
             ps.setString(2, STATE_PROCESSING);
-            ps.setDate(3, java.sql.Date.valueOf(inDate));
-            ps.setDate(4, java.sql.Date.valueOf(outDate));
+            ps.setString(3, STATE_CANCELED);
+            ps.setString(4, STATE_DECLINED);
             ps.setDate(5, java.sql.Date.valueOf(inDate));
             ps.setDate(6, java.sql.Date.valueOf(outDate));
+            ps.setDate(7, java.sql.Date.valueOf(inDate));
+            ps.setDate(8, java.sql.Date.valueOf(outDate));
             rs = ps.executeQuery();
             while (rs.next()) {
                 Apart apart = new Apart();
@@ -303,13 +309,13 @@ public class HotelDaoImpl implements HotelDao {
     }
 
     @Override
-    public void updateReservation(int reservationId) throws DaoException {
+    public void updateReservation(int reservationId, String cause) throws DaoException {
         Connection con = null;
         PreparedStatement ps = null;
         try {
             con = pool.takeConnection();
             ps = con.prepareStatement(UPDATE_RESERVATION_STATE_QUERY);
-            ps.setString(1, STATE_PAID);
+            ps.setString(1, cause);
             ps.setInt(2, reservationId);
             ps.executeUpdate();
         } catch (SQLException e) {

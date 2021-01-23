@@ -17,93 +17,70 @@
     <fmt:message bundle="${loc}" key="subtotal" var="subtotal"/>
     <fmt:message bundle="${loc}" key="taxes" var="taxes"/>
     <fmt:message bundle="${loc}" key="total" var="total"/>
-    <fmt:message bundle="${loc}" key="submit" var="submit"/>
+    <fmt:message bundle="${loc}" key="nights" var="nights"/>
+    <fmt:message bundle="${loc}" key="book" var="book"/>
+    <fmt:message bundle="${loc}" key="back" var="back"/>
 </head>
 <body>
 <jsp:include page="navbar.jsp"/>
-<div class="col-sm-3 offset-sm-4">
-    <form method="post" action="/book">
+<div class="row pb-3">
+    <div class="col-2"></div>
+    <div class="col-8"><h3>${review_booking}</h3></div>
+</div>
+<div class="row">
+    <div class="col-2"></div>
+    <div class="col-8">
         <div class="card">
-            <div class="card-header">
-                ${review_booking}
-            </div>
-            <div class="card-body">
-                <input type="hidden" name="command" value="book">
-<%--                <input type="hidden" name="apartId" value="${apart.id}">
-                <input type="hidden" name="userId" value="${user.id}">
-                <input type="hidden" name="inDate" value="${inDate}">
-                <input type="hidden" name="outDate" value="${outDate}">--%>
-                <div class="row my-2">
-                    <div class="col-sm-6">
-                        <p class="card-text">${apartment}:</p>
-                    </div>
-                    <div class="col">
-                        <p class="card-text">${apart.type}</p>
+            <div class="row no-gutters">
+                <div class="col-3 p-2">
+                    <a target='_blank'><img class="img-fluid" src='${apart.image}' border='0' alt='image'/></a>
+                </div>
+                <div class="col-2 mt-2 border-left">
+                    <div class="card-body">
+                        <h5 class="font-weight-normal py-1">${apartment}:</h5>
+                        <h5 class="font-weight-normal py-1">${nights}:</h5>
+                        <h5 class="font-weight-normal py-1">${check_in_date}:</h5>
+                        <h5 class="font-weight-normal py-1">${check_out_date}:</h5>
                     </div>
                 </div>
-                <div class="row my-2">
-                    <div class="col-sm-6">
-                        <p class="card-text">${check_in_date}:</p>
-                    </div>
-                    <div class="col">
-                        <p class="card-text">${inDate}</p>
-                    </div>
-                </div>
-                <div class="row my-2">
-                    <div class="col-sm-6">
-                        <p class="card-text">${check_out_date}:</p>
-                    </div>
-                    <div class="col">
-                        <p class="card-text">${outDate}</p>
+                <div class="col-2 mt-2 border-right">
+                    <div class="card-body">
+                        <h5 class="py-1">${apart.type}</h5>
+                        <h5 class="py-1">${checkOutData.nights}</h5>
+                        <h5 class="py-1">${inDate}</h5>
+                        <h5 class="py-1">${outDate}</h5>
                     </div>
                 </div>
-
-            </div>
-        </div>
-        <div class="card mt-3">
-            <div class="card-header">
-                ${price_summary}
-            </div>
-            <div class="card-body">
-                <div class="row my-2">
-                    <div class="col-sm-6">
-                        <p class="card-text">${cost}:</p>
-                    </div>
-                    <div class="col-sm-6">
-                        <p class="card-text">$ ${checkOutData.cost}</p>
+                <div class="col-3 mt-2">
+                    <div class="card-body">
+                        <h5 class="font-weight-normal py-1">${cost}:</h5>
+                        <h5 class="font-weight-normal py-1">${subtotal}:</h5>
+                        <h5 class="font-weight-normal py-1">${taxes}:</h5>
+                        <h5 class="font-weight-bold py-1">${total}:</h5>
                     </div>
                 </div>
-                <div class="row my-2">
-                    <div class="col-sm-6">
-                        <p class="card-text">${subtotal}:</p>
-                    </div>
-                    <div class="col-sm-6 justify-content-end">
-                        <p class="card-text">$ ${checkOutData.subtotalPrice}</p>
-                    </div>
-                </div>
-                <div class="row my-2">
-                    <div class="col-sm-6">
-                        <p class="card-text">${taxes}:</p>
-                    </div>
-                    <div class="col-sm-6">
-                        <p class="card-text">$ ${checkOutData.taxes}</p>
-                    </div>
-                </div>
-                <div class="row my-2">
-                    <div class="col-sm-6">
-                        <p class="card-text"><b>${total}:</b></p>
-                    </div>
-                    <div class="col-sm-6 justify-content-end">
-                        <p class="card-text"><b>$ ${checkOutData.totalPrice}</b></p>
+                <div class="col-2 mt-2">
+                    <div class="card-body">
+                        <h5 class="py-1">$ ${checkOutData.cost}</h5>
+                        <h5 class="py-1">$ ${checkOutData.subtotalPrice}</h5>
+                        <h5 class="py-1">$ ${checkOutData.taxes}</h5>
+                        <h5 class="font-weight-bold py-1">$ ${checkOutData.totalPrice}</h5>
                     </div>
                 </div>
             </div>
         </div>
-        <br>
-        <div class="col text-center">
-            <button type="submit" class="btn btn-primary mr-2 w-50 justify-content-center">${submit}</button>
-        </div>
-    </form>
+    </div>
+</div>
+<br><br>
+<div class="row">
+    <div class="col-2"></div>
+    <div class="col-2">
+        <button type="button" class="btn btn-secondary w-50" onclick="history.back()">${back}</button>
+    </div>
+    <div class="col-4"></div>
+    <div class="col-2">
+        <a href="/book?command=book" class="btn btn-primary float-right w-50">${book}</a>
+    </div>
 </div>
 </body>
 </html>

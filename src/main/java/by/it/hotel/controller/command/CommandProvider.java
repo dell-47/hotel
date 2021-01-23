@@ -27,6 +27,13 @@ public class CommandProvider {
         commands.put("goToMainPage", new GoToMainPageCommand());
         commands.put("successfulAction", new GoToSuccessfulActionPageCommand());
         commands.put("changeLocale", new ChangeLocaleCommand());
+        commands.put("bookings", new UserBookingsCommand());
+        commands.put("editProfile", new EditProfileCommand());
+        commands.put("saveProfile", new SaveProfileCommand());
+        commands.put("cancelBooking", new CancelBookingCommand());
+        commands.put("declineBooking", new DeclineBookingCommand());
+        commands.put("page", new PaginationCommand());
+        commands.put("changeOrder", new ChangeOrderCommand());
     }
 
 

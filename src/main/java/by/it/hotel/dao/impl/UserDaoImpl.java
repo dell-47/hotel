@@ -16,26 +16,25 @@ public class UserDaoImpl implements UserDao {
     private final ConnectionPool pool = ConnectionPool.getInstance();
 
     private static final String CREATE_USER_QUERY = "INSERT INTO users (login, password, first_name, last_name, email, role) VALUES (?,?,?,?,?,?)";
+    private static final String UPDATE_USER_QUERY = "UPDATE users SET first_name = ?, last_name = ?, email = ? WHERE id = ?";
     private static final String RETRIEVE_USER_QUERY = "SELECT * FROM users WHERE login = ?";
+    private static final String RETRIEVE_USER_BY_ID_QUERY = "SELECT * FROM users WHERE id = ?";
     private static final String RETRIEVE_ROLE_PERMISSIONS_QUERY = "SELECT pattern FROM roles r LEFT JOIN permissions p ON r.id = p.role WHERE r.id = ?";
     private static final String RETRIEVE_ALL_PERMISSIONS_QUERY = "SELECT pattern FROM permissions";
 
     @Override
-    public boolean createUser(User user) throws DaoException {
+    public void createUser(User user) throws DaoException {
         Connection con = null;
         PreparedStatement ps = null;
-
         try {
             con = pool.takeConnection();
             ps = con.prepareStatement(CREATE_USER_QUERY);
-
             ps.setString(1, user.getLogin());
             ps.setString(2, user.getPassword());
             ps.setString(3, user.getFirstName());
             ps.setString(4, user.getLastName());
             ps.setString(5, user.getEmail());
             ps.setInt(6, user.getRole());
-
             ps.executeUpdate();
         } catch (SQLException e) {
             logger.error(e);
@@ -43,7 +42,26 @@ public class UserDaoImpl implements UserDao {
         } finally {
             pool.closeConnection(con, ps);
         }
-        return true;
+    }
+
+    @Override
+    public void updateUser(User user) throws DaoException {
+        Connection con = null;
+        PreparedStatement ps = null;
+        try {
+            con = pool.takeConnection();
+            ps = con.prepareStatement(UPDATE_USER_QUERY);
+            ps.setString(1, user.getFirstName());
+            ps.setString(2, user.getLastName());
+            ps.setString(3, user.getEmail());
+            ps.setInt(4, user.getId());
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            logger.error(e);
+            throw new DaoException(e);
+        } finally {
+            pool.closeConnection(con, ps);
+        }
     }
 
     @Override

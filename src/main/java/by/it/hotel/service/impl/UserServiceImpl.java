@@ -30,15 +30,23 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean createUser(User user) throws ServiceException {
-        boolean registration;
+    public void createUser(User user) throws ServiceException {
         try {
-            registration = userDao.createUser(user);
+            userDao.createUser(user);
         } catch (DaoException e) {
             logger.error(e);
             throw new ServiceException(e);
         }
-        return registration;
+    }
+
+    @Override
+    public void updateUser(User user) throws ServiceException {
+        try {
+            userDao.updateUser(user);
+        } catch (DaoException e) {
+            logger.error(e);
+            throw new ServiceException(e);
+        }
     }
 
     @Override
