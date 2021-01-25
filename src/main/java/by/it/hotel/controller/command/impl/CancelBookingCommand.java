@@ -20,13 +20,21 @@ public class CancelBookingCommand implements Command {
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         ServiceProvider serviceProvider = ServiceProvider.getInstance();
         HotelService hotelService = serviceProvider.getHotelService();
-        int reservationId = Integer.parseInt(request.getParameter("reservationId"));
         String page = CommandConstants.GO_TO_ACCOUNT_PAGE;
+        int reservationId = 0;
+
+        try {
+            reservationId = Integer.parseInt(request.getParameter("reservationId"));
+        } catch (NumberFormatException e) {
+            logger.error("Invalid request parameters", e);
+            response.sendRedirect(CommandConstants.ERROR_PAGE);
+            return;
+        }
 
         try {
             hotelService.updateReservation(reservationId, CommandConstants.STATE_CANCELED);
         } catch (ServiceException e) {
-            logger.error(e);
+            logger.error("Booking cancellation error", e);
             page = CommandConstants.ERROR_PAGE;
         }
         response.sendRedirect(page);

@@ -17,7 +17,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class HotelDaoImpl implements HotelDao {
-    private static final Logger logger = LogManager.getLogger(HotelDaoImpl.class);
     private final ConnectionPool pool = ConnectionPool.getInstance();
 
     private static final String STATE_CANCELED = "state_canceled";
@@ -55,7 +54,6 @@ public class HotelDaoImpl implements HotelDao {
 
             ps.executeUpdate();
         } catch (SQLException e) {
-            logger.error(e);
             throw new DaoException(e);
         } finally {
             pool.closeConnection(con, ps);
@@ -90,7 +88,6 @@ public class HotelDaoImpl implements HotelDao {
                 list.add(type);
             }
         } catch (SQLException e) {
-            logger.error(e);
             throw new DaoException(e);
         } finally {
             pool.closeConnection(con, ps, rs);
@@ -118,7 +115,6 @@ public class HotelDaoImpl implements HotelDao {
                 list.add(type);
             }
         } catch (SQLException e) {
-            logger.error(e);
             throw new DaoException(e);
         } finally {
             pool.closeConnection(con, st, rs);
@@ -129,7 +125,6 @@ public class HotelDaoImpl implements HotelDao {
 
     @Override
     public ApartType retrieveApartType(int id) throws DaoException {
-
         Connection con = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -145,11 +140,9 @@ public class HotelDaoImpl implements HotelDao {
                 apartType.setId(rs.getInt("id"));
                 apartType.setType(rs.getString("type"));
                 apartType.setPrice(rs.getDouble("price"));
-              //  apartType.setDescription(rs.getString("description"));
                 apartType.setImage(rs.getString("image"));
             }
         } catch (SQLException e) {
-            logger.error(e);
             throw new DaoException(e);
         } finally {
             pool.closeConnection(con, ps, rs);
@@ -182,7 +175,6 @@ public class HotelDaoImpl implements HotelDao {
                 list.add(reservation);
             }
         } catch (SQLException e) {
-            logger.error(e);
             throw new DaoException(e);
         } finally {
             pool.closeConnection(con, ps, rs);
@@ -216,7 +208,6 @@ public class HotelDaoImpl implements HotelDao {
                 list.add(reservation);
             }
         } catch (SQLException e) {
-            logger.error(e);
             throw new DaoException(e);
         } finally {
             pool.closeConnection(con, ps, rs);
@@ -249,7 +240,6 @@ public class HotelDaoImpl implements HotelDao {
                 list.add(apart);
             }
         } catch (SQLException e) {
-            logger.error(e);
             throw new DaoException(e);
         } finally {
             pool.closeConnection(con, ps, rs);
@@ -269,7 +259,6 @@ public class HotelDaoImpl implements HotelDao {
             ps.setInt(3, reservationId);
             ps.executeUpdate();
         } catch (SQLException e) {
-            logger.error(e);
             throw new DaoException(e);
         } finally {
             pool.closeConnection(con, ps);
@@ -300,7 +289,6 @@ public class HotelDaoImpl implements HotelDao {
                 invoice.setTotalPrice(rs.getBigDecimal("total_price"));
             }
         } catch (SQLException e) {
-            logger.error(e);
             throw new DaoException(e);
         } finally {
             pool.closeConnection(con, ps, rs);
@@ -319,7 +307,6 @@ public class HotelDaoImpl implements HotelDao {
             ps.setInt(2, reservationId);
             ps.executeUpdate();
         } catch (SQLException e) {
-            logger.error(e);
             throw new DaoException(e);
         } finally {
             pool.closeConnection(con, ps);

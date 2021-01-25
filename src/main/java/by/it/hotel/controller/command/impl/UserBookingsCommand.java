@@ -36,7 +36,13 @@ public class UserBookingsCommand implements Command, SaveRequest {
         HttpSession session = request.getSession();
         int pageNumber = FIRST_PAGE;
         if (request.getParameter("pageNumber") != null) {
-            pageNumber = Integer.parseInt(request.getParameter("pageNumber"));
+            try {
+                pageNumber = Integer.parseInt(request.getParameter("pageNumber"));
+            } catch (NumberFormatException e) {
+                logger.error("Invalid request parameters", e);
+                response.sendRedirect(CommandConstants.ERROR_PAGE);
+                return;
+            }
         }
 
         List<Reservation> userReservationList = null;
@@ -46,7 +52,7 @@ public class UserBookingsCommand implements Command, SaveRequest {
         try {
             userReservationList = hotelService.searchReservations(user.getId());
         } catch (ServiceException e) {
-            logger.error(e);
+            logger.error("Search user bookings error", e);
             page = ERROR_PAGE;
         }
 

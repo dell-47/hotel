@@ -14,7 +14,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ResourceBundle;
 
 import static by.it.hotel.controller.command.impl.CommandConstants.*;
 
@@ -24,7 +23,6 @@ public class AuthCommand implements Command {
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
         String login = request.getParameter(USERNAME);
         String password = request.getParameter(PASSWORD);
         ServiceProvider serviceProvider = ServiceProvider.getInstance();
@@ -35,7 +33,8 @@ public class AuthCommand implements Command {
         try {
             user = userService.retrieveUser(login);
         } catch (ServiceException e) {
-            logger.error(e);
+            logger.error("Authentication error", e);
+            page = ERROR_PAGE;
         }
 
         if (user == null || !BCrypt.checkpw(password, user.getPassword())) {

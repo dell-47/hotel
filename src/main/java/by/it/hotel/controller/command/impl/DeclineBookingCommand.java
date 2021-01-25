@@ -19,13 +19,21 @@ public class DeclineBookingCommand implements Command {
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         ServiceProvider serviceProvider = ServiceProvider.getInstance();
         HotelService hotelService = serviceProvider.getHotelService();
-        int reservationId = Integer.parseInt(request.getParameter("reservationId"));
         String page = CommandConstants.GO_TO_ADMIN_PAGE;
+        int reservationId = 0;
+
+        try {
+            reservationId = Integer.parseInt(request.getParameter("reservationId"));
+        } catch (NumberFormatException e) {
+            logger.error("Invalid request parameters", e);
+            response.sendRedirect(CommandConstants.ERROR_PAGE);
+            return;
+        }
 
         try {
             hotelService.updateReservation(reservationId, CommandConstants.STATE_DECLINED);
         } catch (ServiceException e) {
-            logger.error(e);
+            logger.error("Decline booking error", e);
             page = CommandConstants.ERROR_PAGE;
         }
         response.sendRedirect(page);

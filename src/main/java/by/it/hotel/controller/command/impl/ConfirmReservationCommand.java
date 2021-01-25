@@ -17,17 +17,25 @@ public class ConfirmReservationCommand implements Command {
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
-
         ServiceProvider serviceProvider = ServiceProvider.getInstance();
         HotelService hotelService = serviceProvider.getHotelService();
-        int reservationId = Integer.parseInt(request.getParameter("reservationId"));
-        int apartId = Integer.parseInt(request.getParameter("apartId"));
         String page = CommandConstants.GO_TO_ADMIN_PAGE;
+        int apartId = 0;
+        int reservationId = 0;
+
+        try {
+            reservationId = Integer.parseInt(request.getParameter("reservationId"));
+            apartId = Integer.parseInt(request.getParameter("apartId"));
+        } catch (NumberFormatException e) {
+            logger.error("Invalid request parameters", e);
+            response.sendRedirect(CommandConstants.ERROR_PAGE);
+            return;
+        }
 
         try {
             hotelService.updateReservation(reservationId, apartId);
         } catch (ServiceException e) {
-            logger.error(e);
+            logger.error("Booking confirmation error",e);
             page = CommandConstants.ERROR_PAGE;
         }
 

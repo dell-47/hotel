@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 
 
 public class CheckoutCommand implements Command, SaveRequest {
@@ -28,22 +29,34 @@ public class CheckoutCommand implements Command, SaveRequest {
         saveRequest(request);
         ServiceProvider serviceProvider = ServiceProvider.getInstance();
         HotelService hotelService = serviceProvider.getHotelService();
+        int apartTypeId = 0;
         ApartType apartType = null;
-        int apartTypeId = Integer.parseInt(request.getParameter("id"));
+        LocalDate inDate = null;
+        LocalDate outDate = null;
+        String page = CommandConstants.CHECKOUT_PAGE;
+
+        try {
+            inDate = LocalDate.parse(request.getParameter("inDate"));
+            outDate = LocalDate.parse(request.getParameter("outDate"));
+            apartTypeId = Integer.parseInt(request.getParameter("id"));
+        } catch (DateTimeParseException | NumberFormatException e) {
+            logger.error("Invalid request parameters", e);
+            response.sendRedirect(CommandConstants.ERROR_PAGE);
+            return;
+        }
 
         try {
             apartType = hotelService.retrieveApartType(apartTypeId);
         } catch (ServiceException e) {
             logger.error("Checkout error", e);
+            page = CommandConstants.ERROR_PAGE;
         }
 
         HttpSession session = request.getSession();
-        LocalDate inDate = LocalDate.parse(request.getParameter("inDate"));
-        LocalDate outDate = LocalDate.parse(request.getParameter("outDate"));
         CheckOutData checkOutData = CheckOutUtil.getCheckOutData(inDate, outDate, apartType.getPrice());
         session.setAttribute("apart", apartType);
         session.setAttribute("checkOutData", checkOutData);
-        RequestDispatcher requestDispatcher = request.getRequestDispatcher(CommandConstants.CHECKOUT_PAGE);
+        RequestDispatcher requestDispatcher = request.getRequestDispatcher(page);
         requestDispatcher.forward(request, response);
     }
 }

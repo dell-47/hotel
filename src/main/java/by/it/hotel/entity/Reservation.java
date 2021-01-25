@@ -23,15 +23,8 @@ public class Reservation implements Serializable {
     private BigDecimal totalPrice;
     private BigDecimal taxes;
 
-    public LocalDateTime getTime() {
-        return time;
-    }
-
-    public void setTime(LocalDateTime time) {
-        this.time = time;
-    }
-
     public Reservation() {
+
     }
 
     public int getId() {
@@ -40,6 +33,14 @@ public class Reservation implements Serializable {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public int getNum() {
+        return num;
+    }
+
+    public void setNum(int num) {
+        this.num = num;
     }
 
     public int getApartId() {
@@ -90,6 +91,14 @@ public class Reservation implements Serializable {
         this.outDate = outDate;
     }
 
+    public LocalDateTime getTime() {
+        return time;
+    }
+
+    public void setTime(LocalDateTime time) {
+        this.time = time;
+    }
+
     public String getApartType() {
         return apartType;
     }
@@ -130,14 +139,6 @@ public class Reservation implements Serializable {
         this.taxes = taxes;
     }
 
-    public int getNum() {
-        return num;
-    }
-
-    public void setNum(int num) {
-        this.num = num;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -146,6 +147,7 @@ public class Reservation implements Serializable {
         Reservation that = (Reservation) o;
 
         if (id != that.id) return false;
+        if (num != that.num) return false;
         if (apartId != that.apartId) return false;
         if (apartTypeId != that.apartTypeId) return false;
         if (user != that.user) return false;
@@ -154,7 +156,7 @@ public class Reservation implements Serializable {
         if (!outDate.equals(that.outDate)) return false;
         if (!time.equals(that.time)) return false;
         if (!apartType.equals(that.apartType)) return false;
-        if (state != null ? !state.equals(that.state) : that.state != null) return false;
+        if (!state.equals(that.state)) return false;
         if (!subtotalPrice.equals(that.subtotalPrice)) return false;
         if (!totalPrice.equals(that.totalPrice)) return false;
         return taxes.equals(that.taxes);
@@ -163,6 +165,7 @@ public class Reservation implements Serializable {
     @Override
     public int hashCode() {
         int result = id;
+        result = 31 * result + num;
         result = 31 * result + apartId;
         result = 31 * result + apartTypeId;
         result = 31 * result + user;
@@ -171,10 +174,30 @@ public class Reservation implements Serializable {
         result = 31 * result + outDate.hashCode();
         result = 31 * result + time.hashCode();
         result = 31 * result + apartType.hashCode();
-        result = 31 * result + (state != null ? state.hashCode() : 0);
+        result = 31 * result + state.hashCode();
         result = 31 * result + subtotalPrice.hashCode();
         result = 31 * result + totalPrice.hashCode();
         result = 31 * result + taxes.hashCode();
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "Reservation{" +
+                "id=" + id +
+                ", num=" + num +
+                ", apartId=" + apartId +
+                ", apartTypeId=" + apartTypeId +
+                ", user=" + user +
+                ", invoice=" + invoice +
+                ", inDate=" + inDate +
+                ", outDate=" + outDate +
+                ", time=" + time +
+                ", apartType='" + apartType + '\'' +
+                ", state='" + state + '\'' +
+                ", subtotalPrice=" + subtotalPrice +
+                ", totalPrice=" + totalPrice +
+                ", taxes=" + taxes +
+                '}';
     }
 }

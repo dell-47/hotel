@@ -30,7 +30,7 @@ public class CreateUserCommand implements Command {
         user.setFirstName(request.getParameter(FIRST_NAME));
         user.setLastName(request.getParameter(LAST_NAME));
         user.setEmail(request.getParameter(EMAIL));
-        user.setLogin(username);
+        user.setUsername(username);
         user.setPassword(BCrypt.hashpw(request.getParameter(PASSWORD), BCrypt.gensalt()));
         user.setRole(ROLE_USER);
 
@@ -45,7 +45,7 @@ public class CreateUserCommand implements Command {
                 requestDispatcher.forward(request, response);
             }
         } catch (ServiceException e) {
-            logger.error(e);
+            logger.error("User creation error", e);
             response.sendRedirect(ERROR_PAGE);
         }
     }

@@ -34,7 +34,7 @@ public class SaveProfileCommand implements Command {
         try {
             userService.updateUser(updatedUser);
         } catch (ServiceException e) {
-            logger.error(e);
+            logger.error("Updating user profile error", e);
             response.sendRedirect(ERROR_PAGE);
         }
 

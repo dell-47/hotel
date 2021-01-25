@@ -4,15 +4,13 @@ import by.it.hotel.dao.DaoException;
 import by.it.hotel.dao.UserDao;
 import by.it.hotel.dao.pool.ConnectionPool;
 import by.it.hotel.entity.User;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class UserDaoImpl implements UserDao {
-    private static final Logger logger = LogManager.getLogger(UserDaoImpl.class);
+
     private final ConnectionPool pool = ConnectionPool.getInstance();
 
     private static final String CREATE_USER_QUERY = "INSERT INTO users (login, password, first_name, last_name, email, role) VALUES (?,?,?,?,?,?)";
@@ -29,7 +27,7 @@ public class UserDaoImpl implements UserDao {
         try {
             con = pool.takeConnection();
             ps = con.prepareStatement(CREATE_USER_QUERY);
-            ps.setString(1, user.getLogin());
+            ps.setString(1, user.getUsername());
             ps.setString(2, user.getPassword());
             ps.setString(3, user.getFirstName());
             ps.setString(4, user.getLastName());
@@ -37,7 +35,6 @@ public class UserDaoImpl implements UserDao {
             ps.setInt(6, user.getRole());
             ps.executeUpdate();
         } catch (SQLException e) {
-            logger.error(e);
             throw new DaoException(e);
         } finally {
             pool.closeConnection(con, ps);
@@ -57,7 +54,6 @@ public class UserDaoImpl implements UserDao {
             ps.setInt(4, user.getId());
             ps.executeUpdate();
         } catch (SQLException e) {
-            logger.error(e);
             throw new DaoException(e);
         } finally {
             pool.closeConnection(con, ps);
@@ -86,7 +82,6 @@ public class UserDaoImpl implements UserDao {
             }
 
         } catch (SQLException e) {
-            logger.error(e);
             throw new DaoException(e);
         } finally {
             pool.closeConnection(con, ps, rs);
@@ -109,7 +104,6 @@ public class UserDaoImpl implements UserDao {
                 userPermissions.add(rs.getString("pattern"));
             }
         } catch (SQLException e) {
-            logger.error(e);
             throw new DaoException(e);
         } finally {
             pool.closeConnection(con, ps, rs);
@@ -131,7 +125,6 @@ public class UserDaoImpl implements UserDao {
                 permissions.add(rs.getString("pattern"));
             }
         } catch (SQLException e) {
-            logger.error(e);
             throw new DaoException(e);
         } finally {
             pool.closeConnection(con, st, rs);

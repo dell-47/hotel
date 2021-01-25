@@ -24,14 +24,22 @@ public class InvoiceCommand implements Command, SaveRequest {
         saveRequest(request);
         ServiceProvider serviceProvider = ServiceProvider.getInstance();
         HotelService hotelService = serviceProvider.getHotelService();
-        int reservationId = Integer.parseInt(request.getParameter("reservationId"));
-        Invoice invoice = null;
         String page = CommandConstants.INVOICE_PAGE;
+        Invoice invoice = null;
+        int reservationId = 0;
+
+        try {
+            reservationId = Integer.parseInt(request.getParameter("reservationId"));
+        } catch (NumberFormatException e) {
+            logger.error("Invalid request parameters", e);
+            response.sendRedirect(CommandConstants.ERROR_PAGE);
+            return;
+        }
 
         try {
             invoice = hotelService.retrieveInvoice(reservationId);
         } catch (ServiceException e) {
-            logger.error(e);
+            logger.error("Retrieving invoice error", e);
             page = CommandConstants.ERROR_PAGE;
         }
 

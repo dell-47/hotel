@@ -6,14 +6,11 @@ import by.it.hotel.dao.UserDao;
 import by.it.hotel.entity.User;
 import by.it.hotel.service.ServiceException;
 import by.it.hotel.service.UserService;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 
 public class UserServiceImpl implements UserService {
 
-    private static final Logger logger = LogManager.getLogger(UserServiceImpl.class);
     private final DaoProvider daoProvider = DaoProvider.getInstance();
     private final UserDao userDao = daoProvider.getUserDao();
 
@@ -23,7 +20,6 @@ public class UserServiceImpl implements UserService {
         try {
             user = userDao.retrieveUser(login);
         } catch (DaoException e) {
-            logger.error(e);
             throw new ServiceException(e);
         }
         return user;
@@ -34,7 +30,6 @@ public class UserServiceImpl implements UserService {
         try {
             userDao.createUser(user);
         } catch (DaoException e) {
-            logger.error(e);
             throw new ServiceException(e);
         }
     }
@@ -44,7 +39,6 @@ public class UserServiceImpl implements UserService {
         try {
             userDao.updateUser(user);
         } catch (DaoException e) {
-            logger.error(e);
             throw new ServiceException(e);
         }
     }
@@ -55,7 +49,6 @@ public class UserServiceImpl implements UserService {
         try {
             userPermissions = userDao.retrievePermissions(roleId);
         } catch (DaoException e) {
-            logger.error(e);
             throw new ServiceException(e);
         }
         return userPermissions;
@@ -67,7 +60,6 @@ public class UserServiceImpl implements UserService {
         try {
             userPermissions = userDao.retrievePermissions();
         } catch (DaoException e) {
-            logger.error(e);
             throw new ServiceException(e);
         }
         return userPermissions;

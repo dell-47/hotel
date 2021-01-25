@@ -39,7 +39,7 @@ public class GoToMainPageCommand implements Command, SaveRequest {
         try {
             apartList = hotelService.retrieveAllApartTypes(locale);
         } catch (ServiceException e) {
-            logger.error(" error", e);
+            logger.error("Retrieving apart types error", e);
             page = CommandConstants.ERROR_PAGE;
         }
 

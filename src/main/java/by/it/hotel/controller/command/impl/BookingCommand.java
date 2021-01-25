@@ -46,7 +46,7 @@ public class BookingCommand implements Command {
         try {
             hotelService.createReservation(reservation);
         } catch (ServiceException e) {
-            logger.error(e);
+            logger.error("Booking error", e);
             page = ERROR_PAGE;
         }
 

@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 
 
@@ -27,15 +28,27 @@ public class CheckAvailabilityCommand implements Command, SaveRequest {
         ServiceProvider serviceProvider = ServiceProvider.getInstance();
         HotelService hotelService = serviceProvider.getHotelService();
         List<Apart> availableAparts = null;
-        int apartTypeId = Integer.parseInt(request.getParameter("apartTypeId"));
-        int reservationId = Integer.parseInt(request.getParameter("reservationId"));
-        LocalDate inDate = LocalDate.parse(request.getParameter("inDate"));
-        LocalDate outDate = LocalDate.parse(request.getParameter("outDate"));
         String page = CommandConstants.GO_TO_ADMIN_PAGE;
+        int apartTypeId = 0;
+        int reservationId = 0;
+        LocalDate inDate = null;
+        LocalDate outDate = null;
+
+        try {
+            apartTypeId = Integer.parseInt(request.getParameter("apartTypeId"));
+            reservationId = Integer.parseInt(request.getParameter("reservationId"));
+            inDate = LocalDate.parse(request.getParameter("inDate"));
+            outDate = LocalDate.parse(request.getParameter("outDate"));
+        } catch (DateTimeParseException | NumberFormatException e) {
+            logger.error("Invalid request parameters", e);
+            response.sendRedirect(CommandConstants.ERROR_PAGE);
+            return;
+        }
+
         try {
             availableAparts = hotelService.searchAparts(apartTypeId, inDate, outDate);
         } catch (ServiceException e) {
-            logger.error(e);
+            logger.error("Check available apartments error",e);
             page = CommandConstants.ERROR_PAGE;
         }
 

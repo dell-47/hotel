@@ -31,7 +31,7 @@ public class AdminCommand implements Command, SaveRequest {
         try {
             reservationList = hotelService.searchReservations();
         } catch (ServiceException e) {
-            logger.error(e);
+            logger.error("Searching reservations error", e);
             page = CommandConstants.ERROR_PAGE;
         }
 

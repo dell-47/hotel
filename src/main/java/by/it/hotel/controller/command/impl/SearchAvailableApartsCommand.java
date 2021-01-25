@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.Locale;
 
@@ -32,12 +33,20 @@ public class SearchAvailableApartsCommand implements Command, SaveRequest {
         ServiceProvider serviceProvider = ServiceProvider.getInstance();
         HotelService hotelService = serviceProvider.getHotelService();
         List<ApartType> availableAparts = null;
-        LocalDate inDate = LocalDate.parse(request.getParameter("inDate"));
-        LocalDate outDate = LocalDate.parse(request.getParameter("outDate"));
         String page = AVAILABLE_APARTS_PAGE;
         String locale = (String) request.getSession().getAttribute("locale");
         if (locale == null) {
             locale = Locale.getDefault().getLanguage();
+        }
+        LocalDate inDate;
+        LocalDate outDate;
+        try {
+            inDate = LocalDate.parse(request.getParameter("inDate"));
+            outDate = LocalDate.parse(request.getParameter("outDate"));
+        } catch (DateTimeParseException e) {
+            logger.error("Invalid request parameters", e);
+            response.sendRedirect(CommandConstants.ERROR_PAGE);
+            return;
         }
 
         try {
@@ -48,7 +57,7 @@ public class SearchAvailableApartsCommand implements Command, SaveRequest {
             }
             request.setAttribute("datesValidationError", DATES_VALIDATION_ERROR_MESSAGE);
         } catch (ServiceException e) {
-            logger.error("Reservation error", e);
+            logger.error("Search available aparts error", e);
             page = ERROR_PAGE;
         }
 

@@ -28,7 +28,6 @@ public class HotelServiceImpl implements HotelService {
         try {
             hotelDao.createReservation(reservation);
         } catch (DaoException e) {
-            logger.error(e);
             throw new ServiceException(e);
         }
     }
@@ -45,7 +44,6 @@ public class HotelServiceImpl implements HotelService {
         try {
             typeList = hotelDao.searchApartTypes(inDate, outDate, locale);
         } catch (DaoException e) {
-            logger.error(e);
             throw new ServiceException(e);
         }
         return typeList;
@@ -57,7 +55,6 @@ public class HotelServiceImpl implements HotelService {
         try {
             typeList = hotelDao.retrieveAllApartTypes(locale);
         } catch (DaoException e) {
-            logger.error(e);
             throw new ServiceException(e);
         }
         return typeList;
@@ -69,7 +66,6 @@ public class HotelServiceImpl implements HotelService {
         try {
             apartType = hotelDao.retrieveApartType(id);
         } catch (DaoException e) {
-            logger.error(e);
             throw new ServiceException(e);
         }
         return apartType;
@@ -81,7 +77,6 @@ public class HotelServiceImpl implements HotelService {
         try {
             list = hotelDao.searchReservations(id);
         } catch (DaoException e) {
-            logger.error(e);
             throw new ServiceException(e);
         }
         return list;
@@ -93,7 +88,6 @@ public class HotelServiceImpl implements HotelService {
         try {
             list = hotelDao.searchReservations();
         } catch (DaoException e) {
-            logger.error(e);
             throw new ServiceException(e);
         }
         return list;
@@ -111,7 +105,6 @@ public class HotelServiceImpl implements HotelService {
         try {
             list = hotelDao.searchAparts(id, inDate, outDate);
         } catch (DaoException e) {
-            logger.error(e);
             throw new ServiceException(e);
         }
         return list;
@@ -122,7 +115,6 @@ public class HotelServiceImpl implements HotelService {
         try {
             hotelDao.updateReservation(reservationId, apartId);
         } catch (DaoException e) {
-            logger.error(e);
             throw new ServiceException(e);
         }
     }
@@ -133,7 +125,6 @@ public class HotelServiceImpl implements HotelService {
         try {
             invoice = hotelDao.retrieveInvoice(reservationId);
         } catch (DaoException e) {
-            logger.error(e);
             throw new ServiceException(e);
         }
         return invoice;
@@ -144,7 +135,6 @@ public class HotelServiceImpl implements HotelService {
         try {
             hotelDao.updateReservation(reservationId, cause);
         } catch (DaoException e) {
-            logger.error(e);
             throw new ServiceException(e);
         }
     }

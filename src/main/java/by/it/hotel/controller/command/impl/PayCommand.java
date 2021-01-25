@@ -23,17 +23,25 @@ public class PayCommand implements Command {
     public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
         ServiceProvider serviceProvider = ServiceProvider.getInstance();
         HotelService hotelService = serviceProvider.getHotelService();
-        int reservationId = Integer.parseInt(request.getParameter("reservationId"));
         HttpSession session = request.getSession();
         Invoice invoice = (Invoice) session.getAttribute("invoice");
         User user = (User) session.getAttribute("user");
         String page = CommandConstants.GO_TO_ACCOUNT_PAGE;
         EmailUtil.send(invoice, user);
+        int reservationId = 0;
+
+        try {
+            reservationId = Integer.parseInt(request.getParameter("reservationId"));
+        } catch (NumberFormatException e) {
+            logger.error("Invalid request parameters", e);
+            response.sendRedirect(CommandConstants.ERROR_PAGE);
+            return;
+        }
 
         try {
             hotelService.updateReservation(reservationId, CommandConstants.STATE_PAID);
         } catch (ServiceException e) {
-            logger.error(e);
+            logger.error("Pay error", e);
             page = CommandConstants.ERROR_PAGE;
         }
         response.sendRedirect(page);

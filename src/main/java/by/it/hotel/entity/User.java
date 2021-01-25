@@ -23,6 +23,14 @@ public class User implements Serializable {
         this.id = id;
     }
 
+    public int getRole() {
+        return role;
+    }
+
+    public void setRole(int role) {
+        this.role = role;
+    }
+
     public String getFirstName() {
         return firstName;
     }
@@ -39,12 +47,12 @@ public class User implements Serializable {
         this.lastName = lastName;
     }
 
-    public String getLogin() {
+    public String getUsername() {
         return username;
     }
 
-    public void setLogin(String login) {
-        this.username = login;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getPassword() {
@@ -63,11 +71,44 @@ public class User implements Serializable {
         this.email = email;
     }
 
-    public int getRole() {
-        return role;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        User user = (User) o;
+
+        if (id != user.id) return false;
+        if (role != user.role) return false;
+        if (!firstName.equals(user.firstName)) return false;
+        if (!lastName.equals(user.lastName)) return false;
+        if (!username.equals(user.username)) return false;
+        if (!password.equals(user.password)) return false;
+        return email.equals(user.email);
     }
 
-    public void setRole(int role) {
-        this.role = role;
+    @Override
+    public int hashCode() {
+        int result = id;
+        result = 31 * result + role;
+        result = 31 * result + firstName.hashCode();
+        result = 31 * result + lastName.hashCode();
+        result = 31 * result + username.hashCode();
+        result = 31 * result + password.hashCode();
+        result = 31 * result + email.hashCode();
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", role=" + role +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", email='" + email + '\'' +
+                '}';
     }
 }
