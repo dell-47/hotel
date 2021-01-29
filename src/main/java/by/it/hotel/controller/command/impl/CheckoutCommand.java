@@ -2,7 +2,7 @@ package by.it.hotel.controller.command.impl;
 
 import by.it.hotel.controller.command.Command;
 import by.it.hotel.controller.command.SaveRequest;
-import by.it.hotel.controller.command.utils.CheckOutUtil;
+import by.it.hotel.controller.command.util.CheckOutUtil;
 import by.it.hotel.entity.ApartType;
 import by.it.hotel.entity.CheckOutData;
 import by.it.hotel.service.HotelService;
@@ -29,34 +29,23 @@ public class CheckoutCommand implements Command, SaveRequest {
         saveRequest(request);
         ServiceProvider serviceProvider = ServiceProvider.getInstance();
         HotelService hotelService = serviceProvider.getHotelService();
-        int apartTypeId = 0;
-        ApartType apartType = null;
-        LocalDate inDate = null;
-        LocalDate outDate = null;
-        String page = CommandConstants.CHECKOUT_PAGE;
-
+        HttpSession session = request.getSession();
         try {
-            inDate = LocalDate.parse(request.getParameter("inDate"));
-            outDate = LocalDate.parse(request.getParameter("outDate"));
-            apartTypeId = Integer.parseInt(request.getParameter("id"));
+            LocalDate inDate = LocalDate.parse(request.getParameter("inDate"));
+            LocalDate outDate = LocalDate.parse(request.getParameter("outDate"));
+            int apartTypeId = Integer.parseInt(request.getParameter("id"));
+            ApartType apartType = hotelService.retrieveApartType(apartTypeId);
+            CheckOutData checkOutData = CheckOutUtil.getCheckOutData(inDate, outDate, apartType.getPrice());
+            session.setAttribute("apart", apartType);
+            session.setAttribute("checkOutData", checkOutData);
+            RequestDispatcher requestDispatcher = request.getRequestDispatcher(CommandConstants.CHECKOUT_PAGE);
+            requestDispatcher.forward(request, response);
         } catch (DateTimeParseException | NumberFormatException e) {
             logger.error("Invalid request parameters", e);
             response.sendRedirect(CommandConstants.ERROR_PAGE);
-            return;
-        }
-
-        try {
-            apartType = hotelService.retrieveApartType(apartTypeId);
         } catch (ServiceException e) {
             logger.error("Checkout error", e);
-            page = CommandConstants.ERROR_PAGE;
+            response.sendRedirect(CommandConstants.ERROR_PAGE);
         }
-
-        HttpSession session = request.getSession();
-        CheckOutData checkOutData = CheckOutUtil.getCheckOutData(inDate, outDate, apartType.getPrice());
-        session.setAttribute("apart", apartType);
-        session.setAttribute("checkOutData", checkOutData);
-        RequestDispatcher requestDispatcher = request.getRequestDispatcher(page);
-        requestDispatcher.forward(request, response);
     }
 }

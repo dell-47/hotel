@@ -67,7 +67,7 @@
                                             </c:when>
                                             <c:otherwise>
                                                 <a class="dropdown-item" href="/profile?command=profile">${profile}</a>
-                                                <a class="dropdown-item" href="/bookings?command=bookings">${bookings}</a>
+                                                <a class="dropdown-item" href="/bookings?command=bookings&pageNumber=1">${bookings}</a>
                                             </c:otherwise>
                                         </c:choose>
                                         <a class="dropdown-item" href="/logout?command=logout">${logout}</a>

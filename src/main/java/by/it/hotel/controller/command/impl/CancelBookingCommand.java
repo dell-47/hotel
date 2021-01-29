@@ -13,6 +13,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
+import static by.it.hotel.controller.command.impl.CommandConstants.*;
+
 public class CancelBookingCommand implements Command {
     private static final Logger logger = LogManager.getLogger(CancelBookingCommand.class);
 
@@ -20,23 +22,16 @@ public class CancelBookingCommand implements Command {
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         ServiceProvider serviceProvider = ServiceProvider.getInstance();
         HotelService hotelService = serviceProvider.getHotelService();
-        String page = CommandConstants.GO_TO_ACCOUNT_PAGE;
-        int reservationId = 0;
-
         try {
-            reservationId = Integer.parseInt(request.getParameter("reservationId"));
+            int reservationId = Integer.parseInt(request.getParameter("reservationId"));
+            hotelService.updateReservation(reservationId, STATE_CANCELED);
+            response.sendRedirect(GO_TO_ACCOUNT_PAGE);
         } catch (NumberFormatException e) {
             logger.error("Invalid request parameters", e);
-            response.sendRedirect(CommandConstants.ERROR_PAGE);
-            return;
-        }
-
-        try {
-            hotelService.updateReservation(reservationId, CommandConstants.STATE_CANCELED);
+            response.sendRedirect(ERROR_PAGE);
         } catch (ServiceException e) {
             logger.error("Booking cancellation error", e);
-            page = CommandConstants.ERROR_PAGE;
+            response.sendRedirect(ERROR_PAGE);
         }
-        response.sendRedirect(page);
     }
 }

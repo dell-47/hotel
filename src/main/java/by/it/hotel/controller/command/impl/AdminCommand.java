@@ -25,18 +25,14 @@ public class AdminCommand implements Command, SaveRequest {
         saveRequest(request);
         ServiceProvider serviceProvider = ServiceProvider.getInstance();
         HotelService hotelService = serviceProvider.getHotelService();
-        List<Reservation> reservationList = null;
-        String page = CommandConstants.ADMIN_PAGE;
-
         try {
-            reservationList = hotelService.searchReservations();
+            List<Reservation> reservationList = hotelService.searchReservations();
+            request.setAttribute("adminList", reservationList);
+            RequestDispatcher requestDispatcher = request.getRequestDispatcher(CommandConstants.ADMIN_PAGE);
+            requestDispatcher.forward(request, response);
         } catch (ServiceException e) {
             logger.error("Searching reservations error", e);
-            page = CommandConstants.ERROR_PAGE;
+            response.sendRedirect(CommandConstants.ERROR_PAGE);
         }
-
-        request.setAttribute("adminList", reservationList);
-        RequestDispatcher requestDispatcher = request.getRequestDispatcher(page);
-        requestDispatcher.forward(request, response);
     }
 }

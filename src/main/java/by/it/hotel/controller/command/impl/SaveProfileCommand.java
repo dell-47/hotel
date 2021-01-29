@@ -2,7 +2,7 @@ package by.it.hotel.controller.command.impl;
 
 import by.it.hotel.controller.command.Command;
 
-import by.it.hotel.controller.command.utils.UserUtil;
+import by.it.hotel.controller.command.util.UserUtil;
 import by.it.hotel.entity.User;
 import by.it.hotel.service.ServiceException;
 import by.it.hotel.service.ServiceProvider;
@@ -28,17 +28,14 @@ public class SaveProfileCommand implements Command {
         afterEditUser.setFirstName(request.getParameter(FIRST_NAME));
         afterEditUser.setLastName(request.getParameter(LAST_NAME));
         afterEditUser.setEmail(request.getParameter(EMAIL));
-
         User updatedUser = UserUtil.getUpdatedUser(beforeEditUser, afterEditUser);
-
         try {
             userService.updateUser(updatedUser);
+            request.getSession().setAttribute("user", updatedUser);
+            response.sendRedirect(GO_TO_PROFILE_PAGE);
         } catch (ServiceException e) {
             logger.error("Updating user profile error", e);
             response.sendRedirect(ERROR_PAGE);
         }
-
-        request.getSession().setAttribute("user", updatedUser);
-        response.sendRedirect(GO_TO_PROFILE_PAGE);
     }
 }

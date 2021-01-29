@@ -1,9 +1,7 @@
 package by.it.hotel.controller.command.filter;
 
-import by.it.hotel.controller.command.utils.SecurityUtil;
+import by.it.hotel.controller.command.util.SecurityUtil;
 import by.it.hotel.entity.User;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;

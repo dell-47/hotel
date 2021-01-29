@@ -12,6 +12,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+import static by.it.hotel.controller.command.impl.CommandConstants.*;
+
 public class DeclineBookingCommand implements Command {
     private static final Logger logger = LogManager.getLogger(DeclineBookingCommand.class);
 
@@ -19,22 +21,16 @@ public class DeclineBookingCommand implements Command {
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         ServiceProvider serviceProvider = ServiceProvider.getInstance();
         HotelService hotelService = serviceProvider.getHotelService();
-        String page = CommandConstants.GO_TO_ADMIN_PAGE;
-        int reservationId = 0;
-
+        String page = GO_TO_ADMIN_PAGE;
         try {
-            reservationId = Integer.parseInt(request.getParameter("reservationId"));
+            int reservationId = Integer.parseInt(request.getParameter("reservationId"));
+            hotelService.updateReservation(reservationId, STATE_DECLINED);
         } catch (NumberFormatException e) {
             logger.error("Invalid request parameters", e);
-            response.sendRedirect(CommandConstants.ERROR_PAGE);
-            return;
-        }
-
-        try {
-            hotelService.updateReservation(reservationId, CommandConstants.STATE_DECLINED);
+            page = ERROR_PAGE;
         } catch (ServiceException e) {
             logger.error("Decline booking error", e);
-            page = CommandConstants.ERROR_PAGE;
+            page = ERROR_PAGE;
         }
         response.sendRedirect(page);
     }

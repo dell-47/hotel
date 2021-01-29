@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@page import="java.sql.Date" %>
+<%@ page import="java.sql.Date" %>
+<%@ page import="by.it.hotel.controller.command.util.PaginationUtil" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <html>
@@ -93,6 +94,8 @@
             </div>
         </c:forEach>
         <br>
+        <c:set var="size" scope="page" value="${userReservationList.size()}" />
+        <c:set var="pageCount" scope="session" value="${PaginationUtil.getPageCount(size)}" />
         <c:if test="${pageCount > 1}">
             <ul class="pagination w-75 pr-2 justify-content-end">
                 <c:forEach var="i" begin="1" end="${pageCount}">

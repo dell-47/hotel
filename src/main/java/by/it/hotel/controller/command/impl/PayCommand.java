@@ -1,7 +1,7 @@
 package by.it.hotel.controller.command.impl;
 
 import by.it.hotel.controller.command.Command;
-import by.it.hotel.controller.command.utils.EmailUtil;
+import by.it.hotel.controller.command.util.EmailUtil;
 import by.it.hotel.entity.Invoice;
 import by.it.hotel.entity.User;
 import by.it.hotel.service.HotelService;
@@ -28,18 +28,12 @@ public class PayCommand implements Command {
         User user = (User) session.getAttribute("user");
         String page = CommandConstants.GO_TO_ACCOUNT_PAGE;
         EmailUtil.send(invoice, user);
-        int reservationId = 0;
-
         try {
-            reservationId = Integer.parseInt(request.getParameter("reservationId"));
+            int reservationId = Integer.parseInt(request.getParameter("reservationId"));
+            hotelService.updateReservation(reservationId, CommandConstants.STATE_PAID);
         } catch (NumberFormatException e) {
             logger.error("Invalid request parameters", e);
-            response.sendRedirect(CommandConstants.ERROR_PAGE);
-            return;
-        }
-
-        try {
-            hotelService.updateReservation(reservationId, CommandConstants.STATE_PAID);
+            page = CommandConstants.ERROR_PAGE;
         } catch (ServiceException e) {
             logger.error("Pay error", e);
             page = CommandConstants.ERROR_PAGE;

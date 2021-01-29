@@ -32,40 +32,35 @@ public class SearchAvailableApartsCommand implements Command, SaveRequest {
         saveRequest(request);
         ServiceProvider serviceProvider = ServiceProvider.getInstance();
         HotelService hotelService = serviceProvider.getHotelService();
-        List<ApartType> availableAparts = null;
+        HttpSession session = request.getSession();
         String page = AVAILABLE_APARTS_PAGE;
         String locale = (String) request.getSession().getAttribute("locale");
         if (locale == null) {
             locale = Locale.getDefault().getLanguage();
         }
-        LocalDate inDate;
-        LocalDate outDate;
+
         try {
-            inDate = LocalDate.parse(request.getParameter("inDate"));
-            outDate = LocalDate.parse(request.getParameter("outDate"));
+            LocalDate inDate = LocalDate.parse(request.getParameter("inDate"));
+            LocalDate outDate = LocalDate.parse(request.getParameter("outDate"));
+            List<ApartType> availableAparts = hotelService.searchApartTypes(inDate, outDate, locale);
+            session.setAttribute("inDate", inDate);
+            session.setAttribute("outDate", outDate);
+            request.setAttribute("availableAparts", availableAparts);
+            RequestDispatcher requestDispatcher = request.getRequestDispatcher(page);
+            requestDispatcher.forward(request, response);
         } catch (DateTimeParseException e) {
             logger.error("Invalid request parameters", e);
             response.sendRedirect(CommandConstants.ERROR_PAGE);
-            return;
-        }
-
-        try {
-            availableAparts = hotelService.searchApartTypes(inDate, outDate, locale);
         } catch (ValidationException e) {
             if (MAIN.equals(request.getParameter("page"))) {
                 page = GO_TO_MAIN_PAGE;
             }
             request.setAttribute("datesValidationError", DATES_VALIDATION_ERROR_MESSAGE);
+            RequestDispatcher requestDispatcher = request.getRequestDispatcher(page);
+            requestDispatcher.forward(request, response);
         } catch (ServiceException e) {
             logger.error("Search available aparts error", e);
-            page = ERROR_PAGE;
+            response.sendRedirect(CommandConstants.ERROR_PAGE);
         }
-
-        HttpSession session = request.getSession();
-        session.setAttribute("inDate", inDate);
-        session.setAttribute("outDate", outDate);
-        request.setAttribute("availableAparts", availableAparts);
-        RequestDispatcher requestDispatcher = request.getRequestDispatcher(page);
-        requestDispatcher.forward(request, response);
     }
 }

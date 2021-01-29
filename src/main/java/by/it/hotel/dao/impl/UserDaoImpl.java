@@ -9,16 +9,10 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static by.it.hotel.dao.impl.DaoConstants.*;
+
 public class UserDaoImpl implements UserDao {
-
     private final ConnectionPool pool = ConnectionPool.getInstance();
-
-    private static final String CREATE_USER_QUERY = "INSERT INTO users (login, password, first_name, last_name, email, role) VALUES (?,?,?,?,?,?)";
-    private static final String UPDATE_USER_QUERY = "UPDATE users SET first_name = ?, last_name = ?, email = ? WHERE id = ?";
-    private static final String RETRIEVE_USER_QUERY = "SELECT * FROM users WHERE login = ?";
-    private static final String RETRIEVE_USER_BY_ID_QUERY = "SELECT * FROM users WHERE id = ?";
-    private static final String RETRIEVE_ROLE_PERMISSIONS_QUERY = "SELECT pattern FROM roles r LEFT JOIN permissions p ON r.id = p.role WHERE r.id = ?";
-    private static final String RETRIEVE_ALL_PERMISSIONS_QUERY = "SELECT pattern FROM permissions";
 
     @Override
     public void createUser(User user) throws DaoException {

@@ -18,6 +18,8 @@ import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.List;
 
+import static by.it.hotel.controller.command.impl.CommandConstants.*;
+
 
 public class CheckAvailabilityCommand implements Command, SaveRequest {
     private static final Logger logger = LogManager.getLogger(CheckAvailabilityCommand.class);
@@ -27,34 +29,23 @@ public class CheckAvailabilityCommand implements Command, SaveRequest {
         saveRequest(request);
         ServiceProvider serviceProvider = ServiceProvider.getInstance();
         HotelService hotelService = serviceProvider.getHotelService();
-        List<Apart> availableAparts = null;
-        String page = CommandConstants.GO_TO_ADMIN_PAGE;
-        int apartTypeId = 0;
-        int reservationId = 0;
-        LocalDate inDate = null;
-        LocalDate outDate = null;
 
         try {
-            apartTypeId = Integer.parseInt(request.getParameter("apartTypeId"));
-            reservationId = Integer.parseInt(request.getParameter("reservationId"));
-            inDate = LocalDate.parse(request.getParameter("inDate"));
-            outDate = LocalDate.parse(request.getParameter("outDate"));
+            int apartTypeId = Integer.parseInt(request.getParameter("apartTypeId"));
+            int reservationId = Integer.parseInt(request.getParameter("reservationId"));
+            LocalDate inDate = LocalDate.parse(request.getParameter("inDate"));
+            LocalDate outDate = LocalDate.parse(request.getParameter("outDate"));
+            List<Apart> availableAparts = hotelService.searchAparts(apartTypeId, inDate, outDate);
+            request.setAttribute("availableAparts", availableAparts);
+            request.setAttribute("reservationId", reservationId);
+            RequestDispatcher requestDispatcher = request.getRequestDispatcher(GO_TO_ADMIN_PAGE);
+            requestDispatcher.forward(request, response);
         } catch (DateTimeParseException | NumberFormatException e) {
             logger.error("Invalid request parameters", e);
-            response.sendRedirect(CommandConstants.ERROR_PAGE);
-            return;
-        }
-
-        try {
-            availableAparts = hotelService.searchAparts(apartTypeId, inDate, outDate);
+            response.sendRedirect(ERROR_PAGE);
         } catch (ServiceException e) {
             logger.error("Check available apartments error",e);
-            page = CommandConstants.ERROR_PAGE;
+            response.sendRedirect(ERROR_PAGE);
         }
-
-        request.setAttribute("availableAparts", availableAparts);
-        request.setAttribute("reservationId", reservationId);
-        RequestDispatcher requestDispatcher = request.getRequestDispatcher(page);
-        requestDispatcher.forward(request, response);
     }
 }

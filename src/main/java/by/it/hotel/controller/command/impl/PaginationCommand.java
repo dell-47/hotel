@@ -2,7 +2,7 @@ package by.it.hotel.controller.command.impl;
 
 import by.it.hotel.controller.command.Command;
 import by.it.hotel.controller.command.SaveRequest;
-import by.it.hotel.controller.command.utils.PaginationUtil;
+import by.it.hotel.controller.command.util.PaginationUtil;
 import by.it.hotel.entity.Reservation;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -17,7 +17,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
-import static by.it.hotel.controller.command.impl.CommandConstants.ORDER_OLD_FIRST;
+import static by.it.hotel.controller.command.impl.CommandConstants.ORDER_OLDEST_FIRST;
 
 
 public class PaginationCommand implements Command, SaveRequest {
@@ -29,25 +29,20 @@ public class PaginationCommand implements Command, SaveRequest {
         List<Reservation> userReservationList = (List<Reservation>) request.getSession().getAttribute("userReservationList");
         List<Reservation> copyList = new ArrayList<>(userReservationList);
         String order = (String) request.getSession().getAttribute("order");
-        if (ORDER_OLD_FIRST.equals(order)) {
+        if (ORDER_OLDEST_FIRST.equals(order)) {
             Collections.reverse(copyList);
         }
-        int pageNumber = 0;
-
         try {
-            pageNumber = Integer.parseInt(request.getParameter("pageNumber"));
+            int pageNumber = Integer.parseInt(request.getParameter("pageNumber"));
+            List<Reservation> paginatedList = PaginationUtil.retrievePaginatedList(copyList, pageNumber);
+            request.setAttribute("now", new Date());
+            request.setAttribute("pageNumber", pageNumber);
+            request.setAttribute("paginatedList", paginatedList);
+            RequestDispatcher requestDispatcher = request.getRequestDispatcher(CommandConstants.ACCOUNT_PAGE);
+            requestDispatcher.forward(request, response);
         } catch (NumberFormatException e) {
             logger.error("Invalid request parameters", e);
             response.sendRedirect(CommandConstants.ERROR_PAGE);
-            return;
         }
-
-        List<Reservation> paginatedList = PaginationUtil.retrievePaginatedList(copyList, pageNumber);
-        request.setAttribute("now", new Date());
-        request.setAttribute("pageNumber", pageNumber);
-        request.setAttribute("paginatedList", paginatedList);
-        RequestDispatcher requestDispatcher = request.getRequestDispatcher(CommandConstants.ACCOUNT_PAGE);
-        requestDispatcher.forward(request, response);
     }
 }
-

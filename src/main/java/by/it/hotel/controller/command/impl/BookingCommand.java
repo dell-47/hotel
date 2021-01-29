@@ -24,7 +24,6 @@ public class BookingCommand implements Command {
     public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
         ServiceProvider serviceProvider = ServiceProvider.getInstance();
         HotelService hotelService = serviceProvider.getHotelService();
-
         String page = GO_TO_SUCCESSFUL_ACTION_PAGE;
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
@@ -45,12 +44,11 @@ public class BookingCommand implements Command {
 
         try {
             hotelService.createReservation(reservation);
+            session.setAttribute("action", ACTION_BOOKING);
         } catch (ServiceException e) {
             logger.error("Booking error", e);
             page = ERROR_PAGE;
         }
-
-        request.getSession().setAttribute("action", ACTION_BOOKING);
         response.sendRedirect(page);
     }
 }

@@ -2,7 +2,7 @@ package by.it.hotel.controller.command.impl;
 
 import by.it.hotel.controller.command.Command;
 import by.it.hotel.controller.command.SaveRequest;
-import by.it.hotel.controller.command.utils.PaginationUtil;
+import by.it.hotel.controller.command.util.PaginationUtil;
 import by.it.hotel.entity.Reservation;
 import by.it.hotel.entity.User;
 import by.it.hotel.service.HotelService;
@@ -17,7 +17,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -34,38 +33,25 @@ public class UserBookingsCommand implements Command, SaveRequest {
         ServiceProvider serviceProvider = ServiceProvider.getInstance();
         HotelService hotelService = serviceProvider.getHotelService();
         HttpSession session = request.getSession();
-        int pageNumber = FIRST_PAGE;
-        if (request.getParameter("pageNumber") != null) {
-            try {
-                pageNumber = Integer.parseInt(request.getParameter("pageNumber"));
-            } catch (NumberFormatException e) {
-                logger.error("Invalid request parameters", e);
-                response.sendRedirect(CommandConstants.ERROR_PAGE);
-                return;
-            }
-        }
-
-        List<Reservation> userReservationList = null;
         User user = (User) session.getAttribute("user");
-        String page = ACCOUNT_PAGE;
-
         try {
-            userReservationList = hotelService.searchReservations(user.getId());
+            List<Reservation> userReservationList = hotelService.searchReservations(user.getId());
+            Collections.reverse(userReservationList);
+            int pageNumber = Integer.parseInt(request.getParameter("pageNumber"));
+            List<Reservation> paginatedList = PaginationUtil.retrievePaginatedList(userReservationList, pageNumber);
+            request.setAttribute("pageNumber", pageNumber);
+            session.setAttribute("userReservationList", userReservationList);
+            session.setAttribute("order", ORDER_NEWEST_FIRST);
+            request.setAttribute("now", new Date());
+            request.setAttribute("paginatedList", paginatedList);
+            RequestDispatcher requestDispatcher = request.getRequestDispatcher(ACCOUNT_PAGE);
+            requestDispatcher.forward(request, response);
+        } catch (NumberFormatException e) {
+            logger.error("Invalid request parameters", e);
+            response.sendRedirect(ERROR_PAGE);
         } catch (ServiceException e) {
             logger.error("Search user bookings error", e);
-            page = ERROR_PAGE;
+            response.sendRedirect(ERROR_PAGE);
         }
-
-        Collections.reverse(userReservationList);
-        int pageCount = PaginationUtil.getPageCount(userReservationList.size());
-        List<Reservation> paginatedList = PaginationUtil.retrievePaginatedList(userReservationList, pageNumber);
-        session.setAttribute("pageCount", pageCount);
-        session.setAttribute("userReservationList", userReservationList);
-        session.setAttribute("order", ORDER_NEW_FIRST);
-        request.setAttribute("now", new Date());
-        request.setAttribute("pageNumber", pageNumber);
-        request.setAttribute("paginatedList", paginatedList);
-        RequestDispatcher requestDispatcher = request.getRequestDispatcher(page);
-        requestDispatcher.forward(request, response);
     }
 }

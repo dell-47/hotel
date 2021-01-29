@@ -1,13 +1,15 @@
-package by.it.hotel.controller.command.utils;
+package by.it.hotel.controller.command.util;
 
 import by.it.hotel.entity.Reservation;
 
 import java.util.List;
 
-public final class PaginationUtil {
+public class PaginationUtil {
     private static final int size = 5;
 
-    private PaginationUtil(){}
+    private PaginationUtil(){
+
+    }
 
     public static List<Reservation> retrievePaginatedList(List<Reservation> list, int pageNumber) {
         int from = (pageNumber-1)*size;
@@ -16,6 +18,10 @@ public final class PaginationUtil {
     }
 
     public static int getPageCount(int listSize) {
-        return listSize/size+1;
+        if (listSize % size == 0) {
+            return listSize/size;
+        } else {
+            return listSize/size+1;
+        }
     }
 }

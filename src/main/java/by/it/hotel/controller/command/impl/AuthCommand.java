@@ -23,29 +23,25 @@ public class AuthCommand implements Command {
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String login = request.getParameter(USERNAME);
-        String password = request.getParameter(PASSWORD);
         ServiceProvider serviceProvider = ServiceProvider.getInstance();
         UserService userService = serviceProvider.getUserService();
-        User user = null;
+        String login = request.getParameter(USERNAME);
+        String password = request.getParameter(PASSWORD);
         String page = INDEX_PAGE;
-
         try {
-            user = userService.retrieveUser(login);
+            User user = userService.retrieveUser(login);
+            if (user == null || !BCrypt.checkpw(password, user.getPassword())) {
+                request.setAttribute("loginError", LOGIN_ERROR_MESSAGE);
+                page = LOGIN_PAGE;
+            } else {
+                user.setPassword(BLANK_STRING);
+                request.getSession().setAttribute("user", user);
+            }
+            RequestDispatcher requestDispatcher = request.getRequestDispatcher(page);
+            requestDispatcher.forward(request, response);
         } catch (ServiceException e) {
             logger.error("Authentication error", e);
-            page = ERROR_PAGE;
+            response.sendRedirect(ERROR_PAGE);
         }
-
-        if (user == null || !BCrypt.checkpw(password, user.getPassword())) {
-            request.setAttribute("loginError", LOGIN_ERROR_MESSAGE);
-            page = LOGIN_PAGE;
-        } else {
-            user.setPassword(BLANK_STRING);
-            request.getSession().setAttribute("user", user);
-        }
-
-        RequestDispatcher requestDispatcher = request.getRequestDispatcher(page);
-        requestDispatcher.forward(request, response);
     }
 }

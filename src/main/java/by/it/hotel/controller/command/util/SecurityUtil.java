@@ -1,6 +1,5 @@
-package by.it.hotel.controller.command.utils;
+package by.it.hotel.controller.command.util;
 
-import by.it.hotel.controller.command.impl.AuthCommand;
 import by.it.hotel.service.ServiceException;
 import by.it.hotel.service.ServiceProvider;
 import by.it.hotel.service.UserService;

@@ -1,4 +1,4 @@
-package by.it.hotel.controller.command.utils;
+package by.it.hotel.controller.command.util;
 
 import by.it.hotel.entity.User;
 
