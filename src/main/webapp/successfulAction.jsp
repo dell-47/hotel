@@ -8,13 +8,13 @@
           integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
     <fmt:setLocale value="${sessionScope.locale}"/>
     <fmt:setBundle basename="locale" var="loc"/>
-    <fmt:message bundle="${loc}" key="login" var="login"/>
-    <fmt:message bundle="${loc}" key="congratulations" var="congratulations"/>
-    <fmt:message bundle="${loc}" key="successful_booking" var="successful_booking"/>
-    <fmt:message bundle="${loc}" key="successful_booking_message" var="booking_message"/>
-    <fmt:message bundle="${loc}" key="your_account" var="your_account"/>
-    <fmt:message bundle="${loc}" key="successful_registration" var="successful_registration"/>
-    <fmt:message bundle="${loc}" key="successful_registration_message" var="registration_message"/>
+    <fmt:message bundle="${loc}" key="navbar.login" var="login"/>
+    <fmt:message bundle="${loc}" key="successfulAction.congratulations" var="congratulations"/>
+    <fmt:message bundle="${loc}" key="successfulAction.successful_booking" var="successful_booking"/>
+    <fmt:message bundle="${loc}" key="successfulAction.successful_booking_message" var="booking_message"/>
+    <fmt:message bundle="${loc}" key="successfulAction.your_account" var="your_account"/>
+    <fmt:message bundle="${loc}" key="successfulAction.successful_registration" var="successful_registration"/>
+    <fmt:message bundle="${loc}" key="successfulAction.successful_registration_message" var="registration_message"/>
 </head>
 <body>
 <jsp:include page="/WEB-INF/views/navbar.jsp"/>
@@ -42,7 +42,7 @@
                 <div class="card-body">
                     <h6>${successful_booking}</h6>
                     <p class="card-text">${booking_message}</p>
-                    <a href="/bookings?command=bookings&id=${user.id}" class="card-link">${your_account}</a>
+                    <a href="/bookings?command=bookings&pageNumber=1" class="card-link">${your_account}</a>
                 </div>
             </div>
         </div>

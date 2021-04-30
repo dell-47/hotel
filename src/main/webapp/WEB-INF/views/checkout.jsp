@@ -8,18 +8,18 @@
           integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
     <fmt:setLocale value="${sessionScope.locale}"/>
     <fmt:setBundle basename="locale" var="loc"/>
-    <fmt:message bundle="${loc}" key="review_booking" var="review_booking"/>
-    <fmt:message bundle="${loc}" key="apartment" var="apartment"/>
-    <fmt:message bundle="${loc}" key="check_in_date" var="check_in_date"/>
-    <fmt:message bundle="${loc}" key="check_out_date" var="check_out_date"/>
-    <fmt:message bundle="${loc}" key="price_summary" var="price_summary"/>
-    <fmt:message bundle="${loc}" key="cost" var="cost"/>
-    <fmt:message bundle="${loc}" key="subtotal" var="subtotal"/>
-    <fmt:message bundle="${loc}" key="taxes" var="taxes"/>
-    <fmt:message bundle="${loc}" key="total" var="total"/>
-    <fmt:message bundle="${loc}" key="nights" var="nights"/>
-    <fmt:message bundle="${loc}" key="book" var="book"/>
-    <fmt:message bundle="${loc}" key="back" var="back"/>
+    <fmt:message bundle="${loc}" key="checkout.review_booking" var="review_booking"/>
+    <fmt:message bundle="${loc}" key="checkout.apartment" var="apartment"/>
+    <fmt:message bundle="${loc}" key="checkout.check_in_date" var="check_in_date"/>
+    <fmt:message bundle="${loc}" key="checkout.check_out_date" var="check_out_date"/>
+    <fmt:message bundle="${loc}" key="checkout.price_summary" var="price_summary"/>
+    <fmt:message bundle="${loc}" key="checkout.cost" var="cost"/>
+    <fmt:message bundle="${loc}" key="checkout.subtotal" var="subtotal"/>
+    <fmt:message bundle="${loc}" key="checkout.taxes" var="taxes"/>
+    <fmt:message bundle="${loc}" key="checkout.total" var="total"/>
+    <fmt:message bundle="${loc}" key="checkout.nights" var="nights"/>
+    <fmt:message bundle="${loc}" key="checkout.book" var="book"/>
+    <fmt:message bundle="${loc}" key="checkout.back" var="back"/>
 </head>
 <body>
 <jsp:include page="navbar.jsp"/>

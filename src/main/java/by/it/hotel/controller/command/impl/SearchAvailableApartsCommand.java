@@ -34,28 +34,28 @@ public class SearchAvailableApartsCommand implements Command, SaveRequest {
         HotelService hotelService = serviceProvider.getHotelService();
         HttpSession session = request.getSession();
         String page = AVAILABLE_APARTS_PAGE;
-        String locale = (String) request.getSession().getAttribute("locale");
+        String locale = (String) request.getSession().getAttribute(LOCALE_ATTRIBUTE);
         if (locale == null) {
             locale = Locale.getDefault().getLanguage();
         }
 
         try {
-            LocalDate inDate = LocalDate.parse(request.getParameter("inDate"));
-            LocalDate outDate = LocalDate.parse(request.getParameter("outDate"));
+            LocalDate inDate = LocalDate.parse(request.getParameter(IN_DATE_ATTRIBUTE));
+            LocalDate outDate = LocalDate.parse(request.getParameter(OUT_DATE_ATTRIBUTE));
             List<ApartType> availableAparts = hotelService.searchApartTypes(inDate, outDate, locale);
-            session.setAttribute("inDate", inDate);
-            session.setAttribute("outDate", outDate);
-            request.setAttribute("availableAparts", availableAparts);
+            session.setAttribute(IN_DATE_ATTRIBUTE, inDate);
+            session.setAttribute(OUT_DATE_ATTRIBUTE, outDate);
+            request.setAttribute(AVAILABLE_APARTS_ATTRIBUTE, availableAparts);
             RequestDispatcher requestDispatcher = request.getRequestDispatcher(page);
             requestDispatcher.forward(request, response);
         } catch (DateTimeParseException e) {
             logger.error("Invalid request parameters", e);
-            response.sendRedirect(CommandConstants.ERROR_PAGE);
+            response.sendRedirect(ERROR_PAGE);
         } catch (ValidationException e) {
-            if (MAIN.equals(request.getParameter("page"))) {
+            if (MAIN.equals(request.getParameter(PAGE_ATTRIBUTE))) {
                 page = GO_TO_MAIN_PAGE;
             }
-            request.setAttribute("datesValidationError", DATES_VALIDATION_ERROR_MESSAGE);
+            request.setAttribute(DATES_VALIDATION_ERROR_ATTRIBUTE, DATES_VALIDATION_ERROR_MESSAGE);
             RequestDispatcher requestDispatcher = request.getRequestDispatcher(page);
             requestDispatcher.forward(request, response);
         } catch (ServiceException e) {

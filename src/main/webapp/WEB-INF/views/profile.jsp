@@ -8,11 +8,11 @@
           integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
     <fmt:setLocale value="${sessionScope.locale}"/>
     <fmt:setBundle basename="locale" var="loc"/>
-    <fmt:message bundle="${loc}" key="user_profile" var="user_profile"/>
-    <fmt:message bundle="${loc}" key="first_name" var="first_name"/>
-    <fmt:message bundle="${loc}" key="last_name" var="last_name"/>
-    <fmt:message bundle="${loc}" key="email" var="email"/>
-    <fmt:message bundle="${loc}" key="edit" var="edit"/>
+    <fmt:message bundle="${loc}" key="profile.user_profile" var="user_profile"/>
+    <fmt:message bundle="${loc}" key="signUp.first_name" var="first_name"/>
+    <fmt:message bundle="${loc}" key="signUp.last_name" var="last_name"/>
+    <fmt:message bundle="${loc}" key="signUp.email" var="email"/>
+    <fmt:message bundle="${loc}" key="profile.edit" var="edit"/>
 </head>
 <body>
 <jsp:include page="navbar.jsp"/>

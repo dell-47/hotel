@@ -12,9 +12,10 @@ import java.io.IOException;
 public class SecurityFilter implements Filter {
     public static final String LOGIN_PAGE = "/WEB-INF/views/login.jsp";
     public static final String ACCESS_DENIED_PAGE = "/WEB-INF/views/accessDenied.jsp";
+    public static final String ERROR_PAGE = "/error.jsp";
 
     @Override
-    public void init(FilterConfig filterConfig) throws ServletException {
+    public void init(FilterConfig filterConfig) {
 
     }
 

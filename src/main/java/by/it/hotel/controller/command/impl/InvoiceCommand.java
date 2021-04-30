@@ -15,7 +15,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-import static by.it.hotel.controller.command.impl.CommandConstants.INVOICE_PAGE;
+import static by.it.hotel.controller.command.impl.CommandConstants.*;
+
 
 
 public class InvoiceCommand implements Command, SaveRequest {
@@ -27,9 +28,9 @@ public class InvoiceCommand implements Command, SaveRequest {
         ServiceProvider serviceProvider = ServiceProvider.getInstance();
         HotelService hotelService = serviceProvider.getHotelService();
         try {
-            int reservationId = Integer.parseInt(request.getParameter("reservationId"));
+            int reservationId = Integer.parseInt(request.getParameter(RESERVATION_ID_ATTRIBUTE));
             Invoice invoice = hotelService.retrieveInvoice(reservationId);
-            request.getSession().setAttribute("invoice", invoice);
+            request.getSession().setAttribute(INVOICE_ATTRIBUTE, invoice);
             RequestDispatcher requestDispatcher = request.getRequestDispatcher(INVOICE_PAGE);
             requestDispatcher.forward(request, response);
         } catch (NumberFormatException e) {

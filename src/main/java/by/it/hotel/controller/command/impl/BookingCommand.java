@@ -26,11 +26,11 @@ public class BookingCommand implements Command {
         HotelService hotelService = serviceProvider.getHotelService();
         String page = GO_TO_SUCCESSFUL_ACTION_PAGE;
         HttpSession session = request.getSession();
-        User user = (User) session.getAttribute("user");
-        ApartType apartType = (ApartType) session.getAttribute("apart");
-        CheckOutData checkOutData = (CheckOutData) session.getAttribute("checkOutData");
-        LocalDate inDate = (LocalDate) session.getAttribute("inDate");
-        LocalDate outDate = (LocalDate) session.getAttribute("outDate");
+        User user = (User) session.getAttribute(USER_ATTRIBUTE);
+        ApartType apartType = (ApartType) session.getAttribute(APART_ATTRIBUTE);
+        CheckOutData checkOutData = (CheckOutData) session.getAttribute(CHECKOUT_DATA_ATTRIBUTE);
+        LocalDate inDate = (LocalDate) session.getAttribute(IN_DATE_ATTRIBUTE);
+        LocalDate outDate = (LocalDate) session.getAttribute(OUT_DATE_ATTRIBUTE);
 
         Reservation reservation = new Reservation();
         reservation.setUser(user.getId());
@@ -44,7 +44,7 @@ public class BookingCommand implements Command {
 
         try {
             hotelService.createReservation(reservation);
-            session.setAttribute("action", ACTION_BOOKING);
+            session.setAttribute(ACTION_ATTRIBUTE, ACTION_BOOKING);
         } catch (ServiceException e) {
             logger.error("Booking error", e);
             page = ERROR_PAGE;

@@ -15,6 +15,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
+import static by.it.hotel.controller.command.impl.CommandConstants.*;
+
 
 public class PayCommand implements Command {
     private static final Logger logger = LogManager.getLogger(PayCommand.class);
@@ -24,13 +26,13 @@ public class PayCommand implements Command {
         ServiceProvider serviceProvider = ServiceProvider.getInstance();
         HotelService hotelService = serviceProvider.getHotelService();
         HttpSession session = request.getSession();
-        Invoice invoice = (Invoice) session.getAttribute("invoice");
-        User user = (User) session.getAttribute("user");
-        String page = CommandConstants.GO_TO_ACCOUNT_PAGE;
+        Invoice invoice = (Invoice) session.getAttribute(INVOICE_ATTRIBUTE);
+        User user = (User) session.getAttribute(USER_ATTRIBUTE);
+        String page = GO_TO_ACCOUNT_PAGE;
         EmailUtil.send(invoice, user);
         try {
-            int reservationId = Integer.parseInt(request.getParameter("reservationId"));
-            hotelService.updateReservation(reservationId, CommandConstants.STATE_PAID);
+            int reservationId = Integer.parseInt(request.getParameter(RESERVATION_ID_ATTRIBUTE));
+            hotelService.updateReservation(reservationId, STATE_PAID);
         } catch (NumberFormatException e) {
             logger.error("Invalid request parameters", e);
             page = CommandConstants.ERROR_PAGE;

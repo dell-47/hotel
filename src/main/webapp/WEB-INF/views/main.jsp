@@ -8,11 +8,11 @@
           integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
     <fmt:setLocale value="${sessionScope.locale}"/>
     <fmt:setBundle basename="locale" var="loc"/>
-    <fmt:message bundle="${loc}" key="check" var="check"/>
-    <fmt:message bundle="${loc}" key="types" var="types"/>
-    <fmt:message bundle="${loc}" key="hotel_header" var="hotel_header"/>
-    <fmt:message bundle="${loc}" key="hotel_description_part1" var="hotel_description_part1"/>
-    <fmt:message bundle="${loc}" key="hotel_description_part2" var="hotel_description_part2"/>
+    <fmt:message bundle="${loc}" key="main.check" var="check"/>
+    <fmt:message bundle="${loc}" key="main.types" var="types"/>
+    <fmt:message bundle="${loc}" key="main.hotel_header" var="hotel_header"/>
+    <fmt:message bundle="${loc}" key="main.hotel_description_part1" var="hotel_description_part1"/>
+    <fmt:message bundle="${loc}" key="main.hotel_description_part2" var="hotel_description_part2"/>
 </head>
 <body>
 <jsp:include page="navbar.jsp"/>

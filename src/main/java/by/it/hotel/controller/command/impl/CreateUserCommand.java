@@ -37,10 +37,10 @@ public class CreateUserCommand implements Command {
         try {
             if (userService.retrieveUser(username) == null) {
                 userService.createUser(user);
-                request.getSession().setAttribute("action", ACTION_SIGN_UP);
+                request.getSession().setAttribute(ACTION_ATTRIBUTE, ACTION_SIGN_UP);
                 response.sendRedirect(SUCCESSFUL_ACTION_PAGE);
             } else {
-                request.setAttribute("usernameError", USERNAME_ERROR_MESSAGE);
+                request.setAttribute(USERNAME_ERROR_ATTRIBUTE, USERNAME_ERROR_MESSAGE);
                 RequestDispatcher requestDispatcher = request.getRequestDispatcher(GO_TO_SIGN_UP_PAGE);
                 requestDispatcher.forward(request, response);
             }

@@ -23,7 +23,7 @@ public class CancelBookingCommand implements Command {
         ServiceProvider serviceProvider = ServiceProvider.getInstance();
         HotelService hotelService = serviceProvider.getHotelService();
         try {
-            int reservationId = Integer.parseInt(request.getParameter("reservationId"));
+            int reservationId = Integer.parseInt(request.getParameter(RESERVATION_ID_ATTRIBUTE));
             hotelService.updateReservation(reservationId, STATE_CANCELED);
             response.sendRedirect(GO_TO_ACCOUNT_PAGE);
         } catch (NumberFormatException e) {

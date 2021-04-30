@@ -23,7 +23,7 @@ public class DeclineBookingCommand implements Command {
         HotelService hotelService = serviceProvider.getHotelService();
         String page = GO_TO_ADMIN_PAGE;
         try {
-            int reservationId = Integer.parseInt(request.getParameter("reservationId"));
+            int reservationId = Integer.parseInt(request.getParameter(RESERVATION_ID_ATTRIBUTE));
             hotelService.updateReservation(reservationId, STATE_DECLINED);
         } catch (NumberFormatException e) {
             logger.error("Invalid request parameters", e);

@@ -10,12 +10,12 @@
           integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
     <fmt:setLocale value="${sessionScope.locale}"/>
     <fmt:setBundle basename="locale" var="loc"/>
-    <fmt:message bundle="${loc}" key="new_bookings" var="new_bookings"/>
-    <fmt:message bundle="${loc}" key="check" var="check"/>
-    <fmt:message bundle="${loc}" key="choose_number" var="choose_number"/>
-    <fmt:message bundle="${loc}" key="confirm" var="confirm"/>
-    <fmt:message bundle="${loc}" key="no_new_bookings" var="no_new_bookings"/>
-    <fmt:message bundle="${loc}" key="decline" var="decline"/>
+    <fmt:message bundle="${loc}" key="admin.new_bookings" var="new_bookings"/>
+    <fmt:message bundle="${loc}" key="main.check" var="check"/>
+    <fmt:message bundle="${loc}" key="admin.choose_number" var="choose_number"/>
+    <fmt:message bundle="${loc}" key="admin.confirm" var="confirm"/>
+    <fmt:message bundle="${loc}" key="admin.no_new_bookings" var="no_new_bookings"/>
+    <fmt:message bundle="${loc}" key="admin.decline" var="decline"/>
 
 </head>
 <body>

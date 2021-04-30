@@ -4,8 +4,8 @@
 <head>
     <fmt:setLocale value="${sessionScope.locale}"/>
     <fmt:setBundle basename="locale" var="loc"/>
-    <fmt:message bundle="${loc}" key="error" var="error"/>
-    <fmt:message bundle="${loc}" key="error_message" var="error_message"/>
+    <fmt:message bundle="${loc}" key="error.error" var="error"/>
+    <fmt:message bundle="${loc}" key="error.error_message" var="error_message"/>
     <title>${error}</title>
 </head>
 <body>

@@ -10,7 +10,7 @@ public class LogoutCommand implements Command {
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        request.getSession().removeAttribute("user");
+        request.getSession().removeAttribute(CommandConstants.USER_ATTRIBUTE);
         response.sendRedirect(CommandConstants.INDEX_PAGE);
     }
 }

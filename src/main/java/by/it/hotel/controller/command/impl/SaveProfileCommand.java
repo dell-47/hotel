@@ -23,7 +23,7 @@ public class SaveProfileCommand implements Command {
     public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
         ServiceProvider serviceProvider = ServiceProvider.getInstance();
         UserService userService = serviceProvider.getUserService();
-        User beforeEditUser = (User) request.getSession().getAttribute("user");
+        User beforeEditUser = (User) request.getSession().getAttribute(USER_ATTRIBUTE);
         User afterEditUser = new User();
         afterEditUser.setFirstName(request.getParameter(FIRST_NAME));
         afterEditUser.setLastName(request.getParameter(LAST_NAME));
@@ -31,7 +31,7 @@ public class SaveProfileCommand implements Command {
         User updatedUser = UserUtil.getUpdatedUser(beforeEditUser, afterEditUser);
         try {
             userService.updateUser(updatedUser);
-            request.getSession().setAttribute("user", updatedUser);
+            request.getSession().setAttribute(USER_ATTRIBUTE, updatedUser);
             response.sendRedirect(GO_TO_PROFILE_PAGE);
         } catch (ServiceException e) {
             logger.error("Updating user profile error", e);

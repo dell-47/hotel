@@ -5,6 +5,7 @@ public final class CommandConstants {
 
     public static final String INDEX_PAGE = "/index.jsp";
     public static final String ERROR_PAGE = "/error.jsp";
+    public static final String POSTFIX_JSP = ".jsp";
     public static final String ACTION_SIGN_UP = "signUp";
     public static final String ACTION_BOOKING = "booking";
     public static final String LOGIN_PAGE = "/WEB-INF/views/login.jsp";
@@ -24,9 +25,9 @@ public final class CommandConstants {
     public static final String ACCOUNT_PAGE = "/WEB-INF/views/bookings.jsp";
     public static final String GO_TO_PROFILE_PAGE = "/profile?command=profile";
     public static final String AVAILABLE_APARTS_PAGE = "/WEB-INF/views/availableAparts.jsp";
-    public static final String LOGIN_ERROR_MESSAGE = "login_error_message";
-    public static final String USERNAME_ERROR_MESSAGE = "username_error_message";
-    public static final String DATES_VALIDATION_ERROR_MESSAGE = "dates_validation_error_message";
+    public static final String LOGIN_ERROR_MESSAGE = "login.login_error_message";
+    public static final String USERNAME_ERROR_MESSAGE = "signUp.username_error_message";
+    public static final String DATES_VALIDATION_ERROR_MESSAGE = "main.dates_validation_error_message";
     public static final String STATE_PROCESSING = "state_processing";
     public static final String USERNAME = "username";
     public static final String PASSWORD = "password";
@@ -42,4 +43,32 @@ public final class CommandConstants {
     public static final String STATE_DECLINED = "state_declined";
     public static final String ORDER_OLDEST_FIRST = "oldFirst";
     public static final String ORDER_NEWEST_FIRST = "newFirst";
+    public static final String ADMIN_LIST_ATTRIBUTE = "adminList";
+    public static final String LOGIN_ERROR_ATTRIBUTE = "loginError";
+    public static final String USER_ATTRIBUTE = "user";
+    public static final String ID_ATTRIBUTE = "id";
+    public static final String APART_ATTRIBUTE = "apart";
+    public static final String CHECKOUT_DATA_ATTRIBUTE = "checkOutData";
+    public static final String IN_DATE_ATTRIBUTE = "inDate";
+    public static final String OUT_DATE_ATTRIBUTE = "outDate";
+    public static final String ACTION_ATTRIBUTE = "action";
+    public static final String RESERVATION_ID_ATTRIBUTE = "reservationId";
+    public static final String LOCALE_ATTRIBUTE = "locale";
+    public static final String SAVED_REQUEST_ATTRIBUTE = "savedRequest";
+    public static final String LANGUAGE_PARAMETER = "lang";
+    public static final String ORDER_ATTRIBUTE = "order";
+    public static final String NOW_DATE_ATTRIBUTE = "now";
+    public static final String PAGE_NUMBER_ATTRIBUTE = "pageNumber";
+    public static final String PAGINATED_LIST_ATTRIBUTE = "paginatedList";
+    public static final String USER_RESERVATION_LIST_ATTRIBUTE = "userReservationList";
+    public static final String APART_TYPE_ID_ATTRIBUTE = "apartTypeId";
+    public static final String AVAILABLE_APARTS_ATTRIBUTE = "availableAparts";
+    public static final String APART_ID_ATTRIBUTE = "apartId";
+    public static final String USERNAME_ERROR_ATTRIBUTE = "usernameError";
+    public static final String TODAY_DATE_ATTRIBUTE = "todayDate";
+    public static final String TOMORROW_DATE_ATTRIBUTE = "tomorrowDate";
+    public static final String APART_LIST_ATTRIBUTE = "apartList";
+    public static final String INVOICE_ATTRIBUTE = "invoice";
+    public static final String PAGE_ATTRIBUTE = "page";
+    public static final String DATES_VALIDATION_ERROR_ATTRIBUTE = "datesValidationError";
 }

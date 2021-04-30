@@ -7,9 +7,9 @@
           integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
     <fmt:setLocale value="${sessionScope.locale}"/>
     <fmt:setBundle basename="locale" var="loc"/>
-    <fmt:message bundle="${loc}" key="select" var="select"/>
-    <fmt:message bundle="${loc}" key="check" var="check"/>
-    <fmt:message bundle="${loc}" key="available_aparts" var="available_aparts"/>
+    <fmt:message bundle="${loc}" key="availableAparts.select" var="select"/>
+    <fmt:message bundle="${loc}" key="main.check" var="check"/>
+    <fmt:message bundle="${loc}" key="availableAparts.available_aparts" var="available_aparts"/>
 </head>
 <body>
 <jsp:include page="navbar.jsp"/>

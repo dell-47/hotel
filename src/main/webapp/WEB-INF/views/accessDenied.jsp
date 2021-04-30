@@ -4,7 +4,7 @@
 <head>
     <fmt:setLocale value="${sessionScope.locale}"/>
     <fmt:setBundle basename="locale" var="loc"/>
-    <fmt:message bundle="${loc}" key="access_denied" var="access_denied"/>
+    <fmt:message bundle="${loc}" key="accessDenied.access_denied" var="access_denied"/>
     <title>${access_denied}</title>
 </head>
 <body>

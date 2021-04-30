@@ -31,11 +31,11 @@ public class AuthCommand implements Command {
         try {
             User user = userService.retrieveUser(login);
             if (user == null || !BCrypt.checkpw(password, user.getPassword())) {
-                request.setAttribute("loginError", LOGIN_ERROR_MESSAGE);
+                request.setAttribute(LOGIN_ERROR_ATTRIBUTE, LOGIN_ERROR_MESSAGE);
                 page = LOGIN_PAGE;
             } else {
                 user.setPassword(BLANK_STRING);
-                request.getSession().setAttribute("user", user);
+                request.getSession().setAttribute(USER_ATTRIBUTE, user);
             }
             RequestDispatcher requestDispatcher = request.getRequestDispatcher(page);
             requestDispatcher.forward(request, response);

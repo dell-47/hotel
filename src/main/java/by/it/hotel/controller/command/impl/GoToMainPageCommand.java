@@ -19,8 +19,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Locale;
 
-import static by.it.hotel.controller.command.impl.CommandConstants.ERROR_PAGE;
-import static by.it.hotel.controller.command.impl.CommandConstants.MAIN_PAGE;
+import static by.it.hotel.controller.command.impl.CommandConstants.*;
 
 
 public class GoToMainPageCommand implements Command, SaveRequest {
@@ -32,15 +31,15 @@ public class GoToMainPageCommand implements Command, SaveRequest {
         ServiceProvider serviceProvider = ServiceProvider.getInstance();
         HotelService hotelService = serviceProvider.getHotelService();
         HttpSession session = request.getSession();
-        String locale = (String) session.getAttribute("locale");
+        String locale = (String) session.getAttribute(LOCALE_ATTRIBUTE);
         if (locale == null) {
             locale = Locale.getDefault().getLanguage();
         }
         try {
             List<ApartType> apartList = hotelService.retrieveAllApartTypes(locale);
-            session.setAttribute("todayDate", LocalDate.now());
-            session.setAttribute("tomorrowDate", LocalDate.now().plusDays(1));
-            request.setAttribute("apartList", apartList);
+            session.setAttribute(TODAY_DATE_ATTRIBUTE, LocalDate.now());
+            session.setAttribute(TOMORROW_DATE_ATTRIBUTE, LocalDate.now().plusDays(1));
+            request.setAttribute(APART_LIST_ATTRIBUTE, apartList);
             RequestDispatcher requestDispatcher = request.getRequestDispatcher(MAIN_PAGE);
             requestDispatcher.forward(request, response);
         } catch (ServiceException e) {

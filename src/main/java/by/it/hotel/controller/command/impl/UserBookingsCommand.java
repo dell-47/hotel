@@ -33,17 +33,17 @@ public class UserBookingsCommand implements Command, SaveRequest {
         ServiceProvider serviceProvider = ServiceProvider.getInstance();
         HotelService hotelService = serviceProvider.getHotelService();
         HttpSession session = request.getSession();
-        User user = (User) session.getAttribute("user");
+        User user = (User) session.getAttribute(USER_ATTRIBUTE);
         try {
             List<Reservation> userReservationList = hotelService.searchReservations(user.getId());
             Collections.reverse(userReservationList);
-            int pageNumber = Integer.parseInt(request.getParameter("pageNumber"));
+            int pageNumber = Integer.parseInt(request.getParameter(PAGE_NUMBER_ATTRIBUTE));
             List<Reservation> paginatedList = PaginationUtil.retrievePaginatedList(userReservationList, pageNumber);
-            request.setAttribute("pageNumber", pageNumber);
-            session.setAttribute("userReservationList", userReservationList);
-            session.setAttribute("order", ORDER_NEWEST_FIRST);
-            request.setAttribute("now", new Date());
-            request.setAttribute("paginatedList", paginatedList);
+            request.setAttribute(PAGE_NUMBER_ATTRIBUTE, pageNumber);
+            session.setAttribute(USER_RESERVATION_LIST_ATTRIBUTE, userReservationList);
+            session.setAttribute(ORDER_ATTRIBUTE, ORDER_NEWEST_FIRST);
+            request.setAttribute(NOW_DATE_ATTRIBUTE, new Date());
+            request.setAttribute(PAGINATED_LIST_ATTRIBUTE, paginatedList);
             RequestDispatcher requestDispatcher = request.getRequestDispatcher(ACCOUNT_PAGE);
             requestDispatcher.forward(request, response);
         } catch (NumberFormatException e) {

@@ -21,8 +21,8 @@ public class ConfirmReservationCommand implements Command {
         HotelService hotelService = serviceProvider.getHotelService();
         String page = CommandConstants.GO_TO_ADMIN_PAGE;
         try {
-            int reservationId = Integer.parseInt(request.getParameter("reservationId"));
-            int apartId = Integer.parseInt(request.getParameter("apartId"));
+            int reservationId = Integer.parseInt(request.getParameter(CommandConstants.RESERVATION_ID_ATTRIBUTE));
+            int apartId = Integer.parseInt(request.getParameter(CommandConstants.APART_ID_ATTRIBUTE));
             hotelService.updateReservation(reservationId, apartId);
         } catch (NumberFormatException e) {
             logger.error("Invalid request parameters", e);

@@ -31,13 +31,13 @@ public class CheckAvailabilityCommand implements Command, SaveRequest {
         HotelService hotelService = serviceProvider.getHotelService();
 
         try {
-            int apartTypeId = Integer.parseInt(request.getParameter("apartTypeId"));
-            int reservationId = Integer.parseInt(request.getParameter("reservationId"));
-            LocalDate inDate = LocalDate.parse(request.getParameter("inDate"));
-            LocalDate outDate = LocalDate.parse(request.getParameter("outDate"));
+            int apartTypeId = Integer.parseInt(request.getParameter(APART_TYPE_ID_ATTRIBUTE));
+            int reservationId = Integer.parseInt(request.getParameter(RESERVATION_ID_ATTRIBUTE));
+            LocalDate inDate = LocalDate.parse(request.getParameter(IN_DATE_ATTRIBUTE));
+            LocalDate outDate = LocalDate.parse(request.getParameter(OUT_DATE_ATTRIBUTE));
             List<Apart> availableAparts = hotelService.searchAparts(apartTypeId, inDate, outDate);
-            request.setAttribute("availableAparts", availableAparts);
-            request.setAttribute("reservationId", reservationId);
+            request.setAttribute(AVAILABLE_APARTS_ATTRIBUTE, availableAparts);
+            request.setAttribute(RESERVATION_ID_ATTRIBUTE, reservationId);
             RequestDispatcher requestDispatcher = request.getRequestDispatcher(GO_TO_ADMIN_PAGE);
             requestDispatcher.forward(request, response);
         } catch (DateTimeParseException | NumberFormatException e) {

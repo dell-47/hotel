@@ -20,6 +20,8 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 
+import static by.it.hotel.controller.command.impl.CommandConstants.*;
+
 
 public class CheckoutCommand implements Command, SaveRequest {
     private static final Logger logger = LogManager.getLogger(CheckoutCommand.class);
@@ -31,16 +33,16 @@ public class CheckoutCommand implements Command, SaveRequest {
         HotelService hotelService = serviceProvider.getHotelService();
         HttpSession session = request.getSession();
         try {
-            LocalDate inDate = LocalDate.parse(request.getParameter("inDate"));
-            LocalDate outDate = LocalDate.parse(request.getParameter("outDate"));
-            int apartTypeId = Integer.parseInt(request.getParameter("id"));
+            LocalDate inDate = LocalDate.parse(request.getParameter(IN_DATE_ATTRIBUTE));
+            LocalDate outDate = LocalDate.parse(request.getParameter(OUT_DATE_ATTRIBUTE));
+            int apartTypeId = Integer.parseInt(request.getParameter(ID_ATTRIBUTE));
             ApartType apartType = hotelService.retrieveApartType(apartTypeId);
             CheckOutData checkOutData = CheckOutUtil.getCheckOutData(inDate, outDate, apartType.getPrice());
-            session.setAttribute("apart", apartType);
-            session.setAttribute("checkOutData", checkOutData);
+            session.setAttribute(APART_ATTRIBUTE, apartType);
+            session.setAttribute(CHECKOUT_DATA_ATTRIBUTE, checkOutData);
             RequestDispatcher requestDispatcher = request.getRequestDispatcher(CommandConstants.CHECKOUT_PAGE);
             requestDispatcher.forward(request, response);
-        } catch (DateTimeParseException | NumberFormatException e) {
+        } catch (DateTimeParseException | NumberFormatException | NullPointerException e) {
             logger.error("Invalid request parameters", e);
             response.sendRedirect(CommandConstants.ERROR_PAGE);
         } catch (ServiceException e) {

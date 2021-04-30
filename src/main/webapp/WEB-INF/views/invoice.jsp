@@ -7,17 +7,17 @@
           integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
     <fmt:setLocale value="${sessionScope.locale}"/>
     <fmt:setBundle basename="locale" var="loc"/>
-    <fmt:message bundle="${loc}" key="invoice" var="invoice_text"/>
-    <fmt:message bundle="${loc}" key="bill_to" var="bill_to"/>
-    <fmt:message bundle="${loc}" key="apartment_type" var="apartment_type"/>
-    <fmt:message bundle="${loc}" key="pay" var="pay"/>
-    <fmt:message bundle="${loc}" key="check_in_date" var="check_in_date"/>
-    <fmt:message bundle="${loc}" key="check_out_date" var="check_out_date"/>
-    <fmt:message bundle="${loc}" key="cost" var="cost"/>
-    <fmt:message bundle="${loc}" key="subtotal" var="subtotal"/>
-    <fmt:message bundle="${loc}" key="taxes" var="taxes"/>
-    <fmt:message bundle="${loc}" key="total" var="total"/>
-    <fmt:message bundle="${loc}" key="back" var="back"/>
+    <fmt:message bundle="${loc}" key="invoice.invoice" var="invoice_text"/>
+    <fmt:message bundle="${loc}" key="invoice.bill_to" var="bill_to"/>
+    <fmt:message bundle="${loc}" key="invoice.apartment_type" var="apartment_type"/>
+    <fmt:message bundle="${loc}" key="invoice.pay" var="pay"/>
+    <fmt:message bundle="${loc}" key="checkout.check_in_date" var="check_in_date"/>
+    <fmt:message bundle="${loc}" key="checkout.check_out_date" var="check_out_date"/>
+    <fmt:message bundle="${loc}" key="checkout.cost" var="cost"/>
+    <fmt:message bundle="${loc}" key="checkout.subtotal" var="subtotal"/>
+    <fmt:message bundle="${loc}" key="checkout.taxes" var="taxes"/>
+    <fmt:message bundle="${loc}" key="checkout.total" var="total"/>
+    <fmt:message bundle="${loc}" key="checkout.back" var="back"/>
 </head>
 <body>
 <jsp:include page="navbar.jsp"/>

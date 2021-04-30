@@ -67,9 +67,7 @@ public class EmailUtil {
 
             message.setSubject(SUBJECT_MESSAGE);
             message.setContent(out.getBuffer().toString(), "text/html");
-
             Transport.send(message);
-            System.out.println(mailTo);
 
         } catch (MessagingException e) {
             logger.error(e);

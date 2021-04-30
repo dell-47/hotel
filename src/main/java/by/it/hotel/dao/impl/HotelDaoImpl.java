@@ -28,11 +28,9 @@ public class HotelDaoImpl implements HotelDao {
             ps = con.prepareStatement(CREATE_RESERVATION_QUERY);
 
             ps.setInt(1, reservation.getApartTypeId());
-            System.out.println(reservation.getApartTypeId());
             ps.setDate(2, java.sql.Date.valueOf(reservation.getInDate()));
             ps.setDate(3, java.sql.Date.valueOf(reservation.getOutDate()));
             ps.setInt(4, reservation.getUser());
-            System.out.println(reservation.getUser());
             ps.setString(5, reservation.getState());
             ps.setBigDecimal(6, reservation.getSubtotalPrice());
             ps.setBigDecimal(7, reservation.getTaxes());

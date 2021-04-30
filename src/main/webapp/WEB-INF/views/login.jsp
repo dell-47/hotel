@@ -11,10 +11,10 @@
     </head>
     <fmt:setLocale value="${sessionScope.locale}"/>
     <fmt:setBundle basename="locale" var="loc"/>
-    <fmt:message bundle="${loc}" key="login" var="login"/>
-    <fmt:message bundle="${loc}" key="signUp" var="signUp"/>
-    <fmt:message bundle="${loc}" key="username" var="username"/>
-    <fmt:message bundle="${loc}" key="password" var="password"/>
+    <fmt:message bundle="${loc}" key="navbar.login" var="login"/>
+    <fmt:message bundle="${loc}" key="navbar.signUp" var="signUp"/>
+    <fmt:message bundle="${loc}" key="login.username" var="username"/>
+    <fmt:message bundle="${loc}" key="login.password" var="password"/>
 </head>
 <body>
 <jsp:include page="navbar.jsp"/>

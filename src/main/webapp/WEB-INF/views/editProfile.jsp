@@ -10,11 +10,11 @@
               crossorigin="anonymous">
         <fmt:setLocale value="${sessionScope.locale}"/>
         <fmt:setBundle basename="locale" var="loc"/>
-        <fmt:message bundle="${loc}" key="save" var="save"/>
-        <fmt:message bundle="${loc}" key="cancel" var="cancel"/>
-        <fmt:message bundle="${loc}" key="first_name" var="first_name"/>
-        <fmt:message bundle="${loc}" key="last_name" var="last_name"/>
-        <fmt:message bundle="${loc}" key="email" var="email"/>
+        <fmt:message bundle="${loc}" key="editProfile.save" var="save"/>
+        <fmt:message bundle="${loc}" key="editProfile.cancel" var="cancel"/>
+        <fmt:message bundle="${loc}" key="signUp.first_name" var="first_name"/>
+        <fmt:message bundle="${loc}" key="signUp.last_name" var="last_name"/>
+        <fmt:message bundle="${loc}" key="signUp.email" var="email"/>
     </head>
 </head>
 <body>

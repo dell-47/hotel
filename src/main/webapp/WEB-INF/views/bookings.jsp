@@ -10,12 +10,12 @@
           integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
     <fmt:setLocale value="${sessionScope.locale}"/>
     <fmt:setBundle basename="locale" var="loc"/>
-    <fmt:message bundle="${loc}" key="your_bookings" var="your_bookings"/>
-    <fmt:message bundle="${loc}" key="pay_invoice" var="pay_invoice"/>
-    <fmt:message bundle="${loc}" key="state" var="state_text"/>
-    <fmt:message bundle="${loc}" key="cancel_booking" var="cancel_booking"/>
-    <fmt:message bundle="${loc}" key="new_first" var="new_first"/>
-    <fmt:message bundle="${loc}" key="old_first" var="old_first"/>
+    <fmt:message bundle="${loc}" key="bookings.your_bookings" var="your_bookings"/>
+    <fmt:message bundle="${loc}" key="bookings.pay_invoice" var="pay_invoice"/>
+    <fmt:message bundle="${loc}" key="bookings.state" var="state_text"/>
+    <fmt:message bundle="${loc}" key="bookings.cancel_booking" var="cancel_booking"/>
+    <fmt:message bundle="${loc}" key="bookings.new_first" var="new_first"/>
+    <fmt:message bundle="${loc}" key="bookings.old_first" var="old_first"/>
 </head>
 <body>
 <jsp:include page="navbar.jsp"/>
@@ -109,7 +109,7 @@
         </c:if>
     </c:when>
     <c:otherwise>
-        <h2 align="center"><fmt:message bundle="${loc}" key="no_bookings_message"/></h2>
+        <h2 align="center"><fmt:message bundle="${loc}" key="bookings.no_bookings_message"/></h2>
     </c:otherwise>
 </c:choose>
 </body>

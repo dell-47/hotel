@@ -10,12 +10,12 @@
           crossorigin="anonymous"/>
     <fmt:setLocale value="${sessionScope.locale}"/>
     <fmt:setBundle basename="locale" var="loc"/>
-    <fmt:message bundle="${loc}" key="login" var="login"/>
-    <fmt:message bundle="${loc}" key="signUp" var="signUp"/>
-    <fmt:message bundle="${loc}" key="adminPage" var="adminPage"/>
-    <fmt:message bundle="${loc}" key="profile" var="profile"/>
-    <fmt:message bundle="${loc}" key="bookings" var="bookings"/>
-    <fmt:message bundle="${loc}" key="logout" var="logout"/>
+    <fmt:message bundle="${loc}" key="navbar.login" var="login"/>
+    <fmt:message bundle="${loc}" key="navbar.signUp" var="signUp"/>
+    <fmt:message bundle="${loc}" key="navbar.adminPage" var="adminPage"/>
+    <fmt:message bundle="${loc}" key="navbar.profile" var="profile"/>
+    <fmt:message bundle="${loc}" key="navbar.bookings" var="bookings"/>
+    <fmt:message bundle="${loc}" key="navbar.logout" var="logout"/>
 </head>
 <body>
 <style>
